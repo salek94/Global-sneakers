@@ -1,0 +1,48 @@
+@import "../../Assets/Styles/variables";
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/colors";
+
+.navbar__container {
+  @include flex($dir: row, $justify: space-around, $align: center);
+  width: $container100;
+  margin: $marginCenter;
+  background-color: $fullBlack;
+  padding: 10px;
+}
+.navbar__logo {
+  width: 6%;
+}
+.navbar__links {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  width: 30%;
+}
+.navbar__item {
+  color: $white;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 2px;
+    width: 0%;
+    background-color: $white;
+    transition: $transition;
+  }
+  &:hover::after {
+    width: 50%;
+    transition: $transition;
+  }
+}
+
+.navbar__cart::after {
+  content: "";
+  position: absolute;
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+  background-color: $green;
+}
+
+.navbar__cartIcon {
+  color: $white;
+  cursor: pointer;
+}

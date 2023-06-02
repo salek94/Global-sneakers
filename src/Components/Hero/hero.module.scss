@@ -1,0 +1,55 @@
+@import "../../Assets/Styles/variables";
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/colors";
+
+.container {
+  width: $container100;
+  margin: $marginCenter;
+  background-image: url("../../Assets/Images/hero_img.png");
+  background-color: #000000;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  z-index: -4;
+  position: relative;
+}
+
+.shoes_background {
+  position: absolute;
+  top: 0%;
+  left: 27%;
+  background-image: url("../../Assets/Images/sneaker_black.png");
+  // background-image: url("../../Assets/Images/sneaker_white.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 49%;
+  height: 100vh;
+  z-index: -1;
+}
+
+.circle_background {
+  background-color: $green;
+  width: 48%;
+  height: 93%;
+  border-radius: 50%;
+  position: absolute;
+  left: 31%;
+  top: 15%;
+  z-index: -3;
+}
+
+.dots_background {
+  background-image: url("../../Assets/Images/dots.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  width: 30%;
+  height: 60%;
+  right: 8%;
+  top: 15%;
+  z-index: -2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // text-align: center;
+}

@@ -1,0 +1,66 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/variables";
+@import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/components";
+@import "../../Assets/Styles/animations";
+
+.container {
+  margin: 13em auto;
+  width: 90%;
+}
+.title {
+  @include flex($dir: row, $justify: center, $align: center);
+  gap: 30px;
+  margin-bottom: 25px;
+  color: $gray;
+
+  &__name {
+    cursor: pointer;
+    &__active {
+      color: $black;
+    }
+    &:hover {
+      color: $black;
+    }
+  }
+}
+.banner {
+  width: 90%;
+  position: relative;
+
+  &:hover {
+    .banner__btn {
+      animation: buttons 0.7s;
+      display: block;
+    }
+    .banner__footer {
+      color: $green;
+    }
+  }
+}
+
+.banner__img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.banner__footer {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  margin-top: 10px;
+}
+.banner__plus {
+  cursor: pointer;
+  height: 1%;
+}
+.banner__buttons {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  position: absolute;
+  bottom: 18%;
+  width: 100%;
+
+  // height: 100%;
+}
+.banner__btn {
+  @extend .btnSecondary;
+
+  display: none;
+}
