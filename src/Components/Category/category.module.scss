@@ -1,0 +1,57 @@
+@import "../../Assets/Styles/variables";
+
+.category__container {
+  width: 100%;
+  background-color: grey;
+  //   height: 100vh;
+}
+
+.category__grid {
+  width: 80%;
+  //   height: 100vh;
+  margin: $marginCenter;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 70px;
+  //   border: 1px solid red;
+}
+
+.category__title {
+  position: absolute;
+  top: 40%;
+  left: 42%;
+}
+.category__all {
+  grid-column: 1/2;
+  grid-row: 1/3;
+  position: relative;
+  width: 80%;
+  cursor: pointer;
+}
+.category__women {
+  grid-column: 2/3;
+  grid-row: 1/3;
+  position: relative;
+  width: 87%;
+  cursor: pointer;
+}
+.category__kids {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+.category__men {
+  grid-column: 3/4;
+  grid-row: 1/2;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+.aa {
+  grid-column: 2/4;
+  grid-row: 3/4;
+  //   width: 20%;
+  border: 1px solid red;
+}

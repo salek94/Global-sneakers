@@ -58,10 +58,14 @@ const Trending = () => {
       <Slider {...settings}>
         {titleActive
           ? bestSelling.map((item) => {
-              return <Banners product={item} key={item.id} />;
+              return (
+                <Banners product={item} key={item.id} active={titleActive} />
+              );
             })
           : newArrivals.map((item) => {
-              return <Banners product={item} key={item.id} />;
+              return (
+                <Banners product={item} key={item.id} active={titleActive} />
+              );
             })}
       </Slider>
     </div>

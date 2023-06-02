@@ -12,6 +12,11 @@ class ProductService {
       headers,
     });
   }
+  static singleProduct(id) {
+    return axios.get(`/products/${id}`, {
+      headers,
+    });
+  }
 }
 
 export default ProductService;
