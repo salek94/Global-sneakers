@@ -1,0 +1,33 @@
+@import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/mixins";
+
+.footer__container {
+  color: $white;
+  line-height: 1.5rem;
+  // background-color: $black;
+}
+.footer__top {
+  @include flex($dir: row, $justify: space-around, $align: center);
+  height: 45vh;
+  background-color: $fullBlack;
+}
+.footer__companyInfo {
+  width: 18%;
+}
+
+.footer__email__name {
+  display: flex;
+  align-items: flex-start;
+}
+.footer__logo {
+  width: 25%;
+}
+.footer__serviceTitle {
+  padding-bottom: 25px;
+}
+.footer__serviceLink {
+  padding-bottom: 10px;
+}
+.footer__bottom {
+  height: 10vh;
+}
