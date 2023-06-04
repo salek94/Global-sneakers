@@ -29,7 +29,7 @@ const Navbar = () => {
           </Link>
         </nav>
         <span className={styles.navbar__cart}>
-          <BsCartFill className={styles.navbar__cartIcon} />
+          <BsCartFill className={styles.icon__small} />
         </span>
       </div>
     </>

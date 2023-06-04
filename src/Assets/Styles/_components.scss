@@ -1,9 +1,41 @@
 .btnSecondary {
   width: 47%;
   background-color: $green;
-  border: 1px solid $green;
+  border: 1px solid transparent;
   padding: 12px;
   font-size: 1rem;
   color: $white;
   cursor: pointer;
+  &:hover {
+    background-color: $black;
+    color: $green;
+  }
+}
+
+.btnPrimary {
+  width: 50%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  &__black {
+    background-color: $black;
+    color: $white;
+  }
+  &__white {
+    background-color: $white;
+    color: $black;
+  }
+}
+
+.icon__small {
+  height: 1.7rem;
+  width: 1.8rem;
+}
+
+.icon__big {
+  height: 2.1rem;
+  width: 2.8rem;
+  color: $green;
 }

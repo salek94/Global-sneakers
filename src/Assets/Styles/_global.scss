@@ -12,13 +12,20 @@ body {
 h1 {
   font-size: 3rem;
   font-weight: bold;
+  cursor: default;
 }
 h2 {
   font-size: 2.5rem;
   font-weight: bold;
+  // cursor: default;
 }
 h3 {
   font-size: 1.8rem;
+  // cursor: default;
+}
+h4 {
+  font-size: 1.3rem;
+  // cursor: default;
 }
 ul {
   list-style: none;
@@ -26,22 +33,17 @@ ul {
 
 a {
   text-decoration: none;
+  color: $white;
   //   padding: 10px;
 }
 p {
   text-decoration: none;
   font-size: 1rem;
-  //   font-weight: 400;
   cursor: default;
 }
 
 img {
   width: 100%;
-}
-
-svg {
-  height: 1.5rem;
-  width: 2.1rem;
 }
 
 .slick-slider {

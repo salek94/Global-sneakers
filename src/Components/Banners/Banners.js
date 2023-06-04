@@ -31,7 +31,9 @@ const Banners = ({ product, active }) => {
       <div className={styles.banner__footer}>
         <span>{product.price.formatted_with_symbol}</span>
         <div>
-          <BsPlusCircle className={styles.banner__plus} />
+          <BsPlusCircle
+            className={`${styles.banner__plus} ${styles.icon__small}`}
+          />
         </div>
       </div>
       <div className={styles.banner__buttons}>

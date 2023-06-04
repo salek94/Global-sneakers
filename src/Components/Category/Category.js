@@ -29,7 +29,7 @@ const Category = () => {
           <div className={styles.category__name}>
             <h3>{categoryMen[0]?.name}</h3>
           </div>
-          <div>
+          <div className={styles.category__picture}>
             <img src={categoryMen[0]?.assets[0].url} alt="" />
           </div>
         </div>
@@ -37,7 +37,7 @@ const Category = () => {
           <div className={styles.category__name}>
             <h3>{categoryWomen[0]?.name}</h3>
           </div>
-          <div>
+          <div className={styles.category__picture}>
             <img src={categoryWomen[0]?.assets[0].url} alt="" />
           </div>
         </div>
@@ -45,7 +45,7 @@ const Category = () => {
           <div className={styles.category__name}>
             <h3>{categoryKids[0]?.name}</h3>
           </div>
-          <div>
+          <div className={styles.category__picture}>
             <img src={categoryKids[0]?.assets[0].url} alt="" />
           </div>
         </div>
@@ -56,7 +56,7 @@ const Category = () => {
               Collection
             </h3>
           </div>
-          <div>
+          <div className={styles.category__picture}>
             <img src={categoryAll[0]?.assets[0].url} alt="" />
           </div>
         </div>

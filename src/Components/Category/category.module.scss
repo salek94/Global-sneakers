@@ -27,6 +27,10 @@
   position: absolute;
   top: 40%;
   left: 38%;
+  z-index: 1;
+}
+.category__picture {
+  transition: $transition;
 }
 .category__all {
   grid-column: 1/2;
@@ -34,6 +38,14 @@
   position: relative;
   width: 80%;
   cursor: pointer;
+  overflow: hidden;
+  transition: $transition;
+  &:hover {
+    .category__picture {
+      transform: scale(1.1);
+      transition: $transition;
+    }
+  }
 }
 .category__women {
   grid-column: 2/3;
@@ -41,6 +53,14 @@
   position: relative;
   width: 87%;
   cursor: pointer;
+  overflow: hidden;
+  transition: $transition;
+  &:hover {
+    .category__picture {
+      transform: scale(1.1);
+      transition: $transition;
+    }
+  }
 }
 .category__kids {
   grid-column: 3/4;
@@ -48,6 +68,14 @@
   position: relative;
   width: 100%;
   cursor: pointer;
+  overflow: hidden;
+  transition: $transition;
+  &:hover {
+    .category__picture {
+      transform: scale(1.1);
+      transition: $transition;
+    }
+  }
 }
 .category__men {
   grid-column: 3/4;
@@ -55,6 +83,13 @@
   position: relative;
   width: 100%;
   cursor: pointer;
+  overflow: hidden;
+  &:hover {
+    .category__picture {
+      transform: scale(1.1);
+      transition: $transition;
+    }
+  }
 }
 .aa {
   grid-column: 2/4;

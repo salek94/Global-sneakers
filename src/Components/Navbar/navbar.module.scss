@@ -1,6 +1,7 @@
 @import "../../Assets/Styles/variables";
 @import "../../Assets/Styles/mixins";
 @import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/components";
 
 .navbar__container {
   @include flex($dir: row, $justify: space-around, $align: center);
@@ -11,6 +12,7 @@
 }
 .navbar__logo {
   width: 6%;
+  cursor: pointer;
 }
 .navbar__links {
   @include flex($dir: row, $justify: space-between, $align: center);
@@ -32,17 +34,15 @@
     transition: $transition;
   }
 }
-
-.navbar__cart::after {
-  content: "";
-  position: absolute;
-  height: 23px;
-  width: 23px;
-  border-radius: 50%;
-  background-color: $green;
-}
-
-.navbar__cartIcon {
+.navbar__cart {
   color: $white;
   cursor: pointer;
+  &::after {
+    content: "";
+    position: absolute;
+    height: 23px;
+    width: 23px;
+    border-radius: 50%;
+    background-color: $green;
+  }
 }

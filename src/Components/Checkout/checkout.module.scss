@@ -1,0 +1,16 @@
+@import "../../Assets/Styles/mixins";
+
+.checkout__container {
+  @include flex($dir: row, $justify: flex-end, $align: flex-end);
+  position: sticky;
+  inset: 0;
+}
+.checkout {
+  height: 100vh;
+  width: 30%;
+  border: 1px solid blue;
+}
+.notCheckout {
+  height: 100vh;
+  width: 70%;
+}

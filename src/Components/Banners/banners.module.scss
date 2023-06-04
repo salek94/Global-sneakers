@@ -52,17 +52,17 @@
 .banner__plus {
   cursor: pointer;
   height: 1%;
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 .banner__buttons {
   @include flex($dir: row, $justify: space-between, $align: center);
   position: absolute;
-  bottom: 17%;
+  bottom: 16%;
   width: 100%;
-
-  // height: 100%;
 }
 .banner__btn {
   @extend .btnSecondary;
-
   display: none;
 }

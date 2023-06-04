@@ -1,0 +1,20 @@
+@import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/components";
+@import "../../Assets/Styles/variables";
+
+.guarantee__container {
+  @include flex($dir: row, $justify: center, $align: center);
+  background-color: $lightGray;
+}
+.guarantee__card {
+  width: 24%;
+  text-align: center;
+  padding: 1rem;
+}
+.guarantee_title {
+  padding: 1rem 0;
+}
+.guarantee__desc {
+  // color: $gray;
+}
