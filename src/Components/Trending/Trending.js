@@ -11,7 +11,7 @@ const Trending = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.productStore);
   const [titleActive, setTitleActive] = useState(true);
-  console.log("aaaa", products);
+
   useEffect(() => {
     ProductService.allProduct()
       .then((res) => {

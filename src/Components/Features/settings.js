@@ -5,7 +5,7 @@ export const settings = {
   // lazyLoad: true,
   infinite: true,
   slidesToShow: 4,
-  slidesToScroll: 1,
+  slidesToScroll: 2,
   // dots: true,
   // autoPlay: true,
 };

@@ -40,9 +40,15 @@
   &::after {
     content: "";
     position: absolute;
-    height: 23px;
-    width: 23px;
+    height: 20px;
+    width: 20px;
     border-radius: 50%;
     background-color: $green;
   }
+}
+.navbar__cartLength {
+  position: absolute;
+  top: 6%;
+  right: 10%;
+  z-index: 1;
 }

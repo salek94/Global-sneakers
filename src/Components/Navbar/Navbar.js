@@ -1,10 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { showCheckout } from "../../Service/Store/cartSlice";
 import styles from "./navbar.module.scss";
 import logo from "../../Assets/Images/logo_sneakers.png";
 import { BsCartFill } from "react-icons/bs";
 
 const Navbar = () => {
+  const { cart } = useSelector((state) => state.cartStore);
+  const dispatch = useDispatch();
+
+  const handleShowCheckout = () => {
+    dispatch(showCheckout(true));
+  };
+
   return (
     <>
       <div className={styles.navbar__container}>
@@ -28,8 +37,9 @@ const Navbar = () => {
             Kids
           </Link>
         </nav>
-        <span className={styles.navbar__cart}>
+        <span className={styles.navbar__cart} onClick={handleShowCheckout}>
           <BsCartFill className={styles.icon__small} />
+          <span className={styles.navbar__cartLength}>{cart?.length || 0}</span>
         </span>
       </div>
     </>

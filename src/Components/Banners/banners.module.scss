@@ -59,7 +59,7 @@
 .banner__buttons {
   @include flex($dir: row, $justify: space-between, $align: center);
   position: absolute;
-  bottom: 16%;
+  bottom: 15%;
   width: 100%;
 }
 .banner__btn {

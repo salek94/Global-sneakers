@@ -7,17 +7,16 @@ const Category = () => {
   useEffect(() => {
     CategoryService.allCategory()
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setCategoryImage(res.data.data);
       })
       .catch((err) => console.error(err));
   }, []);
-  console.log(categoryImage);
+
   let categoryMen = categoryImage?.filter((item) => item.name === "Men");
   let categoryWomen = categoryImage?.filter((item) => item.name === "Women");
   let categoryKids = categoryImage?.filter((item) => item.name === "Kids");
   let categoryAll = categoryImage?.filter((item) => item.name === "All");
-  console.log(categoryMen);
 
   return (
     <div className={styles.category__container}>

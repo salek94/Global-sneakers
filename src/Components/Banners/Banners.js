@@ -2,17 +2,33 @@ import React, { useEffect, useState } from "react";
 import styles from "./banners.module.scss";
 import { BsPlusCircle } from "react-icons/bs";
 import ProductService from "../../Service/Api/ProductService";
+import { addToCart } from "../../Service/Store/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     ProductService.singleProduct(product.id)
       .then((res) => {
         if (res.status === 200) setSecondImage(res.data.assets[1].url);
       })
       .catch((err) => console.error(err));
-  }, [active]);
+  }, [active, product.id]);
+
+  const handleAddToCart = (id, name, img, price) => {
+    dispatch(
+      addToCart({
+        id: id,
+        name: name,
+        img: img,
+        price: price,
+        count: 1,
+      })
+    );
+  };
 
   return (
     <div className={styles.banner}>
@@ -32,6 +48,14 @@ const Banners = ({ product, active }) => {
         <span>{product.price.formatted_with_symbol}</span>
         <div>
           <BsPlusCircle
+            onClick={() =>
+              handleAddToCart(
+                product.id,
+                product.name,
+                product.image.url,
+                product.price.formatted_with_symbol
+              )
+            }
             className={`${styles.banner__plus} ${styles.icon__small}`}
           />
         </div>
