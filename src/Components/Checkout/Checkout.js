@@ -4,9 +4,11 @@ import {
   showCheckout,
   incrementCount,
   decrementCount,
+  removeItem,
 } from "../../Service/Store/cartSlice";
 import styles from "./checkout.module.scss";
-import { GrClose } from "react-icons/gr";
+import { GrClose, GrTrash } from "react-icons/gr";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 const Checkout = () => {
   const { cart } = useSelector((state) => state.cartStore);
@@ -19,6 +21,10 @@ const Checkout = () => {
     }, 500);
     setCartClose(true);
   };
+  let sumTotal = cart.reduce((prev, curr) => {
+    return prev + curr.totalPrice;
+  }, 0);
+
   return (
     <aside className={styles.checkout__container}>
       <div
@@ -40,51 +46,97 @@ const Checkout = () => {
                 <i>Shopping Cart</i>
               </h4>
             </div>
-            <GrClose onClick={closeCheckout} className={styles.icon__small} />
+            <GrClose onClick={closeCheckout} className={styles.icon__close} />
           </header>
-          <p>cart length</p>
-          <div className={styles.shoppingCart__items}>
+          <p>
+            {cart?.length === 0
+              ? "0 item"
+              : cart?.length === 1
+              ? cart.length + " item"
+              : cart.length + " items"}
+          </p>
+          <div
+            className={
+              cart?.length >= 4
+                ? `${styles.shoppingCart__items} ${styles.shoppingCart__overflow}`
+                : styles.shoppingCart__items
+            }
+          >
             {cart?.length ? (
               cart.map((product) => {
                 return (
                   <div className={styles.shoppingCart__item} key={product.id}>
+                    <GrTrash
+                      onClick={() => dispatch(removeItem(product.id))}
+                      className={styles.shoppingCart__removeItem}
+                    />
                     <div className={styles.shoppingCart__picture}>
                       <img src={product.img} alt="" />
                     </div>
                     <div className={styles.shoppingCart__info}>
-                      <p>{product.name.substring(0, 30)}</p>
+                      <p>
+                        <b>{product.name.substring(0, 30)}</b>
+                      </p>
+                      <div className={styles.shoppingCart__quantity}>
+                        <button
+                          className={styles.shoppingCart__increment}
+                          onClick={() => dispatch(decrementCount(product.id))}
+                        >
+                          <FaMinus />
+                        </button>
+                        <span className={styles.shoppingCart__count}>
+                          {product.count}
+                        </span>
 
-                      <span>{product.price}</span>
-                    </div>
-                    <div className={styles.shoppingCart__quantity}>
-                      <button
-                        className={styles.shoppingCart__increment}
-                        onClick={() => dispatch(incrementCount(product.id))}
-                      >
-                        +
-                      </button>
-                      <span className={styles.shoppingCart__count}>
-                        {product.count}
+                        <button
+                          className={styles.shoppingCart__increment}
+                          onClick={() => dispatch(incrementCount(product.id))}
+                        >
+                          <FaPlus />
+                        </button>
+                      </div>
+                      <span>
+                        $
+                        {product.count > 1 ? product.totalPrice : product.price}
                       </span>
-                      <button
-                        className={styles.shoppingCart__decrement}
-                        onClick={() => dispatch(decrementCount(product.id))}
-                      >
-                        -
-                      </button>
                     </div>
                   </div>
                 );
               })
             ) : (
-              <h4>3423</h4>
+              <>
+                <p>Your cart is empty</p>
+                <button
+                  onClick={() => dispatch(showCheckout(false))}
+                  className={`${styles.shoppingCart__continue} ${styles.btnPrimary} ${styles.btnPrimary__white}`}
+                >
+                  Continue shopping
+                </button>
+              </>
             )}
           </div>
-          <div className={styles.shoppingCart__footer}>
-            <h4>Total:</h4>
-            <p>Tax included and shipping calculated at checkout</p>
-            <button>Checkout</button>
-          </div>
+          {cart?.length ? (
+            <div className={styles.shoppingCart__footer}>
+              <div className={styles.shoppingCart__sum}>
+                <h4>Subtotal</h4>
+                <h4>{sumTotal}$</h4>
+              </div>
+              <div className={styles.shoppingCart__sum}>
+                <h3>Total</h3>
+                <h3>{sumTotal}$</h3>
+              </div>
+              <p className={styles.tax__shipping}>
+                Tax included and shipping calculated at checkout
+              </p>
+              <button
+                className={`${styles.btnSecondary} ${styles.btnCheckout}`}
+              >
+                Checkout
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </aside>

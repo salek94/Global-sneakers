@@ -15,7 +15,7 @@
 .btnPrimary {
   width: 50%;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid $black;
   padding: 15px;
   font-size: 1rem;
   cursor: pointer;
@@ -25,7 +25,12 @@
   }
   &__white {
     background-color: $white;
+    border: 1px solid $black;
     color: $black;
+    &:hover {
+      background-color: $black;
+      color: white;
+    }
   }
 }
 

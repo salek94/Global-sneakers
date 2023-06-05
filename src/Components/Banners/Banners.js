@@ -18,7 +18,7 @@ const Banners = ({ product, active }) => {
       .catch((err) => console.error(err));
   }, [active, product.id]);
 
-  const handleAddToCart = (id, name, img, price) => {
+  const handleAddToCart = (id, name, img, price, quantity) => {
     dispatch(
       addToCart({
         id: id,
@@ -26,6 +26,8 @@ const Banners = ({ product, active }) => {
         img: img,
         price: price,
         count: 1,
+        totalPrice: 0,
+        quantity: quantity,
       })
     );
   };
@@ -53,7 +55,8 @@ const Banners = ({ product, active }) => {
                 product.id,
                 product.name,
                 product.image.url,
-                product.price.formatted_with_symbol
+                product.price.raw,
+                product.inventory.available
               )
             }
             className={`${styles.banner__plus} ${styles.icon__small}`}

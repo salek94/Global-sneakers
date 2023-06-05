@@ -8,6 +8,7 @@
   @include flex($dir: row, $justify: flex-end, $align: flex-end);
   position: sticky;
   inset: 0;
+  overflow-x: hidden;
 }
 
 .shoppingCart {
@@ -43,20 +44,82 @@
   @include flex($dir: row, $justify: space-between, $align: center);
   margin-bottom: 1rem;
 }
-
+.icon__close {
+  cursor: pointer;
+}
 .shoppingCart__items {
-  // border: 1px solid blue;
+  max-height: 60vh;
   margin-top: 2rem;
 }
+.shoppingCart__overflow {
+  overflow-y: scroll;
+}
 .shoppingCart__item {
-  border: 1px solid blue;
-  height: 20vh;
+  @include flex($dir: row, $justify: flex-start, $align: center);
+  gap: 1.5rem;
+  position: relative;
+  &::after {
+    display: flex;
+    content: "";
+    clear: both;
+    width: 100%;
+    height: 1px;
+    background-color: $gray;
+    margin-bottom: 1rem;
+  }
 }
 .shoppingCart__picture {
   width: 20%;
+  cursor: pointer;
 }
-
-.shoppingCart__footer {
+.shoppingCart__info {
+  @include flex($dir: column, $justify: space-around, $align: baseline);
+}
+.shoppingCart__quantity {
+  border: 1px solid $gray;
+  padding: 4px;
+  margin: 1.1rem 0;
+  border-radius: 1.3rem;
+}
+.shoppingCart__increment {
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 5px;
+  cursor: pointer;
+}
+.shoppingCart__count {
+  padding: 5px 12px;
+  border-left: 1px solid $gray;
+  border-right: 1px solid $gray;
+}
+.shoppingCart__removeItem {
   position: absolute;
-  bottom: 1%;
+  bottom: 30%;
+  right: 5%;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+.shoppingCart__continue {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+}
+.shoppingCart__footer {
+  // background-color: $white;
+  width: 95%;
+  position: absolute;
+  bottom: 0%;
+}
+.shoppingCart__sum {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  margin: 0.8rem 0;
+}
+.tax__shipping {
+  color: $gray;
+}
+.btnCheckout {
+  @extend .shoppingCart__continue;
+  width: 99%;
 }

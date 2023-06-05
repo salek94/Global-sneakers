@@ -8,9 +8,9 @@ import { getAllProduct } from "../../Service/Store/productSlice";
 import styles from "../Banners/banners.module.scss";
 
 const Trending = () => {
-  const dispatch = useDispatch();
   const { products } = useSelector((state) => state.productStore);
   const [titleActive, setTitleActive] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     ProductService.allProduct()
@@ -30,7 +30,7 @@ const Trending = () => {
   let newArrivals = products.filter(
     (item) => item.categories[1].name !== "Best Selling"
   );
-
+  // console.log(products);
   return (
     <div className={styles.container}>
       <div className={styles.title}>

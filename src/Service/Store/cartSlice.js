@@ -14,19 +14,31 @@ const cartSlice = createSlice({
     },
     addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
+      let a = state.cart.find((item) => item.id === action.payload.id);
+
+      state.cart.forEach((product) => {
+        product.totalPrice = Number(product.price * product.count);
+      });
     },
     incrementCount: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
       product.count = product.count + 1;
+      product.totalPrice = Number(product.price * product.count);
+      if (product.count === product.quantity) return null;
     },
     decrementCount: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
       product.count = product.count - 1;
-      let copyCart = [...state.cart];
+      product.totalPrice = Number(product.price * product.count);
       if (product.count === 0) {
-        copyCart.splice(action.payload, 1);
+        let remove = state.cart.filter((item) => item.id !== product.id);
+        state.cart = remove;
       }
-      state.cart = copyCart;
+    },
+    removeItem: (state, action) => {
+      let product = state.cart.find((item) => item.id === action.payload);
+      let remove = state.cart.filter((item) => item.id !== product.id);
+      state.cart = remove;
     },
     showCheckout: (state, action) => {
       state.isCheckoutOn = action.payload;
@@ -39,6 +51,7 @@ export const {
   addToCart,
   incrementCount,
   decrementCount,
+  removeItem,
   showCheckout,
 } = cartSlice.actions;
 export default cartSlice.reducer;
