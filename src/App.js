@@ -4,21 +4,24 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import Header from "./Layout/Header/Header";
-import Main from "./Layout/Main/Main";
-import Footer from "./Layout/Footer/Footer";
+import Layout from "./Layout/Layout";
 import Aside from "./Layout/Aside/Aside";
+import { Route, Routes } from "react-router-dom";
+import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
+import Collection from "./Pages/Collection/Collection";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
-
+//todo scrollbar need to be prettier
 function App() {
   const { isCheckoutOn } = useSelector((state) => state.cartStore);
 
   return (
     <>
-      <Header />
-      <Main />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<Layout />} />
+        <Route path="/collection" element={<Collection />} />
+      </Routes>
+      <OverviewProduct />
       {isCheckoutOn && <Aside />}
     </>
   );

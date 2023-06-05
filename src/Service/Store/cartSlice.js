@@ -9,14 +9,17 @@ const cartSlice = createSlice({
   name: "shoppingCart",
   initialState,
   reducers: {
-    setCart: (state, action) => {
-      state.cart = action.payload;
-    },
     addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
-      let a = state.cart.find((item) => item.id === action.payload.id);
-
+      let duplicateCart = [];
       state.cart.forEach((product) => {
+        const a = duplicateCart.some(
+          (duplicateItem) => duplicateItem.id === product.id
+        );
+        if (!a) {
+          duplicateCart.push(product);
+          state.cart = duplicateCart;
+        }
         product.totalPrice = Number(product.price * product.count);
       });
     },
@@ -40,6 +43,9 @@ const cartSlice = createSlice({
       let remove = state.cart.filter((item) => item.id !== product.id);
       state.cart = remove;
     },
+    removeAll: (state) => {
+      state.cart = [];
+    },
     showCheckout: (state, action) => {
       state.isCheckoutOn = action.payload;
     },
@@ -47,11 +53,11 @@ const cartSlice = createSlice({
 });
 
 export const {
-  setCart,
   addToCart,
   incrementCount,
   decrementCount,
   removeItem,
+  removeAll,
   showCheckout,
 } = cartSlice.actions;
 export default cartSlice.reducer;

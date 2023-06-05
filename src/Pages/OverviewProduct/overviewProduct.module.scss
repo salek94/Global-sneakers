@@ -1,0 +1,16 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/colors";
+
+.overview__container {
+  @include flex($dir: row, $justify: center, $align: center);
+  position: sticky;
+  inset: 0;
+  min-height: 100vh;
+}
+.overview__popup {
+  border: 1px solid red;
+  background-color: $white;
+  width: 60%;
+  //   height: 40vh;
+  z-index: 20;
+}

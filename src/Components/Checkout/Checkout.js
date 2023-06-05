@@ -5,6 +5,7 @@ import {
   incrementCount,
   decrementCount,
   removeItem,
+  removeAll,
 } from "../../Service/Store/cartSlice";
 import styles from "./checkout.module.scss";
 import { GrClose, GrTrash } from "react-icons/gr";
@@ -21,6 +22,7 @@ const Checkout = () => {
     }, 500);
     setCartClose(true);
   };
+
   let sumTotal = cart.reduce((prev, curr) => {
     return prev + curr.totalPrice;
   }, 0);
@@ -48,13 +50,25 @@ const Checkout = () => {
             </div>
             <GrClose onClick={closeCheckout} className={styles.icon__close} />
           </header>
-          <p>
-            {cart?.length === 0
-              ? "0 item"
-              : cart?.length === 1
-              ? cart.length + " item"
-              : cart.length + " items"}
-          </p>
+          <div className={styles.shoppingCart__headerBottom}>
+            <p>
+              {cart?.length === 0
+                ? "0 item"
+                : cart?.length === 1
+                ? cart.length + " item"
+                : cart.length + " items"}
+            </p>
+            {cart?.length ? (
+              <p
+                className={styles.shoppingCart__headerRemoveAll}
+                onClick={() => dispatch(removeAll())}
+              >
+                remove all
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
           <div
             className={
               cart?.length >= 4

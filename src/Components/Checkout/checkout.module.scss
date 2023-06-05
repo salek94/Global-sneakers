@@ -44,6 +44,16 @@
   @include flex($dir: row, $justify: space-between, $align: center);
   margin-bottom: 1rem;
 }
+.shoppingCart__headerBottom {
+  @include flex($dir: row, $justify: space-between, $align: center);
+}
+.shoppingCart__headerRemoveAll {
+  color: $gray;
+  cursor: pointer;
+  &:hover {
+    color: $black;
+  }
+}
 .icon__close {
   cursor: pointer;
 }
