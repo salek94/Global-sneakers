@@ -14,6 +14,7 @@ axios.defaults.baseURL = "https://api.chec.io/v1";
 //todo scrollbar need to be prettier
 function App() {
   const { isCheckoutOn } = useSelector((state) => state.cartStore);
+  const { overviewProductOn } = useSelector((state) => state.productStore);
 
   return (
     <>
@@ -21,7 +22,7 @@ function App() {
         <Route path="/" element={<Layout />} />
         <Route path="/collection" element={<Collection />} />
       </Routes>
-      <OverviewProduct />
+      {overviewProductOn && <OverviewProduct />}
       {isCheckoutOn && <Aside />}
     </>
   );

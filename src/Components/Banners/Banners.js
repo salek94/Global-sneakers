@@ -3,6 +3,10 @@ import styles from "./banners.module.scss";
 import { BsPlusCircle } from "react-icons/bs";
 import ProductService from "../../Service/Api/ProductService";
 import { addToCart } from "../../Service/Store/cartSlice";
+import {
+  isOverviewProductOn,
+  singleProduct,
+} from "../../Service/Store/productSlice";
 import { useDispatch } from "react-redux";
 
 const Banners = ({ product, active }) => {
@@ -30,6 +34,11 @@ const Banners = ({ product, active }) => {
         quantity: quantity,
       })
     );
+  };
+
+  const goToOverviewProduct = (product) => {
+    dispatch(isOverviewProductOn(true));
+    dispatch(singleProduct(product));
   };
 
   return (
@@ -65,7 +74,12 @@ const Banners = ({ product, active }) => {
       </div>
       <div className={styles.banner__buttons}>
         <button className={styles.banner__btn}>Buy Now</button>
-        <button className={styles.banner__btn}>More Info</button>
+        <button
+          className={styles.banner__btn}
+          onClick={() => goToOverviewProduct(product)}
+        >
+          More Info
+        </button>
       </div>
     </div>
   );

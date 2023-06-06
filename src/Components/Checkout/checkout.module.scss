@@ -6,7 +6,7 @@
 
 .checkout__container {
   @include flex($dir: row, $justify: flex-end, $align: flex-end);
-  position: sticky;
+  position: fixed;
   inset: 0;
   overflow-x: hidden;
 }
