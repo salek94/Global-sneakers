@@ -91,28 +91,25 @@ const Checkout = () => {
                       <p>
                         <b>{product.name.substring(0, 30)}</b>
                       </p>
-                      <div className={styles.shoppingCart__quantity}>
+                      <div className={styles.btn__quantity}>
                         <button
-                          className={styles.shoppingCart__increment}
+                          className={styles.btn__increment}
                           onClick={() => dispatch(decrementCount(product.id))}
                         >
                           <FaMinus />
                         </button>
-                        <span className={styles.shoppingCart__count}>
+                        <span className={styles.btn__count}>
                           {product.count}
                         </span>
 
                         <button
-                          className={styles.shoppingCart__increment}
+                          className={styles.btn__increment}
                           onClick={() => dispatch(incrementCount(product.id))}
                         >
                           <FaPlus />
                         </button>
                       </div>
-                      <span>
-                        $
-                        {product.count > 1 ? product.totalPrice : product.price}
-                      </span>
+                      <span>${product.totalPrice}</span>
                     </div>
                   </div>
                 );

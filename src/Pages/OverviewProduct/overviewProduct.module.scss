@@ -1,5 +1,7 @@
 @import "../../Assets/Styles/mixins";
 @import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/components";
+@import "../../Assets/Styles/variables";
 
 .overview__container {
   @include flex($dir: row, $justify: center, $align: center);
@@ -8,13 +10,55 @@
   inset: 0;
 }
 .overview__popup {
-  @include flex($dir: row, $justify: space-between, $align: center);
+  @include flex($dir: row, $justify: space-between, $align: flex-start);
   background-color: $white;
   width: 60%;
+  padding: 1.7em;
+}
+.overview__picture {
+  width: 40%;
+}
+.overview__productInfo {
+  display: grid;
+  gap: 1.5rem;
+  width: 50%;
+}
+.overview__title {
+  @include flex($dir: row, $justify: space-between, $align: center);
 }
 .overview__closePopup {
-  position: absolute;
-  right: 1%;
-  top: 1%;
-  width: 10%;
+  cursor: pointer;
+}
+
+.overview__desc {
+  line-height: 1.3rem;
+}
+.overview__size {
+  @include flex($dir: row, $justify: flex-start, $align: center);
+  gap: 0.5rem;
+}
+.overview__sizeBtn {
+  padding: 0.5rem;
+  width: 15%;
+  &:focus {
+    background-color: $black;
+    color: $white;
+  }
+}
+.overview__chooseQuantity {
+  @include flex($dir: row, $justify: flex-start, $align: center);
+  gap: 2rem;
+}
+
+.overview__subtotal {
+  @include flex($dir: row, $justify: flex-start, $align: center);
+  gap: 0.4rem;
+}
+.overview__btnAdd {
+  font-weight: $fontWeight400;
+  border-radius: 1.3rem;
+}
+.overview__btnBuy {
+  font-weight: $fontWeight400;
+  width: $container100;
 }

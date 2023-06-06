@@ -85,23 +85,23 @@
 .shoppingCart__info {
   @include flex($dir: column, $justify: space-around, $align: baseline);
 }
-.shoppingCart__quantity {
-  border: 1px solid $gray;
-  padding: 4px;
-  margin: 1.1rem 0;
-  border-radius: 1.3rem;
-}
-.shoppingCart__increment {
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 5px;
-  cursor: pointer;
-}
-.shoppingCart__count {
-  padding: 5px 12px;
-  border-left: 1px solid $gray;
-  border-right: 1px solid $gray;
-}
+// .shoppingCart__quantity {
+//   border: 1px solid $gray;
+//   padding: 4px;
+//   margin: 1.1rem 0;
+//   border-radius: 1.3rem;
+// }
+// .shoppingCart__increment {
+//   background-color: transparent;
+//   border: 1px solid transparent;
+//   padding: 5px;
+//   cursor: pointer;
+// }
+// .shoppingCart__count {
+//   padding: 5px 12px;
+//   border-left: 1px solid $gray;
+//   border-right: 1px solid $gray;
+// }
 .shoppingCart__removeItem {
   position: absolute;
   bottom: 30%;

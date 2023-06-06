@@ -18,6 +18,7 @@ const Banners = ({ product, active }) => {
     ProductService.singleProduct(product.id)
       .then((res) => {
         if (res.status === 200) setSecondImage(res.data.assets[1].url);
+        // console.log(res.data);
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
@@ -30,15 +31,26 @@ const Banners = ({ product, active }) => {
         img: img,
         price: price,
         count: 1,
-        totalPrice: 0,
+        totalPrice: price,
         quantity: quantity,
       })
     );
   };
 
-  const goToOverviewProduct = (product) => {
+  const goToOverviewProduct = (id, name, img, price, desc, quantity) => {
     dispatch(isOverviewProductOn(true));
-    dispatch(singleProduct(product));
+    dispatch(
+      singleProduct({
+        id: id,
+        name: name,
+        img: img,
+        price: price,
+        description: desc,
+        quantity: quantity,
+        count: 1,
+        totalPrice: price,
+      })
+    );
   };
 
   return (
@@ -76,7 +88,16 @@ const Banners = ({ product, active }) => {
         <button className={styles.banner__btn}>Buy Now</button>
         <button
           className={styles.banner__btn}
-          onClick={() => goToOverviewProduct(product)}
+          onClick={() =>
+            goToOverviewProduct(
+              product.id,
+              product.name,
+              product.image.url,
+              product.price.raw,
+              product.seo.description,
+              product.inventory.available
+            )
+          }
         >
           More Info
         </button>

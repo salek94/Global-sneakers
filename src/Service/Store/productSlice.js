@@ -15,6 +15,21 @@ const productSlice = createSlice({
     },
     singleProduct: (state, action) => {
       state.product = action.payload;
+      console.log(action.payload);
+    },
+    incrementCount: (state, action) => {
+      state.product = action.payload;
+      let product = state.product;
+      product.count = product.count + 1;
+      product.totalPrice = Number(product.price * product.count);
+      if (product.count === product.quantity) return null;
+    },
+    decrementCount: (state, action) => {
+      state.product = action.payload;
+      let product = state.product;
+      product.count = product.count - 1;
+      product.totalPrice = Number(product.price * product.count);
+      if (product.count < 1) state.overviewProductOn = false;
     },
     isOverviewProductOn: (state, action) => {
       state.overviewProductOn = action.payload;
@@ -22,6 +37,11 @@ const productSlice = createSlice({
   },
 });
 
-export const { getAllProduct, singleProduct, isOverviewProductOn } =
-  productSlice.actions;
+export const {
+  getAllProduct,
+  singleProduct,
+  incrementCount,
+  decrementCount,
+  isOverviewProductOn,
+} = productSlice.actions;
 export default productSlice.reducer;
