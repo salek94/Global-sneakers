@@ -3,12 +3,12 @@ import styles from "./overviewProduct.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import {
   isOverviewProductOn,
-  singleProduct,
   incrementCount,
   decrementCount,
 } from "../../Service/Store/productSlice";
 import { GrClose } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import safeCheckout from "../../Assets/Images/safe_checkoutt.jpg";
 
 const OverviewProduct = () => {
   const { product, overviewProductOn } = useSelector(
@@ -20,6 +20,10 @@ const OverviewProduct = () => {
     dispatch(isOverviewProductOn(false));
   };
   console.log(product);
+
+  const pickedSize = (e) => {
+    console.log(e.target.innerText);
+  };
 
   return (
     <div className={styles.overview__container}>
@@ -40,7 +44,7 @@ const OverviewProduct = () => {
             </div>
             <h4>${product.price}</h4>
             <div className={styles.overview__desc}>{product.description}</div>
-            <div className={styles.overview__size}>
+            <div className={styles.overview__size} onClick={pickedSize}>
               <p>Size:</p>
               <button
                 className={`${styles.overview__sizeBtn} ${styles.btnPrimary__white}`}
@@ -91,6 +95,9 @@ const OverviewProduct = () => {
             >
               Buy Now
             </button>
+            <div>
+              <img src={safeCheckout} alt="" />
+            </div>
           </div>
         </div>
       )}

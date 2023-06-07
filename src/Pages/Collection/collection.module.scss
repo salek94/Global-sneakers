@@ -1,0 +1,27 @@
+@import "../../Assets/Styles/variables";
+@import "../../Assets/Styles/mixins";
+
+.collection__container {
+  width: $container100;
+}
+.collection__hero {
+  background-image: url("../../Assets/Images/hero_img.png");
+  background-position: center;
+  background-size: cover;
+  height: 40vh;
+  margin-bottom: 10rem;
+}
+.collection__main {
+  @include flex($dir: row, $justify: center, $align: flex-start);
+  gap: 2rem;
+  width: $container90;
+}
+.collection__asideBar {
+  margin-left: 2rem;
+  border: 1px solid red;
+  width: 15%;
+}
+.collection__products {
+  // border: 1px solid blue;
+  width: 80%;
+}

@@ -19,7 +19,7 @@ const Trending = () => {
       })
       .catch((err) => console.error(err));
   }, []);
-
+  // console.log(products);
   const handleTitle = () => {
     setTitleActive(titleActive ? false : true);
   };
@@ -30,7 +30,7 @@ const Trending = () => {
   let newArrivals = products.filter(
     (item) => item.categories[1].name !== "Best Selling"
   );
-  // console.log(products);
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
