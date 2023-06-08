@@ -15,7 +15,6 @@ const productSlice = createSlice({
     },
     singleProduct: (state, action) => {
       state.product = action.payload;
-      console.log(action.payload);
     },
     incrementCount: (state, action) => {
       state.product = action.payload;

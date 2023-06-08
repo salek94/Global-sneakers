@@ -27,7 +27,7 @@
 .banner {
   width: 90%;
   position: relative;
-
+  margin-bottom: 1.5rem;
   &:hover {
     .banner__btn {
       animation: buttons 0.7s;
@@ -59,7 +59,7 @@
 .banner__buttons {
   @include flex($dir: row, $justify: space-between, $align: center);
   position: absolute;
-  bottom: 15%;
+  bottom: 16%;
   width: 100%;
 }
 .banner__btn {

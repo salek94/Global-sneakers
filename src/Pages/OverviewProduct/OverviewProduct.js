@@ -8,7 +8,7 @@ import {
 } from "../../Service/Store/productSlice";
 import { GrClose } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import safeCheckout from "../../Assets/Images/safe_checkoutt.jpg";
+import { addToCart } from "../../Service/Store/cartSlice";
 
 const OverviewProduct = () => {
   const { product, overviewProductOn } = useSelector(
@@ -19,7 +19,20 @@ const OverviewProduct = () => {
   const handlePopUp = () => {
     dispatch(isOverviewProductOn(false));
   };
-  console.log(product);
+
+  const handleAddToCart = (id, name, img, price, quantity) => {
+    dispatch(
+      addToCart({
+        id: id,
+        name: name,
+        img: img,
+        price: price,
+        count: product.count,
+        totalPrice: price,
+        quantity: quantity,
+      })
+    );
+  };
 
   const pickedSize = (e) => {
     console.log(e.target.innerText);
@@ -80,6 +93,15 @@ const OverviewProduct = () => {
                 </button>
               </div>
               <button
+                onClick={() =>
+                  handleAddToCart(
+                    product.id,
+                    product.name,
+                    product.img,
+                    product.price,
+                    product.quantity
+                  )
+                }
                 className={`${styles.btnSecondary} ${styles.overview__btnAdd}`}
               >
                 Add To Cart
@@ -95,9 +117,6 @@ const OverviewProduct = () => {
             >
               Buy Now
             </button>
-            <div>
-              <img src={safeCheckout} alt="" />
-            </div>
           </div>
         </div>
       )}

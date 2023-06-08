@@ -18,4 +18,5 @@ export const settingsCollection = {
   slidesToShow: 4,
   rows: 4,
   // slidesPerRow: 1,
+  //todo treba da bude 4x2 za men,women category
 };
