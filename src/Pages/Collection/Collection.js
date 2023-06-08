@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import ProductService from "../../Service/Api/ProductService";
 import Slider from "react-slick";
 import {
@@ -9,14 +9,28 @@ import styles from "./collection.module.scss";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Layout/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProduct } from "../../Service/Store/productSlice";
+import {
+  arrivalsProductsArray,
+  bestProductsArray,
+  getAllProduct,
+  kidsProductsArray,
+  menProductsArray,
+  womenProductsArray,
+} from "../../Service/Store/productSlice";
 import { whichCategory } from "../../Service/Store/categorySlice";
 import Banners from "../../Components/Banners/Banners";
-import { Outlet } from "react-router-dom";
 
 const Collection = () => {
-  const { products } = useSelector((state) => state.productStore);
+  const {
+    products,
+    menProducts,
+    womenProducts,
+    kidsProducts,
+    bestProducts,
+    arrivalsProducts,
+  } = useSelector((state) => state.productStore);
   const { categoryName } = useSelector((state) => state.categoryStore);
+  const [selectedOption, setSelectedOption] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +44,33 @@ const Collection = () => {
   useLayoutEffect(() => {
     window.scrollTo(0, 100);
   }, []);
-  // console.log(products);
+
+  useEffect(() => {
+    let bestSelling = products.filter(
+      (item) => item.categories[1].name === "Best Selling"
+    );
+    dispatch(bestProductsArray(bestSelling));
+
+    let newArrivals = products.filter(
+      (item) => item.categories[1].name === "New Arrivals"
+    );
+    dispatch(arrivalsProductsArray(newArrivals));
+
+    let menCategory = products.filter(
+      (item) => item.categories[0].name === "Men"
+    );
+    dispatch(menProductsArray(menCategory));
+
+    let womenCategory = products.filter(
+      (item) => item.categories[0].name === "Women"
+    );
+    dispatch(womenProductsArray(womenCategory));
+
+    let kidsCategory = products.filter(
+      (item) => item.categories[0].name === "Kids"
+    );
+    dispatch(kidsProductsArray(kidsCategory));
+  }, [categoryName]);
 
   // const handleSearchValue = (e) => {
   //   setSearchValue(e.target.value);
@@ -51,24 +91,6 @@ const Collection = () => {
   //     inputSearch.current.value = "";
   //   }
   // };
-  let bestSelling = products.filter(
-    (item) => item.categories[1].name === "Best Selling"
-  );
-  let newArrivals = products.filter(
-    (item) => item.categories[1].name === "New Arrivals"
-  );
-  let menCategory = products.filter(
-    (item) => item.categories[0].name === "Men"
-  );
-  let womenCategory = products.filter(
-    (item) => item.categories[0].name === "Women"
-  );
-  let kidsCategory = products.filter(
-    (item) => item.categories[0].name === "Kids"
-  );
-  let allCategory = products.filter(
-    (item) => item.categories[2].name === "All"
-  );
 
   const pickedSize = (e) => {
     console.log(e.target.innerText);
@@ -76,9 +98,8 @@ const Collection = () => {
   const handlePickCategory = (e) => {
     dispatch(whichCategory(e.target.innerText));
   };
-  const handlePickTrend = (e) => {
-    console.log(e.target.value);
-    dispatch(whichCategory(e.target.value));
+  const handleSelect = (e) => {
+    setSelectedOption(e.target.value);
   };
   return (
     <>
@@ -102,11 +123,18 @@ const Collection = () => {
               <div className={styles.collection__pickCategory}>
                 <span
                   className={styles.collection__categoryItem}
-                  // className={
-                  //   nameCategory === "Men"
-                  // ? `${styles.collection__categoryItem} ${styles.collection__categoryItem_focus}`
-                  //     : styles.collection__categoryItem
-                  // }
+                  onClick={handlePickCategory}
+                >
+                  Best Selling
+                </span>
+                <span
+                  className={styles.collection__categoryItem}
+                  onClick={handlePickCategory}
+                >
+                  New Arrivals
+                </span>
+                <span
+                  className={styles.collection__categoryItem}
                   onClick={handlePickCategory}
                 >
                   Men
@@ -162,13 +190,13 @@ const Collection = () => {
                 <label>Sort by: </label>
                 <select
                   className={styles.collection__list}
-                  onClick={handlePickTrend}
+                  onClick={handleSelect}
                 >
-                  <option value={categoryName}>Default Sorting</option>
-                  <option value="Best Selling">Best Selling</option>
-                  <option value="New Arrivals">New Arrivals</option>
-                  <option value="high">Sort By Price: High To Low</option>
-                  <option value="low">Sort By Price: Low To High</option>
+                  <option value="">Default Sorting</option>
+                  <option value="Desc">Sort By Price: High To Low</option>
+                  <option value="Asc">Sort By Price: Low To High</option>
+                  <option value="A-Z">Alphabetically: A-Z</option>
+                  <option value="Z-A">Alphabetically: Z-A</option>
                 </select>
               </div>
             </div>
@@ -178,27 +206,27 @@ const Collection = () => {
                 : settingsCollection)}
             >
               {categoryName === "Men" &&
-                menCategory.map((item) => {
+                menProducts.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
               {categoryName === "Women" &&
-                womenCategory.map((item) => {
+                womenProducts.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
               {categoryName === "Kids" &&
-                kidsCategory.map((item) => {
+                kidsProducts.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
               {categoryName === "All" &&
-                allCategory.map((item) => {
+                products.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
               {categoryName === "Best Selling" &&
-                bestSelling.map((item) => {
+                bestProducts.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
               {categoryName === "New Arrivals" &&
-                newArrivals.map((item) => {
+                arrivalsProducts.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
             </Slider>
@@ -206,7 +234,6 @@ const Collection = () => {
         </main>
       </div>
       <Footer />
-      {/* <Outlet /> */}
     </>
   );
 };
