@@ -18,7 +18,9 @@ const Navbar = () => {
     <>
       <div className={styles.navbar__container}>
         <div className={styles.navbar__logo}>
-          <img src={logo} alt="" />
+          <Link to="/">
+            <img src={logo} alt="" />
+          </Link>
         </div>
         <nav className={styles.navbar__links}>
           <Link to={"#"} className={styles.navbar__item}>

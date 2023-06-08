@@ -20,7 +20,12 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />} />
-        <Route path="/collection" element={<Collection />} />
+        <Route path="/collection" element={<Collection />}>
+          <Route path="men" element={<Collection />} />
+          <Route path="women" element={<Collection />} />
+          <Route path="kids" element={<Collection />} />
+          <Route path="all" element={<Collection />} />
+        </Route>
       </Routes>
       {overviewProductOn && <OverviewProduct />}
       {isCheckoutOn && <Aside />}

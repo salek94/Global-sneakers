@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import ProductService from "../../Service/Api/ProductService";
 import Slider from "react-slick";
-import { settingsCollection } from "../../Components/Features/settings";
+import {
+  settingsCollection,
+  settingsCollectionAll,
+} from "../../Components/Features/settings";
 import styles from "./collection.module.scss";
 import Navbar from "../../Components/Navbar/Navbar";
+import Footer from "../../Layout/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProduct } from "../../Service/Store/productSlice";
+import { whichCategory } from "../../Service/Store/categorySlice";
 import Banners from "../../Components/Banners/Banners";
+import { Outlet } from "react-router-dom";
 
 const Collection = () => {
   const { products } = useSelector((state) => state.productStore);
-  const [nameCategory, setNameCategory] = useState("All");
+  const { categoryName } = useSelector((state) => state.categoryStore);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,8 +25,12 @@ const Collection = () => {
         if (res.status === 200) dispatch(getAllProduct(res.data.data));
       })
       .catch((err) => console.error(err));
-  }, [nameCategory]);
-  console.log(products);
+  }, [categoryName]);
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 100);
+  }, []);
+  // console.log(products);
 
   // const handleSearchValue = (e) => {
   //   setSearchValue(e.target.value);
@@ -59,13 +69,16 @@ const Collection = () => {
   let allCategory = products.filter(
     (item) => item.categories[2].name === "All"
   );
-  console.log(menCategory);
-  console.log(womenCategory);
+
   const pickedSize = (e) => {
     console.log(e.target.innerText);
   };
   const handlePickCategory = (e) => {
-    setNameCategory(e.target.innerText);
+    dispatch(whichCategory(e.target.innerText));
+  };
+  const handlePickTrend = (e) => {
+    console.log(e.target.value);
+    dispatch(whichCategory(e.target.value));
   };
   return (
     <>
@@ -144,38 +157,56 @@ const Collection = () => {
           </aside>
           <div className={styles.collection__products}>
             <div className={styles.collection__headerProducts}>
-              <h4 className={styles.collection__headerTitle}>{nameCategory}</h4>
+              <h4 className={styles.collection__headerTitle}>{categoryName}</h4>
               <div>
                 <label>Sort by: </label>
-                <select className={styles.collection__list}>
-                  <option value="best">Best Selling</option>
-                  <option value="arrivals">New Arrivals</option>
+                <select
+                  className={styles.collection__list}
+                  onClick={handlePickTrend}
+                >
+                  <option value={categoryName}>Default Sorting</option>
+                  <option value="Best Selling">Best Selling</option>
+                  <option value="New Arrivals">New Arrivals</option>
                   <option value="high">Sort By Price: High To Low</option>
                   <option value="low">Sort By Price: Low To High</option>
                 </select>
               </div>
             </div>
-            <Slider {...settingsCollection}>
-              {nameCategory === "Men" &&
+            <Slider
+              {...(categoryName === "All"
+                ? settingsCollectionAll
+                : settingsCollection)}
+            >
+              {categoryName === "Men" &&
                 menCategory.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
-              {nameCategory === "Women" &&
+              {categoryName === "Women" &&
                 womenCategory.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
-              {nameCategory === "Kids" &&
+              {categoryName === "Kids" &&
                 kidsCategory.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
-              {nameCategory === "All" &&
+              {categoryName === "All" &&
                 allCategory.map((item) => {
+                  return <Banners product={item} key={item.id} />;
+                })}
+              {categoryName === "Best Selling" &&
+                bestSelling.map((item) => {
+                  return <Banners product={item} key={item.id} />;
+                })}
+              {categoryName === "New Arrivals" &&
+                newArrivals.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
             </Slider>
           </div>
         </main>
       </div>
+      <Footer />
+      {/* <Outlet /> */}
     </>
   );
 };

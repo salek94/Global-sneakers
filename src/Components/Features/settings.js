@@ -7,10 +7,9 @@ export const settings = {
   slidesToScroll: 2,
   lazyLoad: true,
   // dots: true,
-  // autoPlay: true,
 };
 
-export const settingsCollection = {
+export const settingsCollectionAll = {
   adaptiveHeight: true,
   arrows: false,
   lazyLoad: true,
@@ -18,5 +17,13 @@ export const settingsCollection = {
   slidesToShow: 4,
   rows: 4,
   // slidesPerRow: 1,
-  //todo treba da bude 4x2 za men,women category
+};
+export const settingsCollection = {
+  adaptiveHeight: true,
+  arrows: false,
+  lazyLoad: true,
+  infinite: true,
+  slidesToShow: 3,
+  rows: 2,
+  // slidesPerRow: 1,
 };
