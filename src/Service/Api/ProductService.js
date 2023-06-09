@@ -17,6 +17,11 @@ class ProductService {
       headers,
     });
   }
+  static searchProduct(searchValue) {
+    return axios.get(`/products?query=${searchValue}`, {
+      headers,
+    });
+  }
 }
 
 export default ProductService;

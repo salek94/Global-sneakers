@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ProductService from "../../Service/Api/ProductService";
 import Slider from "react-slick";
 import {
@@ -16,6 +16,8 @@ import {
   kidsProductsArray,
   menProductsArray,
   womenProductsArray,
+  searchProductsArray,
+  whichSelectOption,
 } from "../../Service/Store/productSlice";
 import { whichCategory } from "../../Service/Store/categorySlice";
 import Banners from "../../Components/Banners/Banners";
@@ -28,10 +30,13 @@ const Collection = () => {
     kidsProducts,
     bestProducts,
     arrivalsProducts,
+    searchProducts,
+    selectedOption,
   } = useSelector((state) => state.productStore);
   const { categoryName } = useSelector((state) => state.categoryStore);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
+  const inputSearch = useRef();
 
   useEffect(() => {
     ProductService.allProduct()
@@ -70,28 +75,25 @@ const Collection = () => {
       (item) => item.categories[0].name === "Kids"
     );
     dispatch(kidsProductsArray(kidsCategory));
-  }, [categoryName]);
+  }, [categoryName, selectedOption]);
 
-  // const handleSearchValue = (e) => {
-  //   setSearchValue(e.target.value);
-  // };
+  useEffect(() => {
+    if (searchValue) {
+      ProductService.searchProduct(searchValue).then((res) => {
+        if (res.status === 200) {
+          dispatch(searchProductsArray(res.data.data));
+          dispatch(whichCategory(""));
+        }
+      });
+    }
+  }, [searchValue]);
 
-  // const getSearchResults = () => {
-  //   if (searchValue) {
-  //     navigate(`/list?search=${searchValue}`);
-  //     setChosenGenre("");
-  //     inputSearch.current.value = "";
-  //   }
-  // };
-
-  // const handleEnter = (e) => {
-  //   if (e.key === "Enter") {
-  //     navigate(`/list/?search=${searchValue}`);
-  //     setChosenGenre("");
-  //     inputSearch.current.value = "";
-  //   }
-  // };
-
+  const handleSearchValue = (e) => {
+    if (e.key === "Enter") {
+      setSearchValue(e.target.value);
+      inputSearch.current.value = "";
+    }
+  };
   const pickedSize = (e) => {
     console.log(e.target.innerText);
   };
@@ -99,7 +101,7 @@ const Collection = () => {
     dispatch(whichCategory(e.target.innerText));
   };
   const handleSelect = (e) => {
-    setSelectedOption(e.target.value);
+    dispatch(whichSelectOption(e.target.value));
   };
   return (
     <>
@@ -110,12 +112,12 @@ const Collection = () => {
           <aside className={styles.collection__asideBar}>
             <div>
               <input
+                ref={inputSearch}
                 className={styles.collection__search}
                 type="search"
                 name="search"
                 placeholder="Search product..."
-                // onChange={handleSearchValue}
-                // onKeyDown={handleEnter}
+                onKeyDown={handleSearchValue}
               />
             </div>
             <div className={styles.collection__categories}>
@@ -186,9 +188,11 @@ const Collection = () => {
           <div className={styles.collection__products}>
             <div className={styles.collection__headerProducts}>
               <h4 className={styles.collection__headerTitle}>{categoryName}</h4>
-              <div>
-                <label>Sort by: </label>
+              <form id="filter">
+                <label htmlFor="filter">Sort by: </label>
                 <select
+                  name="filter"
+                  id="filter"
                   className={styles.collection__list}
                   onClick={handleSelect}
                 >
@@ -198,7 +202,7 @@ const Collection = () => {
                   <option value="A-Z">Alphabetically: A-Z</option>
                   <option value="Z-A">Alphabetically: Z-A</option>
                 </select>
-              </div>
+              </form>
             </div>
             <Slider
               {...(categoryName === "All"
@@ -227,6 +231,10 @@ const Collection = () => {
                 })}
               {categoryName === "New Arrivals" &&
                 arrivalsProducts.map((item) => {
+                  return <Banners product={item} key={item.id} />;
+                })}
+              {categoryName === "" &&
+                searchProducts.map((item) => {
                   return <Banners product={item} key={item.id} />;
                 })}
             </Slider>

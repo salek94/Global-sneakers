@@ -68,7 +68,7 @@ const Banners = ({ product, active }) => {
       </div>
       <p>{product.name.substring(0, 34)}</p>
       <div className={styles.banner__footer}>
-        <span>{product.price.formatted_with_symbol}</span>
+        <span>${product.price.raw}</span>
         <div>
           <BsPlusCircle
             onClick={() =>
