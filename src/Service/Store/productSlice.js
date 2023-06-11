@@ -109,6 +109,7 @@ const productSlice = createSlice({
 export const {
   getAllProduct,
   singleProduct,
+  getSecondImage,
   incrementCount,
   decrementCount,
   isOverviewProductOn,

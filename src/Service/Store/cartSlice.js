@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cart: [],
+  cartId: "",
   isCheckoutOn: false,
 };
 
@@ -9,6 +10,9 @@ const cartSlice = createSlice({
   name: "shoppingCart",
   initialState,
   reducers: {
+    getCardId: (state, action) => {
+      state.cartId = action.payload;
+    },
     addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
       let duplicateCart = [];
@@ -54,6 +58,7 @@ const cartSlice = createSlice({
 
 export const {
   addToCart,
+  getCardId,
   incrementCount,
   decrementCount,
   removeItem,

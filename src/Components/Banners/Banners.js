@@ -2,26 +2,38 @@ import React, { useEffect, useState } from "react";
 import styles from "./banners.module.scss";
 import { BsPlusCircle } from "react-icons/bs";
 import ProductService from "../../Service/Api/ProductService";
+import CartService from "../../Service/Api/CartService";
 import { addToCart } from "../../Service/Store/cartSlice";
 import {
   isOverviewProductOn,
   singleProduct,
 } from "../../Service/Store/productSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
   const dispatch = useDispatch();
+  const { cartId } = useSelector((state) => state.cartStore);
 
   useEffect(() => {
     ProductService.singleProduct(product.id)
       .then((res) => {
         if (res.status === 200) setSecondImage(res.data.assets[1].url);
-        // console.log(res.data);
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
+
+  // useEffect(() => {
+  //   const addItemToCart = (cartId) => {
+  //     CartService.addItemToCart(cartId, {
+  //       //body
+  //     }).then((res) => {
+  //       console.log(res);
+  //     });
+  //   };
+  //   addItemToCart();
+  // }, []);
 
   const handleAddToCart = (id, name, img, price, quantity) => {
     dispatch(

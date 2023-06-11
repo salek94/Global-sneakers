@@ -6,7 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Layout from "./Layout/Layout";
 import Aside from "./Layout/Aside/Aside";
-import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
+// import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
 import { Route, Routes } from "react-router-dom";
 import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
 import Collection from "./Pages/Collection/Collection";

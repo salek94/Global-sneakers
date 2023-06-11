@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   showCheckout,
@@ -7,17 +7,27 @@ import {
   removeItem,
   removeAll,
 } from "../../Service/Store/cartSlice";
-import styles from "./order.module.scss";
+import styles from "./cart.module.scss";
 import { GrClose, GrTrash } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import CartService from "../../Service/Api/CartService";
 
-const Order = () => {
+const Cart = () => {
   const { cart } = useSelector((state) => state.cartStore);
   const [cartClose, setCartClose] = useState(false);
   const dispatch = useDispatch();
 
-  const closeCheckout = () => {
+  useEffect(() => {
+    const createCart = () => {
+      CartService.createCart().then((res) => {
+        if (res.status === 201) console.log(res);
+      });
+    };
+    createCart();
+  }, [cart.length]);
+
+  const closeCart = () => {
     setTimeout(() => {
       dispatch(showCheckout(false));
     }, 500);
@@ -51,7 +61,7 @@ const Order = () => {
                 <i>Shopping Cart</i>
               </h4>
             </div>
-            <GrClose onClick={closeCheckout} className={styles.icon__close} />
+            <GrClose onClick={closeCart} className={styles.icon__close} />
           </header>
           <div className={styles.shoppingCart__headerBottom}>
             <p>
@@ -160,4 +170,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default Cart;

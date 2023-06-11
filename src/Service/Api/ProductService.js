@@ -1,5 +1,6 @@
 import axios from "axios";
 const pk = "pk_test_525553bf900ef2f2bce0f910be638cdff27c90fee9bed";
+// const pk = process.env.REACT_APP_CHEC_PUBLIC_KEY;
 const headers = {
   "X-Authorization": pk,
   Accept: "application/json",

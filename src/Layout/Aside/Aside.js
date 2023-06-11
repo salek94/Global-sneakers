@@ -1,8 +1,8 @@
 import React from "react";
-import Order from "../../Components/Order/Order";
+import Cart from "../../Components/Cart/Cart";
 
 const Aside = () => {
-  return <Order />;
+  return <Cart />;
 };
 
 export default Aside;
