@@ -7,11 +7,12 @@ import {
   removeItem,
   removeAll,
 } from "../../Service/Store/cartSlice";
-import styles from "./checkout.module.scss";
+import styles from "./order.module.scss";
 import { GrClose, GrTrash } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const Checkout = () => {
+const Order = () => {
   const { cart } = useSelector((state) => state.cartStore);
   const [cartClose, setCartClose] = useState(false);
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const Checkout = () => {
   let sumTotal = cart.reduce((prev, curr) => {
     return prev + curr.totalPrice;
   }, 0);
+
+  const goToCheckout = () => {};
 
   return (
     <aside className={styles.checkout__container}>
@@ -139,11 +142,14 @@ const Checkout = () => {
               <p className={styles.tax__shipping}>
                 Tax included and shipping calculated at checkout
               </p>
-              <button
-                className={`${styles.btnSecondary} ${styles.btnCheckout}`}
-              >
-                Checkout
-              </button>
+              <Link to="/checkout">
+                <button
+                  // onClick={goToCheckout}
+                  className={`${styles.btnSecondary} ${styles.btnCheckout}`}
+                >
+                  Checkout
+                </button>
+              </Link>
             </div>
           ) : (
             ""
@@ -154,4 +160,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default Order;

@@ -1,8 +1,8 @@
 import React from "react";
-import Checkout from "../../Components/Checkout/Checkout";
+import Order from "../../Components/Order/Order";
 
 const Aside = () => {
-  return <Checkout />;
+  return <Order />;
 };
 
 export default Aside;
