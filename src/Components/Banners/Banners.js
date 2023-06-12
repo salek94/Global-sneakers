@@ -14,8 +14,8 @@ const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
   const dispatch = useDispatch();
-  const { cartId } = useSelector((state) => state.cartStore);
-
+  const { cartId, cart } = useSelector((state) => state.cartStore);
+  // console.log("sss", cartId);
   useEffect(() => {
     ProductService.singleProduct(product.id)
       .then((res) => {
@@ -25,15 +25,17 @@ const Banners = ({ product, active }) => {
   }, [active, product.id]);
 
   // useEffect(() => {
-  //   const addItemToCart = (cartId) => {
-  //     CartService.addItemToCart(cartId, {
-  //       //body
-  //     }).then((res) => {
-  //       console.log(res);
-  //     });
+  //   const addToCart = (cartId, cart) => {
+  //     CartService.addItemToCart(cartId, cart)
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => console.log(err));
   //   };
-  //   addItemToCart();
-  // }, []);
+  //   if (cart) {
+  //     addToCart(cartId, cart);
+  //   }
+  // }, [cart, cartId]);
 
   const handleAddToCart = (id, name, img, price, quantity) => {
     dispatch(

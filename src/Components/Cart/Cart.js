@@ -14,18 +14,22 @@ import { Link } from "react-router-dom";
 import CartService from "../../Service/Api/CartService";
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state.cartStore);
+  const { cart, cartId } = useSelector((state) => state.cartStore);
   const [cartClose, setCartClose] = useState(false);
   const dispatch = useDispatch();
-
+  console.log(cart);
   useEffect(() => {
-    const createCart = () => {
-      CartService.createCart().then((res) => {
-        if (res.status === 201) console.log(res);
-      });
+    const addToCart = (cartId, cart) => {
+      CartService.addItemToCart(cartId, cart)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
     };
-    createCart();
-  }, [cart.length]);
+    if (cart) {
+      addToCart(cartId, cart);
+    }
+  }, [cart, cartId]);
 
   const closeCart = () => {
     setTimeout(() => {

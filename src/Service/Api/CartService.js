@@ -19,16 +19,17 @@ class CartService {
     });
   }
   static addItemToCart(id, body) {
-    return axios.post(`/carts/${id}`, {
-      headers,
+    return axios.get(`/carts/${id}`, {
+      headers: headers,
       body: JSON.stringify(body),
-      // samo proslediti citav product
+      //radi sa get method, ne radi sa post
     });
   }
+
   static updateItemToCart(id, line_item_id, body) {
     return axios.post(`/carts/${id}/items/${line_item_id}`, {
-      headers,
-      body: JSON.stringify(body),
+      headers: headers,
+      body: JSON.stringify(...body),
       // saljem quantity
     });
   }
