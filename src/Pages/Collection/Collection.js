@@ -47,7 +47,7 @@ const Collection = () => {
   }, [categoryName]);
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 500);
+    window.scrollTo(0, 300);
   }, []);
 
   useEffect(() => {

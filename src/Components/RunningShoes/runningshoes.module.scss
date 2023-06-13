@@ -1,0 +1,40 @@
+@import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/components";
+
+.running__container {
+  margin: 10rem auto;
+  position: relative;
+  background-color: $black;
+}
+
+.running__video {
+  width: 1510px;
+  height: 600px;
+  margin: 0.3rem auto;
+  //   width: 1519px;
+  //   height: 810px;
+}
+.running__content {
+  display: grid;
+  gap: 3rem;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 84vh;
+  place-items: center;
+  text-align: center;
+  color: $white;
+  background-color: rgba(8, 8, 8, 0.6);
+  z-index: 11;
+}
+
+.running__title {
+  display: block;
+  margin-bottom: 4rem;
+  font-size: 4rem;
+}
+.running__btn {
+  width: 80%;
+  padding: 1.4rem;
+  font-size: 1.3rem;
+}

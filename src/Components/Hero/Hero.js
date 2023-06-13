@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./hero.module.scss";
+import a from "../../Assets/Images/sneaker_black.png";
+import b from "../../Assets/Images/sneaker_white.png";
 
 const Hero = () => {
+  const [green, setGreen] = useState(true);
+
+  useEffect(() => {
+    setInterval(() => {
+      setGreen(!green);
+    }, 8000);
+  });
+
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.shoes_background}></div>
-        <div className={styles.circle_background}></div>
+        <div
+          style={
+            green
+              ? {
+                  backgroundImage: `url(${a})`,
+                }
+              : {
+                  backgroundImage: `url(${b})`,
+                }
+          }
+          className={styles.shoes_background}
+        ></div>
+        <div
+          className={
+            green ? styles.circle_background : styles.circle_background_orange
+          }
+        ></div>
         <div className={styles.dots_background}>
-          <h3>jwaidji</h3>
+          <div className={styles.dots_content}>
+            <h2>WE CONNECT THE WORLD OF SNEAKERS</h2>
+          </div>
         </div>
       </div>
     </>

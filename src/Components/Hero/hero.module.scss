@@ -1,6 +1,7 @@
 @import "../../Assets/Styles/variables";
 @import "../../Assets/Styles/mixins";
 @import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/components";
 
 .container {
   width: $container100;
@@ -18,7 +19,7 @@
   position: absolute;
   top: 0%;
   left: 27%;
-  background-image: url("../../Assets/Images/sneaker_black.png");
+  // background-image: url("../../Assets/Images/sneaker_black.png");
   // background-image: url("../../Assets/Images/sneaker_white.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -36,6 +37,10 @@
   left: 31%;
   top: 15%;
   z-index: -3;
+  &_orange {
+    @extend .circle_background;
+    background-color: $orangeLight;
+  }
 }
 
 .dots_background {
@@ -51,5 +56,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // text-align: center;
+  text-align: flex-start;
+  color: $white;
+}
+.dots_content {
+  width: 40%;
+  line-height: 3.6rem;
 }

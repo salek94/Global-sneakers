@@ -16,7 +16,7 @@
   &__black {
     width: 50%;
     border: 1px solid transparent;
-    padding: 15px;
+    padding: 1rem;
     font-size: 1rem;
     cursor: pointer;
     background-color: $black;
@@ -28,14 +28,15 @@
   }
   &__white {
     width: 50%;
-    padding: 15px;
+    padding: 1rem;
+    font-size: 1rem;
     cursor: pointer;
     background-color: $white;
     border: 1px solid $black;
     color: $black;
     &:hover {
       background-color: $black;
-      color: white;
+      color: $white;
     }
   }
 }
