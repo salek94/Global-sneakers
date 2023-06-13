@@ -7,25 +7,19 @@ const Hero = () => {
   const [green, setGreen] = useState(true);
 
   useEffect(() => {
-    setInterval(() => {
+    let g = setInterval(() => {
       setGreen(!green);
-    }, 8000);
-  });
+    }, 10000);
+    return () => clearInterval(g);
+  }, [green]);
 
   return (
     <>
       <div className={styles.container}>
         <div
-          style={
-            green
-              ? {
-                  backgroundImage: `url(${a})`,
-                }
-              : {
-                  backgroundImage: `url(${b})`,
-                }
+          className={
+            green ? styles.shoes_background : styles.shoes_background_orange
           }
-          className={styles.shoes_background}
         ></div>
         <div
           className={

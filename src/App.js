@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import axios from "axios";
+import { routeConfig } from "./Config/routeConfig";
 import CartService from "./Service/Api/CartService";
 import "./App.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "./Layout/Layout";
 import Aside from "./Layout/Aside/Aside";
@@ -33,12 +34,24 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/collection" element={<Collection />}>
-          <Route path="men" element={<Collection />} />
-          <Route path="women" element={<Collection />} />
-          <Route path="kids" element={<Collection />} />
-          <Route path="all" element={<Collection />} />
+        <Route path={routeConfig.HOME.url} element={<Layout />} />
+        <Route path={routeConfig.COLLECTION.url} element={<Collection />}>
+          <Route
+            path={routeConfig.COLLECTION.subURL.men}
+            element={<Collection />}
+          />
+          <Route
+            path={routeConfig.COLLECTION.subURL.women}
+            element={<Collection />}
+          />
+          <Route
+            path={routeConfig.COLLECTION.subURL.kids}
+            element={<Collection />}
+          />
+          <Route
+            path={routeConfig.COLLECTION.subURL.all}
+            element={<Collection />}
+          />
         </Route>
         {/* <Route path="/checkout" element={<CheckoutForm />} /> */}
       </Routes>

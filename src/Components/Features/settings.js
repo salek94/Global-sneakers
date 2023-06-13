@@ -27,3 +27,12 @@ export const settingsCollection = {
   rows: 2,
   // slidesPerRow: 1,
 };
+
+export const settingsCollectionSearch = {
+  adaptiveHeight: true,
+  arrows: false,
+  lazyLoad: true,
+  infinite: true,
+  slidesToShow: 5,
+  rows: 1,
+};

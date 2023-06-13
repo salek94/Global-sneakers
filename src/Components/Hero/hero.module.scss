@@ -19,13 +19,17 @@
   position: absolute;
   top: 0%;
   left: 27%;
-  // background-image: url("../../Assets/Images/sneaker_black.png");
-  // background-image: url("../../Assets/Images/sneaker_white.png");
+  background-image: url("../../Assets/Images/sneaker_black.png");
   background-repeat: no-repeat;
   background-size: cover;
   width: 49%;
   height: 100vh;
   z-index: -1;
+  transition: $transition;
+  &_orange {
+    @extend .shoes_background;
+    background-image: url("../../Assets/Images/sneaker_white.png");
+  }
 }
 
 .circle_background {
@@ -37,6 +41,7 @@
   left: 31%;
   top: 15%;
   z-index: -3;
+  transition: $transition;
   &_orange {
     @extend .circle_background;
     background-color: $orangeLight;

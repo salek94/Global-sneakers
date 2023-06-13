@@ -8,25 +8,22 @@
   margin-bottom: 10rem;
 }
 .collection__hero {
-  background-image: url("../../Assets/Images/hero_img.png");
+  background-image: url("../../Assets/Images/collection_background.gif");
   background-position: center;
   background-size: cover;
-  height: 40vh;
+  height: 47vh;
   margin-bottom: 10rem;
 }
 .collection__main {
   @include flex($dir: row, $justify: space-between, $align: flex-start);
   gap: 2rem;
   width: 95%;
-  // width: $container90;
 }
 .collection__asideBar {
   margin-left: 2rem;
   width: 15%;
   background-color: $gray;
   border: 1px solid $gray;
-  // color: $white;
-  // border-radius: 1.2rem;
 }
 .collection__search {
   width: 100%;
@@ -86,7 +83,7 @@
     transition: $transition;
   }
 }
-//todo treba napraviti div i tamo odraditi :after
+
 .collection__categoryItem_focus {
   color: $black;
   cursor: pointer;
@@ -102,7 +99,7 @@
   margin-bottom: 1rem;
 }
 .collection__sizeBtn {
-  padding: 0.5rem;
+  padding: 0.3rem;
   width: 15%;
   &:focus {
     background-color: $black;

@@ -32,6 +32,7 @@ const OverviewProduct = () => {
         quantity: quantity,
       })
     );
+    dispatch(isOverviewProductOn(false));
   };
 
   const pickedSize = (e) => {

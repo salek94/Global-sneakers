@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import {
   settingsCollection,
   settingsCollectionAll,
+  settingsCollectionSearch,
 } from "../../Components/Features/settings";
 import styles from "./collection.module.scss";
 import Navbar from "../../Components/Navbar/Navbar";
@@ -45,6 +46,8 @@ const Collection = () => {
       })
       .catch((err) => console.error(err));
   }, [categoryName]);
+
+  console.log(products);
 
   useLayoutEffect(() => {
     window.scrollTo(0, 300);
@@ -196,17 +199,18 @@ const Collection = () => {
                   className={styles.collection__list}
                   onClick={handleSelect}
                 >
-                  <option value="">Default Sorting</option>
+                  <option value=""></option>
+                  <option value="Default">Default Sorting</option>
                   <option value="Desc">Sort By Price: High To Low</option>
                   <option value="Asc">Sort By Price: Low To High</option>
-                  <option value="A-Z">Alphabetically: A-Z</option>
-                  <option value="Z-A">Alphabetically: Z-A</option>
                 </select>
               </form>
             </div>
             <Slider
               {...(categoryName === "All"
                 ? settingsCollectionAll
+                : categoryName === "" && searchProducts.length < 4
+                ? settingsCollectionSearch
                 : settingsCollection)}
             >
               {categoryName === "Men" &&

@@ -13,18 +13,33 @@ const initialState = {
   searchProducts: [],
 };
 
+const sortByPrice = (state) => {
+  if (state.selectedOption === "Asc") {
+    state.products.sort((a, b) => a.price.raw - b.price.raw);
+  }
+  if (state.selectedOption === "Desc") {
+    state.products.sort((a, b) => b.price.raw - a.price.raw);
+  }
+  if (state.selectedOption === "Default") {
+    state.products.sort(function (a, b) {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+};
+
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     getAllProduct: (state, action) => {
       state.products = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.products.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.products.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
     singleProduct: (state, action) => {
       state.product = action.payload;
@@ -51,57 +66,27 @@ const productSlice = createSlice({
     },
     menProductsArray: (state, action) => {
       state.menProducts = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.menProducts.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.menProducts.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
     womenProductsArray: (state, action) => {
       state.womenProducts = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.womenProducts.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.womenProducts.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
     kidsProductsArray: (state, action) => {
       state.kidsProducts = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.kidsProducts.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.kidsProducts.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
     bestProductsArray: (state, action) => {
       state.bestProducts = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.bestProducts.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.bestProducts.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
     arrivalsProductsArray: (state, action) => {
       state.arrivalsProducts = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.arrivalsProducts.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.arrivalsProducts.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
     searchProductsArray: (state, action) => {
       state.searchProducts = action.payload;
-      if (state.selectedOption === "Asc") {
-        state.searchProducts.sort((a, b) => a.price.raw - b.price.raw);
-      }
-      if (state.selectedOption === "Desc") {
-        state.searchProducts.sort((a, b) => b.price.raw - a.price.raw);
-      }
+      sortByPrice(state);
     },
   },
 });
