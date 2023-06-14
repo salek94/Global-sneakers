@@ -5,3 +5,9 @@
   justify-content: $justify;
   align-items: $align;
 }
+
+@mixin mobile {
+  @media only screen and (max-width: 414px) {
+    @content;
+  }
+}

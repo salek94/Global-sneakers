@@ -1,0 +1,14 @@
+@import "../../Assets/Styles/colors";
+
+.scroll {
+  position: fixed;
+  bottom: 5%;
+  right: 1%;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 1.3rem;
+  background-color: $black;
+  svg {
+    color: $white;
+  }
+}

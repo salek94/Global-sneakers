@@ -6,9 +6,13 @@ import { whichCategory } from "../../Service/Store/categorySlice";
 import styles from "./navbar.module.scss";
 import logo from "../../Assets/Images/logo_sneakers.png";
 import { BsCartFill } from "react-icons/bs";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
+import { isHamMenuOpen } from "../../Service/Store/mobileSlice";
 
 const Navbar = () => {
   const { cart } = useSelector((state) => state.cartStore);
+  const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
 
   const handleShowCheckout = () => {
@@ -19,6 +23,10 @@ const Navbar = () => {
     dispatch(whichCategory(e.target.innerText));
   };
 
+  const showHamMenu = () => {
+    dispatch(isHamMenuOpen(!hamburgerMenu));
+  };
+
   return (
     <>
       <div className={styles.navbar__container}>
@@ -27,7 +35,14 @@ const Navbar = () => {
             <img src={logo} alt="" />
           </Link>
         </div>
-        <nav className={styles.navbar__links}>
+        <div className={styles.navbar__hamburger} onClick={showHamMenu}>
+          {hamburgerMenu ? <GiHamburgerMenu /> : <AiOutlineClose />}
+        </div>
+        <nav
+          className={
+            hamburgerMenu ? styles.navbar__links : styles.navbar__links__mobile
+          }
+        >
           <a href={"#best-selling"} className={styles.navbar__item}>
             Best Selling
           </a>

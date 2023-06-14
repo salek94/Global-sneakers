@@ -3,7 +3,7 @@
 @import "../../Assets/Styles/colors";
 @import "../../Assets/Styles/components";
 
-.container {
+.hero__container {
   width: $container100;
   margin: $marginCenter;
   background-image: url("../../Assets/Images/hero_img.png");
@@ -13,6 +13,14 @@
   height: 100vh;
   z-index: -4;
   position: relative;
+  &__mobile {
+    width: $container100;
+    margin: $marginCenter;
+    height: 100vh;
+    @include mobile {
+      background-color: #000000;
+    }
+  }
 }
 
 .shoes_background {

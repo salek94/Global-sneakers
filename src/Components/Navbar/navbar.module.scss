@@ -8,15 +8,46 @@
   width: $container100;
   margin: $marginCenter;
   background-color: $fullBlack;
-  padding: 10px;
+  padding: 0.7rem;
+  // @include mobile {
+  //   position: sticky;
+  // }
 }
 .navbar__logo {
   width: 6%;
   cursor: pointer;
+  @include mobile {
+    width: 19%;
+  }
+}
+.navbar__hamburger {
+  display: none;
+  @include mobile {
+    display: block;
+    color: $white;
+    & svg {
+      width: 2rem;
+      height: 3rem;
+    }
+  }
 }
 .navbar__links {
   @include flex($dir: row, $justify: space-between, $align: center);
   width: 30%;
+  @include mobile {
+    display: none;
+  }
+  &__mobile {
+    @include mobile {
+      @include flex($dir: column, $justify: center, $align: center);
+      position: absolute;
+      width: 40%;
+      top: 30%;
+      left: 34%;
+      line-height: 3rem;
+      font-size: 1.5rem;
+    }
+  }
 }
 .navbar__item {
   color: $white;
@@ -51,4 +82,8 @@
   top: 6%;
   right: 10%;
   z-index: 1;
+  @include mobile {
+    top: 4.1%;
+    right: 9.5%;
+  }
 }
