@@ -39,6 +39,7 @@ const Navbar = () => {
           {hamburgerMenu ? <GiHamburgerMenu /> : <AiOutlineClose />}
         </div>
         <nav
+          // className={styles.navbar__links}
           className={
             hamburgerMenu ? styles.navbar__links : styles.navbar__links__mobile
           }

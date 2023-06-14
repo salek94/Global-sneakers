@@ -79,7 +79,6 @@ const Category = () => {
             </Link>
           </div>
         </div>
-        {/* <div className={styles.aa}>aaa</div> */}
       </div>
     </div>
   );

@@ -6,20 +6,26 @@
 .hero__container {
   width: $container100;
   margin: $marginCenter;
-  background-image: url("../../Assets/Images/hero_img.png");
-  background-color: #000000;
+  // background-image: url("../../Assets/Images/hero_img.png");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
-  z-index: -4;
+  // z-index: -5;
   position: relative;
   &__mobile {
-    width: $container100;
-    margin: $marginCenter;
-    height: 100vh;
+    @extend .hero__container;
     @include mobile {
+      // height: 30vh;
       background-color: #000000;
+      z-index: 10;
     }
+  }
+}
+.hero__img {
+  position: relative;
+  z-index: -6;
+  @include mobile {
+    width: 100%;
+    // height: 50vh;
   }
 }
 
@@ -30,10 +36,17 @@
   background-image: url("../../Assets/Images/sneaker_black.png");
   background-repeat: no-repeat;
   background-size: cover;
-  width: 49%;
-  height: 100vh;
-  z-index: -1;
+  width: 44%;
+  height: 91vh;
+  z-index: -2;
   transition: $transition;
+  @include mobile {
+    width: 40%;
+    height: 18vh;
+    top: 15%;
+    left: 32%;
+    // z-index: -11;
+  }
   &_orange {
     @extend .shoes_background;
     background-image: url("../../Assets/Images/sneaker_white.png");
@@ -48,8 +61,15 @@
   position: absolute;
   left: 31%;
   top: 15%;
-  z-index: -3;
+  z-index: -4;
   transition: $transition;
+  @include mobile {
+    width: 58%;
+    height: 79%;
+    left: 23%;
+    top: 30%;
+    // z-index: -11;
+  }
   &_orange {
     @extend .circle_background;
     background-color: $orangeLight;
@@ -57,22 +77,47 @@
 }
 
 .dots_background {
+  @include flex($dir: row, $justify: center, $align: center);
   background-image: url("../../Assets/Images/dots.png");
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
   width: 30%;
   height: 60%;
-  right: 8%;
+  right: 11%;
   top: 15%;
-  z-index: -2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: flex-start;
+  z-index: -3;
   color: $white;
+  @include mobile {
+    display: none;
+  }
 }
 .dots_content {
   width: 40%;
   line-height: 3.6rem;
+  @include mobile {
+    width: 10%;
+    line-height: 2rem;
+  }
+}
+.hero__btnShop {
+  position: absolute;
+  width: 15%;
+  bottom: 40%;
+  left: 8%;
+  pointer-events: all;
+  z-index: -1;
+  @include mobile {
+    bottom: -25%;
+    left: 35%;
+    font-size: 1rem;
+    width: 30%;
+  }
+}
+.hero__btn {
+  display: inline-block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  pointer-events: all;
 }

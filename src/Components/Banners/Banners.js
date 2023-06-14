@@ -80,6 +80,7 @@ const Banners = ({ product, active }) => {
           <img src={secondImage} alt="" />
         )}
       </div>
+      {/* {todo namestiti naslov za mobile} */}
       <h5>{product.name.substring(0, 34)}</h5>
       <div className={styles.banner__footer}>
         <span>${product.price.raw}</span>

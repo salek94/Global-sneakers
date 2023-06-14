@@ -7,6 +7,9 @@
 .container {
   margin: 13em auto;
   width: 90%;
+  @include mobile {
+    margin: 9em auto;
+  }
 }
 .title {
   @include flex($dir: row, $justify: center, $align: center);
@@ -61,6 +64,9 @@
   position: absolute;
   bottom: 16%;
   width: 100%;
+  @include mobile {
+    bottom: 25%;
+  }
 }
 .banner__btn {
   @extend .btnSecondary;

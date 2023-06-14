@@ -5,8 +5,21 @@ export const settings = {
   infinite: true,
   slidesToShow: 4,
   slidesToScroll: 2,
-  lazyLoad: true,
-  // dots: true,
+  // initialSlide: 3,
+  responsive: [
+    {
+      breakpoint: 414,
+      settings: {
+        adaptiveHeight: true,
+        arrows: false,
+        speed: 1000,
+        infinite: true,
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        dots: true,
+      },
+    },
+  ],
 };
 
 export const settingsCollectionAll = {

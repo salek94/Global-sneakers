@@ -9,9 +9,10 @@
   margin: $marginCenter;
   background-color: $fullBlack;
   padding: 0.7rem;
-  // @include mobile {
-  //   position: sticky;
-  // }
+  @include mobile {
+    // padding: 1.5rem;
+    @include flex($dir: row, $justify: space-between, $align: center);
+  }
 }
 .navbar__logo {
   width: 6%;
@@ -38,6 +39,7 @@
     display: none;
   }
   &__mobile {
+    @extend .navbar__links;
     @include mobile {
       @include flex($dir: column, $justify: center, $align: center);
       position: absolute;
@@ -46,6 +48,7 @@
       left: 34%;
       line-height: 3rem;
       font-size: 1.5rem;
+      z-index: 50;
     }
   }
 }
@@ -68,6 +71,9 @@
 .navbar__cart {
   color: $white;
   cursor: pointer;
+  @include mobile {
+    width: 17%;
+  }
   &::after {
     content: "";
     position: absolute;
@@ -79,11 +85,11 @@
 }
 .navbar__cartLength {
   position: absolute;
-  top: 6%;
+  top: 6.1%;
   right: 10%;
   z-index: 1;
   @include mobile {
-    top: 4.1%;
-    right: 9.5%;
+    top: 4.3%;
+    right: 8.4%;
   }
 }
