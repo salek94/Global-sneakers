@@ -42,7 +42,9 @@ const Cart = () => {
     return prev + curr.totalPrice;
   }, 0);
 
-  const goToCheckout = () => {};
+  const goToCheckout = () => {
+    dispatch(showCheckout(false));
+  };
 
   return (
     <aside className={styles.ShoppingCart__container}>
@@ -164,7 +166,7 @@ const Cart = () => {
               </p>
               <Link to="/checkout">
                 <button
-                  // onClick={goToCheckout}
+                  onClick={goToCheckout}
                   className={`${styles.btnSecondary} ${styles.btnCheckout}`}
                 >
                   Checkout

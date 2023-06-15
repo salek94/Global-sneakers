@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "./Layout/Layout";
 import Aside from "./Layout/Aside/Aside";
+import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
 import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
 import Collection from "./Pages/Collection/Collection";
 import { getCardId } from "./Service/Store/cartSlice";
@@ -68,7 +69,7 @@ function App() {
             element={<Collection />}
           />
         </Route>
-        {/* <Route path="/checkout" element={<CheckoutForm />} /> */}
+        <Route path={routeConfig.CHECKOUT.url} element={<CheckoutForm />} />
       </Routes>
       {overviewProductOn && <OverviewProduct />}
       {isCheckoutOn && <Aside />}

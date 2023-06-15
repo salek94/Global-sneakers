@@ -67,7 +67,9 @@ const Category = () => {
           </div>
         </div>
         <div className={styles.category__all} onClick={handlePickCategory}>
-          <div className={styles.category__name}>
+          <div
+            className={`${styles.category__name} ${styles.category__name__all}`}
+          >
             <h3>
               {categoryAll[0]?.name} <br />
               Collection

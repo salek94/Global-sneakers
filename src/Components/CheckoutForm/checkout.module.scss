@@ -1,0 +1,81 @@
+@import "../../Assets/Styles/mixins";
+@import "../../Assets/Styles/colors";
+@import "../../Assets/Styles/components";
+@import "../../Assets/Styles/variables";
+
+.checkout__container {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  width: 75%;
+  margin: 1.5rem auto;
+  border: 1px solid red;
+  //   height: 88vh;
+}
+.checkout__information {
+  width: 49%;
+  border: 1px solid blue;
+  //   height: 88vh;
+}
+.checkout__product {
+  width: 49%;
+  border: 1px solid rebeccapurple;
+  height: 88vh;
+  background-color: $lightGray;
+}
+
+.checkout__title {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.checkout__fields {
+  @include flex($dir: row, $justify: space-between, $align: center);
+}
+.checkout__field {
+  @include flex($dir: column, $justify: center, $align: flex-start);
+  width: 49%;
+  padding: 0.5rem;
+  row-gap: 0.3rem;
+  &__input {
+    height: 2.4rem;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.3rem;
+    &:focus {
+      border: 3px solid rgb(26, 16, 164);
+    }
+  }
+}
+.checkout__cardField {
+  width: 100%;
+}
+.checkout__formTitle {
+  padding-left: 0.5rem;
+  margin: 0.4rem 0;
+}
+.checkout__bottom {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  padding: 0.5rem;
+  margin: 1rem 0;
+}
+.checkout__btn {
+  width: 48%;
+}
+.checkout__btnOrder {
+  width: 100%;
+}
+.checkout__back {
+  cursor: pointer;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 2px;
+    width: 0%;
+    background-color: $black;
+    transition: $transition;
+  }
+  &:hover::after {
+    width: 50%;
+    transition: $transition;
+  }
+}

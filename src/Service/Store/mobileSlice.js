@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  hamburgerMenu: false,
+  hamburgerMenu: true,
 };
 
 const mobileSlice = createSlice({

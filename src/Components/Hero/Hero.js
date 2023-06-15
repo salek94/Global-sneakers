@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./hero.module.scss";
-import { useSelector } from "react-redux";
-import a from "../../Assets/Images/hero_img.png";
+import hero from "../../Assets/Images/hero_img.png";
 
 const Hero = () => {
-  const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const [green, setGreen] = useState(true);
 
   useEffect(() => {
@@ -15,28 +13,22 @@ const Hero = () => {
   }, [green]);
 
   return (
-    <div className={!hamburgerMenu && styles.hero__show}>
+    <>
       <div className={styles.hero__container}>
-        <div className={hamburgerMenu ? styles.hero__img : styles.hero__noImg}>
-          <img src={a} alt="" />
+        <div className={styles.hero__img}>
+          <img src={hero} alt="" />
         </div>
         <div
-          id={!hamburgerMenu && styles.shoes_noBackground}
           className={
             green ? styles.shoes_background : styles.shoes_background_orange
           }
         ></div>
         <div
-          id={!hamburgerMenu && styles.circle_noBackground}
           className={
             green ? styles.circle_background : styles.circle_background_orange
           }
         ></div>
-        <div
-          className={
-            hamburgerMenu ? styles.hero__btnShop : styles.hero__btnShop__noShow
-          }
-        >
+        <div className={styles.hero__btnShop}>
           <button
             className={
               green
@@ -53,7 +45,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

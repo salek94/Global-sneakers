@@ -1,3 +1,5 @@
+@import "../Styles/mixins";
+
 * {
   margin: 0;
   padding: 0;
@@ -7,29 +9,44 @@
 html,
 body {
   font-family: "Poppins", sans-serif;
-  // font-size: $fontSize;
 }
 
 h1 {
   font-size: 3rem;
   font-weight: bold;
   cursor: default;
+  @include mobile {
+    font-size: 2.1rem;
+  }
 }
 h2 {
   font-size: 2.5rem;
   font-weight: bold;
   cursor: default;
+  @include mobile {
+    font-weight: normal;
+    font-size: 1.4rem;
+  }
 }
 h3 {
   font-size: 1.6rem;
   cursor: default;
+  @include mobile {
+    font-size: 1.3rem;
+  }
 }
 h4 {
   font-size: 1.3rem;
-  // cursor: default;
+  cursor: default;
+  @include mobile {
+    font-size: 0.91rem;
+  }
 }
 h5 {
   font-size: 1rem;
+  @include mobile {
+    font-size: 0.85rem;
+  }
 }
 ul {
   list-style: none;
@@ -38,7 +55,6 @@ ul {
 a {
   text-decoration: none;
   color: $white;
-  //   padding: 10px;
 }
 p {
   text-decoration: none;

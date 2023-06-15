@@ -68,12 +68,13 @@
   margin-bottom: 1rem;
   @include mobile {
     @include flex($dir: row, $justify: space-between, $align: flex-start);
-    width: 98%;
+    width: 95%;
+    margin: 1rem auto;
   }
 }
 .collection__form {
   @include mobile {
-    width: 49%;
+    width: 55%;
   }
 }
 .collection__list {
@@ -84,7 +85,7 @@
 }
 .collection__headerTitle {
   @include mobile {
-    width: 15%;
+    width: 18%;
   }
 }
 .collection__filter {

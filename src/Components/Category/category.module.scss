@@ -40,8 +40,11 @@
 .category__name {
   position: absolute;
   top: 40%;
-  left: 38%;
+  left: 36%;
   z-index: 1;
+}
+.category__name__all {
+  left: 23%;
 }
 .category__picture {
   transition: $transition;

@@ -1,30 +1,158 @@
 import React from "react";
-import { PaymentElement, useStripe } from "@stripe/react-stripe-js";
-import { AddressElement } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import styles from "./checkout.module.scss";
 
-const CheckoutForm = ({ stripe }) => {
-  //   const stripe = useStripe();
+const CheckoutForm = () => {
+  const navigate = useNavigate();
 
-  //   const stripe = Stripe("pk_test_Z8v5IJjNrjmaldcUocBhl4tL00Gbc2HtTc");
-  const clientSecret = "gway_mwJZeaDe1PEYwe";
-
-  const appearance = {
-    theme: "flat",
-    variables: { colorPrimaryText: "#262626" },
+  const handleGoBack = () => {
+    navigate(-1);
   };
-  const options = { mode: "shipping" };
-  const elements = stripe.elements({ clientSecret, appearance });
-  const addressElement = elements.create("address", options);
-  const paymentElement = elements.create("payment");
-  addressElement.mount("#address-element");
-  paymentElement.mount("#payment-element");
 
   return (
-    <form>
-      <PaymentElement />
-      <AddressElement />
-      <button>Submit</button>
-    </form>
+    <>
+      <div className={styles.checkout__container}>
+        <section className={styles.checkout__information}>
+          <h3 className={styles.checkout__title}>Order Information</h3>
+          <form>
+            <h4 className={styles.checkout__formTitle}>Shipping Address</h4>
+            <div className={styles.checkout__fields}>
+              <div className={styles.checkout__field}>
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  placeholder="Mark"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  placeholder="Brown"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  placeholder="47 Paris Hill Line"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="example@gmail.com"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="city">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  id="city"
+                  placeholder="New York"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="zip">ZIP Code</label>
+                <input
+                  type="number"
+                  name="zip"
+                  id="zip"
+                  placeholder="945442"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="lastName">last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  placeholder="Brown"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="lastName">last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  placeholder="Brown"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+            </div>
+            <h4 className={styles.checkout__formTitle}>Payment Information</h4>
+            <div className={styles.checkout__fields}>
+              <div
+                className={`${styles.checkout__field} ${styles.checkout__cardField} `}
+              >
+                <label htmlFor="creditCart">Credit Card No.</label>
+                <input
+                  type="number"
+                  name="creditCard"
+                  id="creditCard"
+                  placeholder="**** **** **** ****"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="expDate">Expiry Date</label>
+                <input
+                  type="text"
+                  name="expDate"
+                  id="expDate"
+                  placeholder="03/25"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="cvv">CCV</label>
+                <input
+                  type="number"
+                  name="cvv"
+                  id="cvv"
+                  placeholder="928"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+            </div>
+          </form>
+          <div className={styles.checkout__bottom}>
+            <p className={styles.checkout__back} onClick={handleGoBack}>
+              Go back
+            </p>
+            <div className={styles.checkout__btn}>
+              <button
+                className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
+                type="submit"
+              >
+                Order Now
+              </button>
+            </div>
+          </div>
+        </section>
+        <section className={styles.checkout__product}>
+          <h3>Product Information</h3>
+        </section>
+      </div>
+    </>
   );
 };
 
