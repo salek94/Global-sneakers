@@ -18,8 +18,15 @@ axios.defaults.baseURL = "https://api.chec.io/v1";
 function App() {
   const { isCheckoutOn } = useSelector((state) => state.cartStore);
   const { overviewProductOn } = useSelector((state) => state.productStore);
+  const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
   // let nullCardId = cardId = '';
+
+  useEffect(() => {
+    if (!hamburgerMenu) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+  }, [hamburgerMenu]);
+
   useEffect(() => {
     const createCart = () => {
       CartService.createCart()
@@ -50,6 +57,14 @@ function App() {
           />
           <Route
             path={routeConfig.COLLECTION.subURL.all}
+            element={<Collection />}
+          />
+          <Route
+            path={routeConfig.COLLECTION.subURL.best}
+            element={<Collection />}
+          />
+          <Route
+            path={routeConfig.COLLECTION.subURL.new}
             element={<Collection />}
           />
         </Route>

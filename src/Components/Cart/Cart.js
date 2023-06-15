@@ -58,7 +58,13 @@ const Cart = () => {
           !cartClose ? styles.shoppingCart : styles.shoppingCart__close
         }
       >
-        <div className={styles.shoppingCart__checkout}>
+        <div
+          className={
+            !cartClose
+              ? styles.shoppingCart__checkout
+              : styles.notShoppingCart__checkout
+          }
+        >
           <header className={styles.shoppingCart__header}>
             <div>
               <h4>

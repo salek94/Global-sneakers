@@ -15,33 +15,33 @@ const Hero = () => {
   }, [green]);
 
   return (
-    <>
-      <div
-        className={
-          hamburgerMenu
-            ? styles.hero__container
-            : styles.hero__container__mobile
-        }
-      >
-        <div className={styles.hero__img}>
+    <div className={!hamburgerMenu && styles.hero__show}>
+      <div className={styles.hero__container}>
+        <div className={hamburgerMenu ? styles.hero__img : styles.hero__noImg}>
           <img src={a} alt="" />
         </div>
         <div
+          id={!hamburgerMenu && styles.shoes_noBackground}
           className={
             green ? styles.shoes_background : styles.shoes_background_orange
           }
         ></div>
         <div
+          id={!hamburgerMenu && styles.circle_noBackground}
           className={
             green ? styles.circle_background : styles.circle_background_orange
           }
         ></div>
-        <div className={styles.hero__btnShop}>
+        <div
+          className={
+            hamburgerMenu ? styles.hero__btnShop : styles.hero__btnShop__noShow
+          }
+        >
           <button
             className={
               green
                 ? `${styles.btnSecondary} ${styles.hero__btn}`
-                : `${styles.btnSecondary__orange} ${styles.hero__btn}`
+                : `${styles.btnSecondary__orange} ${styles.hero__btn} `
             }
           >
             SHOP NOW
@@ -53,7 +53,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

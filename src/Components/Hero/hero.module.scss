@@ -3,29 +3,31 @@
 @import "../../Assets/Styles/colors";
 @import "../../Assets/Styles/components";
 
+.hero__show {
+  @include mobile {
+    position: sticky;
+    background-color: $black;
+    height: 89vh;
+  }
+}
+
 .hero__container {
   width: $container100;
   margin: $marginCenter;
-  // background-image: url("../../Assets/Images/hero_img.png");
   background-repeat: no-repeat;
   background-size: cover;
-  // z-index: -5;
   position: relative;
-  &__mobile {
-    @extend .hero__container;
-    @include mobile {
-      // height: 30vh;
-      background-color: #000000;
-      z-index: 10;
-    }
-  }
 }
 .hero__img {
   position: relative;
   z-index: -6;
   @include mobile {
     width: 100%;
-    // height: 50vh;
+  }
+}
+.hero__noImg {
+  @include mobile {
+    visibility: hidden;
   }
 }
 
@@ -45,11 +47,15 @@
     height: 18vh;
     top: 15%;
     left: 32%;
-    // z-index: -11;
   }
   &_orange {
     @extend .shoes_background;
     background-image: url("../../Assets/Images/sneaker_white.png");
+  }
+}
+#shoes_noBackground {
+  @include mobile {
+    display: none;
   }
 }
 
@@ -68,11 +74,15 @@
     height: 79%;
     left: 23%;
     top: 30%;
-    // z-index: -11;
   }
   &_orange {
     @extend .circle_background;
     background-color: $orangeLight;
+  }
+}
+#circle_noBackground {
+  @include mobile {
+    display: none;
   }
 }
 
@@ -113,6 +123,11 @@
     font-size: 1rem;
     width: 30%;
   }
+  &__noShow {
+    @include mobile {
+      visibility: hidden;
+    }
+  }
 }
 .hero__btn {
   display: inline-block;
@@ -120,4 +135,9 @@
   z-index: -1;
   width: 100%;
   pointer-events: all;
+  &__noShow {
+    @include mobile {
+      display: none;
+    }
+  }
 }

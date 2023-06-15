@@ -9,6 +9,8 @@ export const routeConfig = {
       women: "women",
       kids: "kids",
       all: "all",
+      best: "best",
+      new: "new",
     },
   },
 };

@@ -38,3 +38,21 @@
     width: 0%;
   }
 }
+
+@keyframes cartElements {
+  from {
+    transform: translateX(200px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes cartElementsOut {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(200px);
+  }
+}

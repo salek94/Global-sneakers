@@ -40,6 +40,11 @@
       color: $green;
     }
   }
+  @include mobile {
+    width: 100%;
+    padding: 0.4rem;
+    margin-bottom: 0;
+  }
 }
 
 .banner__img {

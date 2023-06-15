@@ -22,6 +22,7 @@ import {
 } from "../../Service/Store/productSlice";
 import { whichCategory } from "../../Service/Store/categorySlice";
 import Banners from "../../Components/Banners/Banners";
+import { FaFilter } from "react-icons/fa";
 
 const Collection = () => {
   const {
@@ -36,6 +37,7 @@ const Collection = () => {
   } = useSelector((state) => state.productStore);
   const { categoryName } = useSelector((state) => state.categoryStore);
   const [searchValue, setSearchValue] = useState("");
+  const [showFilter, setShowFilter] = useState(false);
   const dispatch = useDispatch();
   const inputSearch = useRef();
 
@@ -106,13 +108,24 @@ const Collection = () => {
   const handleSelect = (e) => {
     dispatch(whichSelectOption(e.target.value));
   };
+
+  const showAsidebar = () => {
+    setShowFilter(!showFilter);
+  };
+
   return (
     <>
       <Navbar />
       <div className={styles.collection__container}>
         <div className={styles.collection__hero}></div>
         <main className={styles.collection__main}>
-          <aside className={styles.collection__asideBar}>
+          <aside
+            className={
+              !showFilter
+                ? styles.collection__asideBar
+                : styles.collection__asideBar__mobile
+            }
+          >
             <div>
               <input
                 ref={inputSearch}
@@ -191,7 +204,7 @@ const Collection = () => {
           <div className={styles.collection__products}>
             <div className={styles.collection__headerProducts}>
               <h4 className={styles.collection__headerTitle}>{categoryName}</h4>
-              <form id="filter">
+              <form id="filter" className={styles.collection__form}>
                 <label htmlFor="filter">Sort by: </label>
                 <select
                   name="filter"
@@ -205,6 +218,9 @@ const Collection = () => {
                   <option value="Asc">Sort By Price: Low To High</option>
                 </select>
               </form>
+              <div className={styles.collection__filter}>
+                <FaFilter onClick={showAsidebar} />
+              </div>
             </div>
             <Slider
               {...(categoryName === "All"

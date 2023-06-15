@@ -6,6 +6,9 @@
 .collection__container {
   width: $container100;
   margin-bottom: 10rem;
+  @include mobile {
+    margin-bottom: 4rem;
+  }
 }
 .collection__hero {
   background-image: url("../../Assets/Images/collection_background.gif");
@@ -13,17 +16,39 @@
   background-size: cover;
   height: 47vh;
   margin-bottom: 10rem;
+  @include mobile {
+    height: 30vh;
+    margin-bottom: 4rem;
+  }
 }
 .collection__main {
   @include flex($dir: row, $justify: space-between, $align: flex-start);
   gap: 2rem;
   width: 95%;
+  margin: 0 auto;
+  @include mobile {
+    position: relative;
+  }
 }
 .collection__asideBar {
   margin-left: 2rem;
   width: 15%;
   background-color: $gray;
   border: 1px solid $gray;
+  @include mobile {
+    display: none;
+  }
+  &__mobile {
+    @extend .collection__asideBar;
+    @include mobile {
+      display: block;
+      margin-left: 0rem;
+      width: 100%;
+      position: absolute;
+      top: 50px;
+      z-index: 10;
+    }
+  }
 }
 .collection__search {
   width: 100%;
@@ -33,14 +58,40 @@
 }
 .collection__products {
   width: 80%;
+  @include mobile {
+    width: 100%;
+  }
 }
 .collection__headerProducts {
   @include flex($dir: row, $justify: space-between, $align: center);
   width: 97%;
   margin-bottom: 1rem;
+  @include mobile {
+    @include flex($dir: row, $justify: space-between, $align: flex-start);
+    width: 98%;
+  }
+}
+.collection__form {
+  @include mobile {
+    width: 49%;
+  }
 }
 .collection__list {
   height: 2rem;
+  @include mobile {
+    width: 60%;
+  }
+}
+.collection__headerTitle {
+  @include mobile {
+    width: 15%;
+  }
+}
+.collection__filter {
+  display: none;
+  @include mobile {
+    display: block;
+  }
 }
 .collection__categories {
   padding: 1rem;

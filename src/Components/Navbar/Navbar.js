@@ -21,6 +21,7 @@ const Navbar = () => {
 
   const handleCategory = (e) => {
     dispatch(whichCategory(e.target.innerText));
+    dispatch(isHamMenuOpen(!hamburgerMenu));
   };
 
   const showHamMenu = () => {
@@ -39,17 +40,24 @@ const Navbar = () => {
           {hamburgerMenu ? <GiHamburgerMenu /> : <AiOutlineClose />}
         </div>
         <nav
-          // className={styles.navbar__links}
           className={
             hamburgerMenu ? styles.navbar__links : styles.navbar__links__mobile
           }
         >
-          <a href={"#best-selling"} className={styles.navbar__item}>
+          <Link
+            to={"/collection/best"}
+            className={styles.navbar__item}
+            onClick={handleCategory}
+          >
             Best Selling
-          </a>
-          <a href={"#best-selling"} className={styles.navbar__item}>
+          </Link>
+          <Link
+            to={"/collection/new"}
+            className={styles.navbar__item}
+            onClick={handleCategory}
+          >
             New Arrivals
-          </a>
+          </Link>
           <Link
             to={"/collection/men"}
             className={styles.navbar__item}

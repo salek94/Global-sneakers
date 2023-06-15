@@ -47,6 +47,11 @@
 }
 .shoppingCart__checkout {
   padding: 1rem;
+  animation: cartElements 1s;
+}
+.notShoppingCart__checkout {
+  padding: 1rem;
+  animation: cartElementsOut 1s;
 }
 .shoppingCart__header {
   @include flex($dir: row, $justify: space-between, $align: center);

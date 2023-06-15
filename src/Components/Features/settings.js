@@ -29,6 +29,20 @@ export const settingsCollectionAll = {
   infinite: true,
   slidesToShow: 4,
   rows: 4,
+  responsive: [
+    {
+      breakpoint: 414,
+      settings: {
+        adaptiveHeight: true,
+        arrows: false,
+        speed: 1000,
+        infinite: true,
+        slidesToShow: 3,
+        row: 6,
+        dots: true,
+      },
+    },
+  ],
   // slidesPerRow: 1,
 };
 export const settingsCollection = {
@@ -38,6 +52,20 @@ export const settingsCollection = {
   infinite: true,
   slidesToShow: 3,
   rows: 2,
+  responsive: [
+    {
+      breakpoint: 414,
+      settings: {
+        adaptiveHeight: false,
+        arrows: false,
+        speed: 1000,
+        infinite: true,
+        slidesToShow: 2,
+        row: 4,
+        dots: true,
+      },
+    },
+  ],
   // slidesPerRow: 1,
 };
 
@@ -48,4 +76,18 @@ export const settingsCollectionSearch = {
   infinite: true,
   slidesToShow: 5,
   rows: 1,
+  responsive: [
+    {
+      breakpoint: 414,
+      settings: {
+        adaptiveHeight: false,
+        arrows: false,
+        speed: 1000,
+        infinite: true,
+        slidesToShow: 2,
+        row: 2,
+        dots: true,
+      },
+    },
+  ],
 };
