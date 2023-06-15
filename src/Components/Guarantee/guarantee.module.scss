@@ -6,12 +6,18 @@
 .guarantee__container {
   @include flex($dir: row, $justify: center, $align: center);
   margin-bottom: 3rem;
-  // background-color: $lightGray;
+  @include mobile {
+    @include flex($dir: row, $justify: center, $align: flex-start);
+    margin-bottom: 1.5rem;
+  }
 }
 .guarantee__card {
   width: 24%;
   text-align: center;
   padding: 1rem;
+  @include mobile {
+    width: 40%;
+  }
 }
 .guarantee_title {
   padding: 1rem 0;

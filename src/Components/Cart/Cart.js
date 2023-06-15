@@ -45,7 +45,7 @@ const Cart = () => {
   const goToCheckout = () => {};
 
   return (
-    <aside className={styles.checkout__container}>
+    <aside className={styles.ShoppingCart__container}>
       <div
         className={
           !cartClose
@@ -147,11 +147,11 @@ const Cart = () => {
             <div className={styles.shoppingCart__footer}>
               <div className={styles.shoppingCart__sum}>
                 <h4>Subtotal</h4>
-                <h4>{sumTotal}$</h4>
+                <h4>${sumTotal}</h4>
               </div>
               <div className={styles.shoppingCart__sum}>
                 <h3>Total</h3>
-                <h3>{sumTotal}$</h3>
+                <h3>${sumTotal}</h3>
               </div>
               <p className={styles.tax__shipping}>
                 Tax included and shipping calculated at checkout

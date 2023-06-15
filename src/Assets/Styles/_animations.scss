@@ -6,7 +6,7 @@
     transform: translateY(0px);
   }
 }
-@keyframes checkoutShow {
+@keyframes cartShow {
   from {
     width: 0%;
   }
@@ -14,9 +14,25 @@
     width: 30%;
   }
 }
-@keyframes checkoutClose {
+@keyframes cartClose {
   from {
     width: 30%;
+  }
+  to {
+    width: 0%;
+  }
+}
+@keyframes cartShowMobile {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 80%;
+  }
+}
+@keyframes cartCloseMobile {
+  from {
+    width: 80%;
   }
   to {
     width: 0%;

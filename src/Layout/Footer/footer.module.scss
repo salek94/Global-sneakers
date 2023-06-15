@@ -7,14 +7,25 @@
   color: $white;
   line-height: 1.8rem;
   background-color: $fullBlack;
+  @include mobile {
+    line-height: 1.4rem;
+  }
 }
 .footer__top {
   @include flex($dir: row, $justify: space-around, $align: flex-start);
   height: 45vh;
   padding-top: 1rem;
+  @include mobile {
+    height: 100vh;
+    text-align: center;
+    row-gap: 1.4rem;
+  }
 }
 .footer__companyInfo {
   width: 14%;
+  @include mobile {
+    width: 35%;
+  }
 }
 
 .footer__email__name {
@@ -27,6 +38,15 @@
 .footer__logo {
   cursor: pointer;
   width: 40%;
+  @include mobile {
+    width: 73%;
+    margin: 0 auto;
+  }
+}
+.footer__service {
+  @include mobile {
+    width: 35%;
+  }
 }
 .footer__serviceTitle {
   padding-bottom: 25px;
@@ -52,6 +72,9 @@
 .footer__field {
   padding-bottom: 4.6rem;
   padding-top: 0.7rem;
+  @include mobile {
+    padding-bottom: 2rem;
+  }
 }
 .footer__input {
   height: 2.2rem;

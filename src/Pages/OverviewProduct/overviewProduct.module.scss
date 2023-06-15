@@ -14,14 +14,26 @@
   background-color: $white;
   width: 60%;
   padding: 1.7em;
+  @include mobile {
+    width: 90%;
+  }
 }
 .overview__picture {
   width: 40%;
+  @include mobile {
+    // display: block;
+    margin: 0 auto;
+    width: 60%;
+  }
 }
 .overview__productInfo {
   display: grid;
   gap: 1.5rem;
   width: 50%;
+  @include mobile {
+    width: 100%;
+    gap: 0.7rem;
+  }
 }
 .overview__title {
   @include flex($dir: row, $justify: space-between, $align: center);

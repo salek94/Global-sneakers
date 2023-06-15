@@ -1,16 +1,25 @@
 @import "../../Assets/Styles/colors";
 @import "../../Assets/Styles/components";
+@import "../../Assets/Styles/mixins";
 
 .running__container {
   margin: 10rem auto;
   position: relative;
   background-color: $black;
+  @include mobile {
+    margin: 4rem auto;
+  }
 }
 
 .running__video {
   width: 1510px;
   height: 600px;
   margin: 0.3rem auto;
+  @include mobile {
+    margin: 0 auto;
+    width: 99%;
+    height: 50%;
+  }
   //   width: 1519px;
   //   height: 810px;
 }
@@ -26,15 +35,27 @@
   color: $white;
   background-color: rgba(8, 8, 8, 0.6);
   z-index: 11;
+  @include mobile {
+    height: 100%;
+    gap: 1rem;
+  }
 }
 
 .running__title {
   display: block;
   margin-bottom: 4rem;
   font-size: 4rem;
+  @include mobile {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
 }
 .running__btn {
   width: 80%;
   padding: 1.4rem;
   font-size: 1.3rem;
+  @include mobile {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
 }

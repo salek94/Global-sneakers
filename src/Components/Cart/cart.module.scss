@@ -4,7 +4,7 @@
 @import "../../Assets/Styles/animations";
 @import "../../Assets/Styles/variables";
 
-.checkout__container {
+.ShoppingCart__container {
   @include flex($dir: row, $justify: flex-end, $align: flex-end);
   position: fixed;
   inset: 0;
@@ -16,14 +16,22 @@
   width: 30%;
   background-color: $white;
   position: relative;
-  animation: checkoutShow 1s;
+  animation: cartShow 1s;
+  @include mobile {
+    width: 80%;
+    padding: 0rem;
+    animation: cartShowMobile 1s;
+  }
 }
 .shoppingCart__close {
   height: 100vh;
   width: 0%;
   background-color: $white;
   position: relative;
-  animation: checkoutClose 1s;
+  animation: cartClose 1s;
+  @include mobile {
+    animation: cartCloseMobile 1s;
+  }
 }
 .notShoppingCart {
   position: absolute;
@@ -103,6 +111,9 @@
   width: 95%;
   position: absolute;
   bottom: 0%;
+  @include mobile {
+    left: 1%;
+  }
 }
 .shoppingCart__sum {
   @include flex($dir: row, $justify: space-between, $align: center);
