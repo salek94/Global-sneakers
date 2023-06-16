@@ -10,6 +10,9 @@ const CheckoutForm = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
+  let sumTotal = cart.reduce((prev, curr) => {
+    return prev + curr.totalPrice;
+  }, 0);
 
   return (
     <>
@@ -162,7 +165,7 @@ const CheckoutForm = () => {
                   <div className={styles.checkout__productImg}>
                     <img src={product.img} alt="" />
                     <span className={styles.checkout__quantity}>
-                      {product.quantity}
+                      {product.count}
                     </span>
                   </div>
                   <h5>{product.name}</h5>
@@ -178,27 +181,25 @@ const CheckoutForm = () => {
               placeholder="Discount code"
               className={styles.checkout__discountInput}
             />
-            <button>APPLY</button>
+            <button
+              className={`${styles.btnPrimary__black} ${styles.checkout__btnApply}`}
+            >
+              apply
+            </button>
           </div>
-          <div>
-            {cart.map((product) => {
-              return (
-                <>
-                  <div>
-                    <p>Subtotal</p>
-                    <h5>${product.totalPrice}</h5>
-                  </div>
-                  <div>
-                    <p>Shipping</p>
-                    <p>calculated at the next step</p>
-                  </div>
-                  <div>
-                    <p>Total</p>
-                    <h5>${product.totalPrice}</h5>
-                  </div>
-                </>
-              );
-            })}
+          <div className={styles.checkout__orderValue}>
+            <div className={styles.checkout__calculatedValue}>
+              <p>Subtotal</p>
+              <p>${sumTotal}</p>
+            </div>
+            <div className={styles.checkout__calculatedValue}>
+              <p>Shipping</p>
+              <p>calculated at the next step</p>
+            </div>
+            <div className={styles.checkout__calculatedValue}>
+              <h4>Total</h4>
+              <h5>${sumTotal}</h5>
+            </div>
           </div>
         </section>
       </div>

@@ -17,7 +17,7 @@ const Banners = ({ product, active }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cartId, cart } = useSelector((state) => state.cartStore);
-  // console.log("sss", cartId);
+  const item = useSelector((state) => state.productStore.product);
   useEffect(() => {
     ProductService.singleProduct(product.id)
       .then((res) => {
@@ -26,22 +26,28 @@ const Banners = ({ product, active }) => {
       .catch((err) => console.error(err));
   }, [active, product.id]);
 
-  // useEffect(() => {
-  //   const addToCart = (cartId, cart) => {
-  //     CartService.addItemToCart(cartId, cart)
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-  //   if (cart) {
-  //     addToCart(cartId, cart);
-  //   }
-  // }, [cart, cartId]);
+  useEffect(() => {
+    CartService.addItemToCart(cartId, item.id)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, [item, cartId]);
 
   const handleAddToCart = (id, name, img, price, quantity) => {
     dispatch(
       addToCart({
+        id: id,
+        name: name,
+        img: img,
+        price: price,
+        count: 1,
+        totalPrice: price,
+        quantity: quantity,
+      })
+    );
+    dispatch(
+      singleProduct({
         id: id,
         name: name,
         img: img,
@@ -69,7 +75,7 @@ const Banners = ({ product, active }) => {
     );
   };
 
-  const goToCheckout = (id, name, img, price, quantity) => {
+  const goToCheckout = (id, name, img, price) => {
     dispatch(
       addToCart({
         id: id,
@@ -78,7 +84,6 @@ const Banners = ({ product, active }) => {
         price: price,
         count: 1,
         totalPrice: price,
-        quantity: 1,
       })
     );
     navigate("/checkout");

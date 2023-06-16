@@ -4,23 +4,23 @@
 @import "../../Assets/Styles/variables";
 
 .checkout__container {
-  @include flex($dir: row, $justify: space-between, $align: center);
-  width: 75%;
-  margin: 1.5rem auto;
-  border: 1px solid red;
-  //   height: 88vh;
+  @include flex($dir: row, $justify: space-around, $align: flex-start);
+  width: 80%;
+  margin: 1rem auto;
+  border: 1px solid $gray;
+  border-radius: 1.3rem;
 }
 .checkout__information {
   width: 50%;
-  border-right: 1px solid $black;
-  //   height: 88vh;
+  padding: 0.5rem;
+  border-right: 1px solid $gray;
 }
 .checkout__product {
   width: 50%;
-  border: 1px solid rebeccapurple;
-  height: 95vh;
+  padding: 0.5rem;
   background-color: $lightGray;
-  position: relative;
+  border-top-right-radius: 1.3rem;
+  border-bottom-right-radius: 1.3rem;
 }
 
 .checkout__title {
@@ -55,8 +55,8 @@
 }
 .checkout__bottom {
   @include flex($dir: row, $justify: space-between, $align: center);
-  padding: 0.5rem;
-  margin: 1rem 0;
+  padding: 0.4rem;
+  margin: 0.6rem 0;
 }
 .checkout__btn {
   width: 48%;
@@ -82,14 +82,24 @@
 }
 // product info
 .checkout__productInfo {
-  border: 1px solid green;
-  padding: 1rem;
-  margin: 3rem 0;
+  padding: 0.3rem;
+  margin: 2rem 0;
+  height: 45vh;
+  overflow-y: auto;
 }
 .checkout__singleProduct {
   @include flex($dir: row, $justify: space-between, $align: center);
   width: 70%;
-  margin: 0 auto;
+  // margin: $marginCenter;
+  margin: 0.5rem auto 0 auto;
+
+  &::after {
+    content: "";
+    clear: both;
+    height: 1px;
+    width: 100%;
+    background-color: $black;
+  }
 }
 .checkout__productImg {
   position: relative;
@@ -106,7 +116,7 @@
 .checkout__quantity {
   position: absolute;
   top: 1.5%;
-  right: -25%;
+  right: -23%;
   z-index: 1;
   color: $white;
   @include mobile {
@@ -116,12 +126,23 @@
 }
 .checkout__discount {
   @include flex($dir: row, $justify: space-between, $align: center);
-  position: absolute;
-  bottom: 35%;
-  left: 12%;
-  width: 75%;
+  width: 85%;
+  margin: 3.2rem auto;
 }
 .checkout__discountInput {
   @extend .checkout__field;
-  width: 80%;
+  width: 84.8%;
+}
+.checkout__btnApply {
+  width: 15%;
+  padding: 0.45rem;
+  text-transform: uppercase;
+}
+.checkout__orderValue {
+  width: 85%;
+  margin: 0 auto 3.1rem auto;
+}
+.checkout__calculatedValue {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  margin-bottom: 0.8rem;
 }
