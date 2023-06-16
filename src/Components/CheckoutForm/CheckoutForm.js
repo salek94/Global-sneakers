@@ -1,10 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./checkout.module.scss";
+import { useSelector } from "react-redux";
 
 const CheckoutForm = () => {
+  const { cart } = useSelector((state) => state.cartStore);
   const navigate = useNavigate();
-
+  console.log(cart);
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -150,6 +152,54 @@ const CheckoutForm = () => {
         </section>
         <section className={styles.checkout__product}>
           <h3>Product Information</h3>
+          <div className={styles.checkout__productInfo}>
+            {cart.map((product) => {
+              return (
+                <div
+                  className={styles.checkout__singleProduct}
+                  key={product.id}
+                >
+                  <div className={styles.checkout__productImg}>
+                    <img src={product.img} alt="" />
+                    <span className={styles.checkout__quantity}>
+                      {product.quantity}
+                    </span>
+                  </div>
+                  <h5>{product.name}</h5>
+                  <span>${product.price}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className={styles.checkout__discount}>
+            <input
+              type="text"
+              name="discount"
+              placeholder="Discount code"
+              className={styles.checkout__discountInput}
+            />
+            <button>APPLY</button>
+          </div>
+          <div>
+            {cart.map((product) => {
+              return (
+                <>
+                  <div>
+                    <p>Subtotal</p>
+                    <h5>${product.totalPrice}</h5>
+                  </div>
+                  <div>
+                    <p>Shipping</p>
+                    <p>calculated at the next step</p>
+                  </div>
+                  <div>
+                    <p>Total</p>
+                    <h5>${product.totalPrice}</h5>
+                  </div>
+                </>
+              );
+            })}
+          </div>
         </section>
       </div>
     </>

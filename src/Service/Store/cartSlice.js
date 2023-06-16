@@ -26,6 +26,7 @@ const cartSlice = createSlice({
         }
         product.totalPrice = Number(product.price * product.count);
       });
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     incrementCount: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
@@ -49,6 +50,7 @@ const cartSlice = createSlice({
     },
     removeAll: (state) => {
       state.cart = [];
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     showCheckout: (state, action) => {
       state.isCheckoutOn = action.payload;

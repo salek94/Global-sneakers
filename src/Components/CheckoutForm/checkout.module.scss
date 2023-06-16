@@ -11,15 +11,16 @@
   //   height: 88vh;
 }
 .checkout__information {
-  width: 49%;
-  border: 1px solid blue;
+  width: 50%;
+  border-right: 1px solid $black;
   //   height: 88vh;
 }
 .checkout__product {
-  width: 49%;
+  width: 50%;
   border: 1px solid rebeccapurple;
-  height: 88vh;
+  height: 95vh;
   background-color: $lightGray;
+  position: relative;
 }
 
 .checkout__title {
@@ -78,4 +79,49 @@
     width: 50%;
     transition: $transition;
   }
+}
+// product info
+.checkout__productInfo {
+  border: 1px solid green;
+  padding: 1rem;
+  margin: 3rem 0;
+}
+.checkout__singleProduct {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  width: 70%;
+  margin: 0 auto;
+}
+.checkout__productImg {
+  position: relative;
+  width: 15%;
+  &::after {
+    content: "";
+    position: absolute;
+    height: 1.2rem;
+    width: 1.2rem;
+    border-radius: 50%;
+    background-color: $green;
+  }
+}
+.checkout__quantity {
+  position: absolute;
+  top: 1.5%;
+  right: -25%;
+  z-index: 1;
+  color: $white;
+  @include mobile {
+    top: 4.3%;
+    right: 8.4%;
+  }
+}
+.checkout__discount {
+  @include flex($dir: row, $justify: space-between, $align: center);
+  position: absolute;
+  bottom: 35%;
+  left: 12%;
+  width: 75%;
+}
+.checkout__discountInput {
+  @extend .checkout__field;
+  width: 80%;
 }

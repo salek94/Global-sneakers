@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./banners.module.scss";
+import { useNavigate } from "react-router-dom";
 import { BsPlusCircle } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import ProductService from "../../Service/Api/ProductService";
 import CartService from "../../Service/Api/CartService";
 import { addToCart } from "../../Service/Store/cartSlice";
@@ -8,12 +10,12 @@ import {
   isOverviewProductOn,
   singleProduct,
 } from "../../Service/Store/productSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartId, cart } = useSelector((state) => state.cartStore);
   // console.log("sss", cartId);
   useEffect(() => {
@@ -67,6 +69,21 @@ const Banners = ({ product, active }) => {
     );
   };
 
+  const goToCheckout = (id, name, img, price, quantity) => {
+    dispatch(
+      addToCart({
+        id: id,
+        name: name,
+        img: img,
+        price: price,
+        count: 1,
+        totalPrice: price,
+        quantity: 1,
+      })
+    );
+    navigate("/checkout");
+  };
+
   return (
     <div className={styles.banner}>
       <div
@@ -80,7 +97,6 @@ const Banners = ({ product, active }) => {
           <img src={secondImage} alt="" />
         )}
       </div>
-      {/* {todo namestiti naslov za mobile} */}
       <h5>{product.name.substring(0, 34)}</h5>
       <div className={styles.banner__footer}>
         <span>${product.price.raw}</span>
@@ -100,7 +116,19 @@ const Banners = ({ product, active }) => {
         </div>
       </div>
       <div className={styles.banner__buttons}>
-        <button className={styles.banner__btn}>Buy Now</button>
+        <button
+          className={styles.banner__btn}
+          onClick={() =>
+            goToCheckout(
+              product.id,
+              product.name,
+              product.image.url,
+              product.price.raw
+            )
+          }
+        >
+          Buy Now
+        </button>
         <button
           className={styles.banner__btn}
           onClick={() =>
