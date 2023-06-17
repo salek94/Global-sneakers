@@ -6,36 +6,53 @@ import {
   decrementCount,
   removeItem,
   removeAll,
+  getLineItems,
+  removeLineItem,
+  lineItemNone,
 } from "../../Service/Store/cartSlice";
 import styles from "./cart.module.scss";
 import { GrClose, GrTrash } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import CartService from "../../Service/Api/CartService";
+import { commerce } from "../Lib/commerce";
+import { singleProduct } from "../../Service/Store/productSlice";
 
 const Cart = () => {
-  const { cart, cartId } = useSelector((state) => state.cartStore);
+  const { cart, lineItem, cartLineItems } = useSelector(
+    (state) => state.cartStore
+  );
+  const item = useSelector((state) => state.productStore.product);
   const [cartClose, setCartClose] = useState(false);
   const dispatch = useDispatch();
-  console.log(cart);
+  console.log("cart", cart);
+  console.log("cartLineItems", cartLineItems);
+  console.log("lineItem", lineItem);
+
   useEffect(() => {
-    const addToCart = (cartId, cart) => {
-      CartService.addItemToCart(cartId, cart)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
-    };
-    if (cart) {
-      addToCart(cartId, cart);
-    }
-  }, [cart, cartId]);
+    commerce.cart.add(item.id).then((res) => {
+      console.log("cartIdADDTOCART", res.id);
+      dispatch(getLineItems(res.line_items));
+    });
+  }, [item]);
+  // useEffect(() => {
+  //   commerce.cart.remove(lineItem).then((res) => {
+  //     console.log("cartLineItemsAfterRemove", res);
+  //     dispatch(lineItemNone());
+  //     console.log("lineItemsAfterRemove", cartLineItems);
+  //     console.log("lineItemAfterRemove", lineItem);
+  //   });
+  // }, [lineItem]);
 
   const closeCart = () => {
     setTimeout(() => {
       dispatch(showCheckout(false));
     }, 500);
     setCartClose(true);
+  };
+
+  const handleRemoveItem = (id) => {
+    dispatch(removeItem(id));
+    dispatch(removeLineItem(id));
   };
 
   let sumTotal = cart.reduce((prev, curr) => {
@@ -106,11 +123,11 @@ const Cart = () => {
                 return (
                   <div className={styles.shoppingCart__item} key={product.id}>
                     <GrTrash
-                      onClick={() => dispatch(removeItem(product.id))}
+                      onClick={() => handleRemoveItem(product.id)}
                       className={styles.shoppingCart__removeItem}
                     />
                     <div className={styles.shoppingCart__picture}>
-                      <img src={product.img} alt="" />
+                      <img src={product.img || product.image.url} alt="" />
                     </div>
                     <div className={styles.shoppingCart__info}>
                       <p>
@@ -124,7 +141,7 @@ const Cart = () => {
                           <FaMinus />
                         </button>
                         <span className={styles.btn__count}>
-                          {product.count}
+                          {product.count || product.quantity}
                         </span>
 
                         <button

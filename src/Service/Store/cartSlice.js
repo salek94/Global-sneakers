@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cart: [],
-  cartId: "",
+  cartLineItems: [],
+  lineItem: "",
   isCheckoutOn: false,
 };
 
@@ -10,23 +11,34 @@ const cartSlice = createSlice({
   name: "shoppingCart",
   initialState,
   reducers: {
-    getCardId: (state, action) => {
-      state.cartId = action.payload;
+    getLineItems: (state, action) => {
+      state.cartLineItems = [...state.cartLineItems, ...action.payload];
+      // state.cart = [...state.cartLineItems]
+      let duplicateCart = [];
+      state.cartLineItems.forEach((product) => {
+        const item = duplicateCart.some(
+          (duplicateItem) => duplicateItem.id === product.id
+        );
+        if (!item) {
+          duplicateCart.push(product);
+          state.cartLineItems = duplicateCart;
+        }
+        product.totalPrice = Number(product.price.raw * product.quantity);
+      });
     },
     addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
       let duplicateCart = [];
       state.cart.forEach((product) => {
-        const a = duplicateCart.some(
+        const item = duplicateCart.some(
           (duplicateItem) => duplicateItem.id === product.id
         );
-        if (!a) {
+        if (!item) {
           duplicateCart.push(product);
           state.cart = duplicateCart;
         }
         product.totalPrice = Number(product.price * product.count);
       });
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     incrementCount: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
@@ -48,9 +60,17 @@ const cartSlice = createSlice({
       let remove = state.cart.filter((item) => item.id !== product.id);
       state.cart = remove;
     },
+    removeLineItem: (state, action) => {
+      let item = state.cartLineItems.find(
+        (item) => item.product_id === action.payload
+      );
+      state.lineItem = item.id;
+    },
+    lineItemNone: (state) => {
+      state.lineItem = "";
+    },
     removeAll: (state) => {
       state.cart = [];
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     showCheckout: (state, action) => {
       state.isCheckoutOn = action.payload;
@@ -60,11 +80,13 @@ const cartSlice = createSlice({
 
 export const {
   addToCart,
-  getCardId,
+  getLineItems,
   incrementCount,
   decrementCount,
   removeItem,
+  removeLineItem,
   removeAll,
   showCheckout,
+  lineItemNone,
 } = cartSlice.actions;
 export default cartSlice.reducer;

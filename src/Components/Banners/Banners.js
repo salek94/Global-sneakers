@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { BsPlusCircle } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import ProductService from "../../Service/Api/ProductService";
-import CartService from "../../Service/Api/CartService";
 import { addToCart } from "../../Service/Store/cartSlice";
 import {
   isOverviewProductOn,
@@ -14,10 +13,10 @@ import {
 const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { cartId, cart } = useSelector((state) => state.cartStore);
-  const item = useSelector((state) => state.productStore.product);
+
   useEffect(() => {
     ProductService.singleProduct(product.id)
       .then((res) => {
@@ -25,14 +24,6 @@ const Banners = ({ product, active }) => {
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
-
-  useEffect(() => {
-    CartService.addItemToCart(cartId, item.id)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  }, [item, cartId]);
 
   const handleAddToCart = (id, name, img, price, quantity) => {
     dispatch(
@@ -57,6 +48,7 @@ const Banners = ({ product, active }) => {
         quantity: quantity,
       })
     );
+    setDisabled(true);
   };
 
   const goToOverviewProduct = (id, name, img, price, desc, quantity) => {
@@ -118,6 +110,22 @@ const Banners = ({ product, active }) => {
             }
             className={`${styles.banner__plus} ${styles.icon__small}`}
           />
+          {/* {!disabled ? (
+            <BsPlusCircle
+              onClick={() =>
+                handleAddToCart(
+                  product.id,
+                  product.name,
+                  product.image.url,
+                  product.price.raw,
+                  product.inventory.available
+                )
+              }
+              className={`${styles.banner__plus} ${styles.icon__small}`}
+            />
+          ) : (
+            <BsPlusCircle className={styles.icon__small} />
+          )} */}
         </div>
       </div>
       <div className={styles.banner__buttons}>

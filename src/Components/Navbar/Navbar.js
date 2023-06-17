@@ -16,7 +16,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const handleShowCheckout = () => {
-    dispatch(showCheckout(true));
+    if (cart.length > 0) {
+      dispatch(showCheckout(true));
+    }
   };
 
   const handleCategory = (e) => {

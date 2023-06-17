@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { routeConfig } from "./Config/routeConfig";
-import CartService from "./Service/Api/CartService";
 import "./App.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,16 +11,18 @@ import Aside from "./Layout/Aside/Aside";
 import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
 import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
 import Collection from "./Pages/Collection/Collection";
-import { getCardId } from "./Service/Store/cartSlice";
+import { commerce } from "./Components/Lib/commerce";
+import { getLineItems } from "./Service/Store/cartSlice";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
 //todo scrollbar need to be prettier
 function App() {
   const { isCheckoutOn } = useSelector((state) => state.cartStore);
-  const { overviewProductOn } = useSelector((state) => state.productStore);
+  const { overviewProductOn, product } = useSelector(
+    (state) => state.productStore
+  );
   const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
-  // let nullCardId = cardId = '';
 
   useEffect(() => {
     if (!hamburgerMenu) document.body.style.overflow = "hidden";
@@ -29,15 +30,20 @@ function App() {
   }, [hamburgerMenu]);
 
   useEffect(() => {
-    const createCart = () => {
-      CartService.createCart()
-        .then((res) => {
-          if (res.status === 201) dispatch(getCardId(res.data.id));
-        })
-        .catch((err) => console.error(err));
-    };
-    createCart();
+    commerce.cart
+      .retrieve()
+      .then((cart) => console.log("createdCart", cart.id, cart.line_items));
   }, []);
+  // useEffect(() => {
+  //   commerce.cart.add(product.id).then((res) => {
+  //     console.log("cartIdADDTOCART", res.line_items);
+  //     dispatch(getLineItems(res.line_items));
+  //   });
+  // }, [product]);
+
+  // useEffect(() => {
+  //   commerce.cart.delete().then((response) => console.log(response));
+  // }, []);
 
   return (
     <>
