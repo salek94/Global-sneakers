@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./checkout.module.scss";
 import { useSelector } from "react-redux";
+import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 
 const CheckoutForm = () => {
   const { cart } = useSelector((state) => state.cartStore);
+  const [summaryOrder, setShowSummaryOrder] = useState(false);
   const navigate = useNavigate();
   console.log(cart);
   const handleGoBack = () => {
     navigate(-1);
+  };
+  const handleSummaryOrder = () => {
+    setShowSummaryOrder(!summaryOrder);
   };
   let sumTotal = cart.reduce((prev, curr) => {
     return prev + curr.totalPrice;
@@ -28,6 +33,7 @@ const CheckoutForm = () => {
                   type="text"
                   name="firstName"
                   id="firstName"
+                  required
                   placeholder="Mark"
                   className={styles.checkout__field__input}
                 />
@@ -38,6 +44,7 @@ const CheckoutForm = () => {
                   type="text"
                   name="lastName"
                   id="lastName"
+                  required
                   placeholder="Brown"
                   className={styles.checkout__field__input}
                 />
@@ -48,6 +55,7 @@ const CheckoutForm = () => {
                   type="text"
                   name="address"
                   id="address"
+                  required
                   placeholder="47 Paris Hill Line"
                   className={styles.checkout__field__input}
                 />
@@ -58,6 +66,7 @@ const CheckoutForm = () => {
                   type="text"
                   name="email"
                   id="email"
+                  required
                   placeholder="example@gmail.com"
                   className={styles.checkout__field__input}
                 />
@@ -68,6 +77,7 @@ const CheckoutForm = () => {
                   type="text"
                   name="city"
                   id="city"
+                  required
                   placeholder="New York"
                   className={styles.checkout__field__input}
                 />
@@ -78,22 +88,33 @@ const CheckoutForm = () => {
                   type="number"
                   name="zip"
                   id="zip"
+                  required
                   placeholder="945442"
                   className={styles.checkout__field__input}
                 />
               </div>
               <div className={styles.checkout__field}>
-                <label htmlFor="lastName">last Name</label>
+                <label htmlFor="country">Country</label>
                 <input
                   type="text"
-                  name="lastName"
-                  id="lastName"
-                  placeholder="Brown"
+                  name="country"
+                  id="country"
+                  placeholder="country"
                   className={styles.checkout__field__input}
                 />
               </div>
               <div className={styles.checkout__field}>
-                <label htmlFor="lastName">last Name</label>
+                <label htmlFor="state">State</label>
+                <input
+                  type="text"
+                  name="state"
+                  id="state"
+                  placeholder="state"
+                  className={styles.checkout__field__input}
+                />
+              </div>
+              <div className={styles.checkout__field}>
+                <label htmlFor="lastName">Shipping method</label>
                 <input
                   type="text"
                   name="lastName"
@@ -152,8 +173,32 @@ const CheckoutForm = () => {
               </button>
             </div>
           </div>
+          <div
+            className={styles.checkout__orderSummary}
+            onClick={handleSummaryOrder}
+          >
+            <div className={styles.checkout__summary}>
+              <p>Show summary order</p>
+              {summaryOrder ? (
+                <span>
+                  <FiArrowDown />
+                </span>
+              ) : (
+                <span>
+                  <FiArrowUp />
+                </span>
+              )}
+            </div>
+            <h4>${sumTotal}</h4>
+          </div>
         </section>
-        <section className={styles.checkout__product}>
+        <section
+          className={
+            !summaryOrder
+              ? styles.checkout__product
+              : styles.checkout__productMobile
+          }
+        >
           <h3>Product Information</h3>
           <div className={styles.checkout__productInfo}>
             {cart.map((product) => {

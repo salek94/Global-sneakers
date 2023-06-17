@@ -6,26 +6,29 @@
 .checkout__container {
   @include flex($dir: row, $justify: space-around, $align: flex-start);
   width: 80%;
-  margin: 1rem auto;
+  margin: 2rem auto;
   border: 1px solid $gray;
   border-radius: 1.3rem;
+  @include mobile {
+    width: 100%;
+    margin: $marginCenter;
+    border-radius: 0rem;
+  }
 }
 .checkout__information {
   width: 50%;
   padding: 0.5rem;
   border-right: 1px solid $gray;
-}
-.checkout__product {
-  width: 50%;
-  padding: 0.5rem;
-  background-color: $lightGray;
-  border-top-right-radius: 1.3rem;
-  border-bottom-right-radius: 1.3rem;
+  @include mobile {
+    width: 99%;
+    border-right: none;
+    padding: 0.1rem;
+  }
 }
 
 .checkout__title {
   display: inline-block;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .checkout__fields {
@@ -35,12 +38,15 @@
   @include flex($dir: column, $justify: center, $align: flex-start);
   width: 49%;
   padding: 0.5rem;
-  row-gap: 0.3rem;
+  row-gap: 0.43rem;
   &__input {
     height: 2.4rem;
     width: 100%;
     font-size: 1rem;
     padding: 0.3rem;
+    @include mobile {
+      height: 2rem;
+    }
     &:focus {
       border: 3px solid rgb(26, 16, 164);
     }
@@ -80,19 +86,63 @@
     transition: $transition;
   }
 }
+.checkout__orderSummary {
+  display: none;
+  @include mobile {
+    @include flex($dir: row, $justify: space-between, $align: center);
+    margin-top: 1.5rem;
+    padding: 1rem 0.3rem;
+    background-color: $lightGray;
+  }
+}
+.checkout__summary {
+  @include flex($dir: row, $justify: flex-start, $align: flex-start);
+  column-gap: 0.3rem;
+  color: lightskyblue;
+  & svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
 // product info
+.checkout__product {
+  width: 50%;
+  padding: 0.5rem;
+  background-color: $lightGray;
+  border-top-right-radius: 1.3rem;
+  border-bottom-right-radius: 1.3rem;
+  @include mobile {
+    display: none;
+  }
+}
+.checkout__productMobile {
+  @extend .checkout__product;
+  @include mobile {
+    display: block;
+    border-top-right-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+    width: 99%;
+    padding: 0.2rem;
+  }
+}
 .checkout__productInfo {
   padding: 0.3rem;
   margin: 2rem 0;
   height: 45vh;
   overflow-y: auto;
+  @include mobile {
+    height: 35vh;
+    margin: 1.5rem 0;
+  }
 }
 .checkout__singleProduct {
   @include flex($dir: row, $justify: space-between, $align: center);
   width: 70%;
-  // margin: $marginCenter;
   margin: 0.5rem auto 0 auto;
-
+  @include mobile {
+    width: 95%;
+  }
   &::after {
     content: "";
     clear: both;
@@ -120,27 +170,42 @@
   z-index: 1;
   color: $white;
   @include mobile {
-    top: 4.3%;
-    right: 8.4%;
+    right: -25%;
   }
 }
 .checkout__discount {
   @include flex($dir: row, $justify: space-between, $align: center);
   width: 85%;
   margin: 3.2rem auto;
+  @include mobile {
+    @include flex($dir: row, $justify: center, $align: center);
+    width: 100%;
+    margin: 2rem auto;
+  }
 }
+
 .checkout__discountInput {
   @extend .checkout__field;
   width: 84.8%;
+  @include mobile {
+    width: 75%;
+  }
 }
 .checkout__btnApply {
   width: 15%;
   padding: 0.45rem;
   text-transform: uppercase;
+  @include mobile {
+    width: 20%;
+  }
 }
 .checkout__orderValue {
   width: 85%;
-  margin: 0 auto 3.1rem auto;
+  margin: 0 auto 4.7rem auto;
+  @include mobile {
+    width: 95%;
+    margin: 0 auto 1.5rem auto;
+  }
 }
 .checkout__calculatedValue {
   @include flex($dir: row, $justify: space-between, $align: center);
