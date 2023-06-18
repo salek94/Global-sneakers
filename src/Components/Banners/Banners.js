@@ -25,15 +25,15 @@ const Banners = ({ product, active }) => {
       .catch((err) => console.error(err));
   }, [active, product.id]);
 
-  const handleAddToCart = (id, name, img, price, quantity) => {
+  const handleAddToCart = (id, name, img, price, inventory, quantity) => {
     dispatch(
       addToCart({
         id: id,
         name: name,
         img: img,
         price: price,
-        count: 1,
         totalPrice: price,
+        inventory: inventory,
         quantity: quantity,
       })
     );
@@ -43,15 +43,23 @@ const Banners = ({ product, active }) => {
         name: name,
         img: img,
         price: price,
-        count: 1,
         totalPrice: price,
+        inventory: inventory,
         quantity: quantity,
       })
     );
     setDisabled(true);
   };
 
-  const goToOverviewProduct = (id, name, img, price, desc, quantity) => {
+  const goToOverviewProduct = (
+    id,
+    name,
+    img,
+    price,
+    desc,
+    inventory,
+    quantity
+  ) => {
     dispatch(isOverviewProductOn(true));
     dispatch(
       singleProduct({
@@ -60,21 +68,23 @@ const Banners = ({ product, active }) => {
         img: img,
         price: price,
         description: desc,
-        quantity: quantity,
-        count: 1,
+        inventory: inventory,
         totalPrice: price,
+        quantity: quantity,
       })
     );
   };
 
-  const goToCheckout = (id, name, img, price) => {
+  const goToCheckout = (id, name, img, price, inventory, quantity) => {
     dispatch(
       addToCart({
         id: id,
         name: name,
         img: img,
         price: price,
-        count: 1,
+        inventory: inventory,
+        quantity: quantity,
+        // count: 1,
         totalPrice: price,
       })
     );
@@ -105,7 +115,8 @@ const Banners = ({ product, active }) => {
                 product.name,
                 product.image.url,
                 product.price.raw,
-                product.inventory.available
+                product.inventory.available,
+                product.quantity
               )
             }
             className={`${styles.banner__plus} ${styles.icon__small}`}
@@ -136,7 +147,9 @@ const Banners = ({ product, active }) => {
               product.id,
               product.name,
               product.image.url,
-              product.price.raw
+              product.price.raw,
+              product.inventory.available,
+              product.quantity
             )
           }
         >
@@ -151,7 +164,8 @@ const Banners = ({ product, active }) => {
               product.image.url,
               product.price.raw,
               product.seo.description,
-              product.inventory.available
+              product.inventory.available,
+              product.quantity
             )
           }
         >

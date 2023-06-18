@@ -6,42 +6,50 @@ import {
   decrementCount,
   removeItem,
   removeAll,
-  getLineItems,
   removeLineItem,
-  lineItemNone,
+  updateLineItem,
 } from "../../Service/Store/cartSlice";
 import styles from "./cart.module.scss";
 import { GrClose, GrTrash } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { commerce } from "../Lib/commerce";
-import { singleProduct } from "../../Service/Store/productSlice";
 
 const Cart = () => {
-  const { cart, lineItem, cartLineItems } = useSelector(
+  const { cart, lineItemRemove, lineItemUpdate, cartLineItems } = useSelector(
     (state) => state.cartStore
   );
-  const item = useSelector((state) => state.productStore.product);
   const [cartClose, setCartClose] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [removeAllItems, setRemoveAllItems] = useState(false);
   const dispatch = useDispatch();
   console.log("cart", cart);
   console.log("cartLineItems", cartLineItems);
-  console.log("lineItem", lineItem);
+  console.log(lineItemRemove);
 
   useEffect(() => {
-    commerce.cart.add(item.id).then((res) => {
-      console.log("cartIdADDTOCART", res.id);
-      dispatch(getLineItems(res.line_items));
-    });
-  }, [item]);
-  // useEffect(() => {
-  //   commerce.cart.remove(lineItem).then((res) => {
-  //     console.log("cartLineItemsAfterRemove", res);
-  //     dispatch(lineItemNone());
-  //     console.log("lineItemsAfterRemove", cartLineItems);
-  //     console.log("lineItemAfterRemove", lineItem);
-  //   });
-  // }, [lineItem]);
+    if (isMounted) {
+      commerce.cart.remove(lineItemRemove).then((res) => {
+        console.log("cartLineItemsAfterRemove", res);
+        setIsMounted(false);
+      });
+    } else setIsMounted(true);
+  }, [lineItemRemove]);
+
+  useEffect(() => {
+    if (isMounted) {
+      commerce.cart
+        .update(lineItemUpdate.id, { quantity: lineItemUpdate.quantity })
+        .then((response) => console.log(response));
+      setIsMounted(false);
+    } else setIsMounted(true);
+  }, [lineItemUpdate]);
+  useEffect(() => {
+    if (isMounted) {
+      commerce.cart.empty();
+      setIsMounted(false);
+    } else setIsMounted(true);
+  }, [removeAllItems]);
 
   const closeCart = () => {
     setTimeout(() => {
@@ -51,12 +59,34 @@ const Cart = () => {
   };
 
   const handleRemoveItem = (id) => {
+    console.log(id);
     dispatch(removeItem(id));
     dispatch(removeLineItem(id));
   };
-
+  const handleDecrement = (product) => {
+    console.log(product);
+    dispatch(decrementCount(product.id));
+    dispatch(updateLineItem(product));
+  };
+  const handleIncrement = (product) => {
+    console.log(product);
+    dispatch(incrementCount(product.id));
+    dispatch(updateLineItem(product));
+  };
+  // const handleDecrement = (id) => {
+  //   dispatch(decrementCount(id));
+  //   dispatch(updateLineItem(id));
+  // };
+  // const handleIncrement = (id) => {
+  //   dispatch(incrementCount(id));
+  //   dispatch(updateLineItem(id));
+  // };
+  const handleRemoveAllItems = () => {
+    setRemoveAllItems(true);
+    dispatch(removeAll());
+  };
   let sumTotal = cart.reduce((prev, curr) => {
-    return prev + curr.totalPrice;
+    return prev + curr.price.raw * curr.quantity;
   }, 0);
 
   const goToCheckout = () => {
@@ -103,7 +133,8 @@ const Cart = () => {
             {cart?.length ? (
               <p
                 className={styles.shoppingCart__headerRemoveAll}
-                onClick={() => dispatch(removeAll())}
+                onClick={handleRemoveAllItems}
+                // onClick={() => dispatch(removeAll())}
               >
                 remove all
               </p>
@@ -118,7 +149,7 @@ const Cart = () => {
                 : styles.shoppingCart__items
             }
           >
-            {cart?.length ? (
+            {cart?.length || cartLineItems?.length ? (
               cart.map((product) => {
                 return (
                   <div className={styles.shoppingCart__item} key={product.id}>
@@ -136,7 +167,7 @@ const Cart = () => {
                       <div className={styles.btn__quantity}>
                         <button
                           className={styles.btn__increment}
-                          onClick={() => dispatch(decrementCount(product.id))}
+                          onClick={() => handleDecrement(product)}
                         >
                           <FaMinus />
                         </button>
@@ -146,12 +177,12 @@ const Cart = () => {
 
                         <button
                           className={styles.btn__increment}
-                          onClick={() => dispatch(incrementCount(product.id))}
+                          onClick={() => handleIncrement(product)}
                         >
                           <FaPlus />
                         </button>
                       </div>
-                      <span>${product.totalPrice}</span>
+                      <span>${product.price.raw}</span>
                     </div>
                   </div>
                 );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { routeConfig } from "./Config/routeConfig";
@@ -12,17 +12,23 @@ import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
 import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
 import Collection from "./Pages/Collection/Collection";
 import { commerce } from "./Components/Lib/commerce";
-import { getCartObjectId, getLineItems } from "./Service/Store/cartSlice";
+import {
+  pushCart,
+  getCartObjectId,
+  getLineItems,
+} from "./Service/Store/cartSlice";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
-//todo scrollbar need to be prettier
+//todo scrollbar need to be prettier, updateCart API, notShoppingCart on click to exit useRef,
 function App() {
-  const { isCartOn } = useSelector((state) => state.cartStore);
+  const { isCartOn, cartLineItems } = useSelector((state) => state.cartStore);
   const { overviewProductOn, product } = useSelector(
     (state) => state.productStore
   );
   const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
+  const [isMounted, setIsMounted] = useState(false);
+  console.log("cartLineItems", cartLineItems);
 
   useEffect(() => {
     if (!hamburgerMenu) document.body.style.overflow = "hidden";
@@ -32,19 +38,18 @@ function App() {
   useEffect(() => {
     commerce.cart.retrieve().then((cart) => {
       dispatch(getCartObjectId(cart.id));
+      dispatch(pushCart(cart.line_items));
       console.log("createdCart", cart.id, cart.line_items);
     });
   }, []);
-  // useEffect(() => {
-  //   commerce.cart.add(product.id).then((res) => {
-  //     console.log("cartIdADDTOCART", res.line_items);
-  //     dispatch(getLineItems(res.line_items));
-  //   });
-  // }, [product]);
-
-  // useEffect(() => {
-  //   commerce.cart.delete().then((response) => console.log(response));
-  // }, []);
+  useEffect(() => {
+    if (isMounted) {
+      commerce.cart.add(product.id).then((res) => {
+        dispatch(getLineItems(res.line_items));
+        setIsMounted(false);
+      });
+    } else setIsMounted(true);
+  }, [product]);
 
   return (
     <>

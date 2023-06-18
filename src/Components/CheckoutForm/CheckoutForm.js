@@ -5,16 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { commerce } from "../Lib/commerce";
 import { getCheckoutId } from "../../Service/Store/cartSlice";
+import Loader from "../Features/loader/Loader";
 
 const CheckoutForm = () => {
   const { cart, cartObjectId, checkoutId } = useSelector(
     (state) => state.cartStore
   );
   const [summaryOrder, setShowSummaryOrder] = useState(false);
-  const [countries, setCountries] = useState("France");
+  const [countries, setCountries] = useState("");
   const [regions, setRegions] = useState([]);
-  const [chosenCountry, setChosenCountry] = useState("FR");
+  const [chosenCountry, setChosenCountry] = useState("");
   const [chosenRegion, setChosenRegion] = useState([]);
+  const [isMounted, setIsMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,19 +28,25 @@ const CheckoutForm = () => {
         dispatch(getCheckoutId(checkout.id));
         console.log(checkout);
       });
-  }, [cartObjectId]);
+  }, []);
   useEffect(() => {
-    commerce.services.localeListShippingCountries(checkoutId).then((res) => {
-      setCountries(res.countries);
-    });
+    if (isMounted) {
+      commerce.services.localeListShippingCountries(checkoutId).then((res) => {
+        setCountries(res.countries);
+      });
+    } else setIsMounted(true);
   }, [checkoutId]);
   useEffect(() => {
-    commerce.services
-      .localeListShippingSubdivisions(checkoutId, chosenCountry)
-      .then((res) => {
-        setRegions(res.subdivisions);
-      });
-  }, [chosenCountry, checkoutId]);
+    if (isMounted) {
+      setLoading(true);
+      commerce.services
+        .localeListShippingSubdivisions(checkoutId, chosenCountry)
+        .then((res) => {
+          setRegions(res.subdivisions);
+          setLoading(false);
+        });
+    } else setIsMounted(true);
+  }, [chosenCountry]);
   const handleChosenCountry = (e) => {
     setChosenCountry(e.target.value);
   };
@@ -51,12 +60,13 @@ const CheckoutForm = () => {
     setShowSummaryOrder(!summaryOrder);
   };
   let sumTotal = cart.reduce((prev, curr) => {
-    return prev + curr.totalPrice;
+    return prev + curr.price.raw * curr.quantity;
   }, 0);
 
   return (
     <>
       <div className={styles.checkout__container}>
+        {loading && <Loader />}
         <section className={styles.checkout__information}>
           <h3 className={styles.checkout__title}>Order Information</h3>
           <form>
@@ -249,13 +259,13 @@ const CheckoutForm = () => {
                   key={product.id}
                 >
                   <div className={styles.checkout__productImg}>
-                    <img src={product.img} alt="" />
+                    <img src={product.image.url} alt="" />
                     <span className={styles.checkout__quantity}>
-                      {product.count}
+                      {product.quantity}
                     </span>
                   </div>
                   <h5>{product.name}</h5>
-                  <span>${product.price}</span>
+                  <span>${product.price.raw}</span>
                 </div>
               );
             })}
