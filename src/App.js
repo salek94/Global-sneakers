@@ -12,12 +12,12 @@ import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
 import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
 import Collection from "./Pages/Collection/Collection";
 import { commerce } from "./Components/Lib/commerce";
-import { getLineItems } from "./Service/Store/cartSlice";
+import { getCartObjectId, getLineItems } from "./Service/Store/cartSlice";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
 //todo scrollbar need to be prettier
 function App() {
-  const { isCheckoutOn } = useSelector((state) => state.cartStore);
+  const { isCartOn } = useSelector((state) => state.cartStore);
   const { overviewProductOn, product } = useSelector(
     (state) => state.productStore
   );
@@ -30,9 +30,10 @@ function App() {
   }, [hamburgerMenu]);
 
   useEffect(() => {
-    commerce.cart
-      .retrieve()
-      .then((cart) => console.log("createdCart", cart.id, cart.line_items));
+    commerce.cart.retrieve().then((cart) => {
+      dispatch(getCartObjectId(cart.id));
+      console.log("createdCart", cart.id, cart.line_items);
+    });
   }, []);
   // useEffect(() => {
   //   commerce.cart.add(product.id).then((res) => {
@@ -78,7 +79,7 @@ function App() {
         <Route path={routeConfig.CHECKOUT.url} element={<CheckoutForm />} />
       </Routes>
       {overviewProductOn && <OverviewProduct />}
-      {isCheckoutOn && <Aside />}
+      {isCartOn && <Aside />}
     </>
   );
 }

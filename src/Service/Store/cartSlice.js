@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cart: [],
+  cartObjectId: "",
+  checkoutId: "",
   cartLineItems: [],
   lineItem: "",
-  isCheckoutOn: false,
+  isCartOn: false,
 };
 
 const cartSlice = createSlice({
@@ -72,8 +74,14 @@ const cartSlice = createSlice({
     removeAll: (state) => {
       state.cart = [];
     },
-    showCheckout: (state, action) => {
-      state.isCheckoutOn = action.payload;
+    showCartForm: (state, action) => {
+      state.isCartOn = action.payload;
+    },
+    getCartObjectId: (state, action) => {
+      state.cartObjectId = action.payload;
+    },
+    getCheckoutId: (state, action) => {
+      state.checkoutId = action.payload;
     },
   },
 });
@@ -86,7 +94,9 @@ export const {
   removeItem,
   removeLineItem,
   removeAll,
-  showCheckout,
+  showCartForm,
   lineItemNone,
+  getCartObjectId,
+  getCheckoutId,
 } = cartSlice.actions;
 export default cartSlice.reducer;

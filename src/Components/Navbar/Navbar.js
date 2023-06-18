@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { showCheckout } from "../../Service/Store/cartSlice";
+import { showCartForm } from "../../Service/Store/cartSlice";
 import { whichCategory } from "../../Service/Store/categorySlice";
 import styles from "./navbar.module.scss";
 import logo from "../../Assets/Images/logo_sneakers.png";
@@ -15,9 +15,9 @@ const Navbar = () => {
   const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
 
-  const handleShowCheckout = () => {
+  const handleCartForm = () => {
     if (cart.length > 0) {
-      dispatch(showCheckout(true));
+      dispatch(showCartForm(true));
     }
   };
 
@@ -89,7 +89,7 @@ const Navbar = () => {
             All
           </Link>
         </nav>
-        <span className={styles.navbar__cart} onClick={handleShowCheckout}>
+        <span className={styles.navbar__cart} onClick={handleCartForm}>
           <BsCartFill className={styles.icon__small} />
           <span className={styles.navbar__cartLength}>{cart?.length || 0}</span>
         </span>

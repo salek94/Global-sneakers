@@ -1,14 +1,49 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./checkout.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
+import { commerce } from "../Lib/commerce";
+import { getCheckoutId } from "../../Service/Store/cartSlice";
 
 const CheckoutForm = () => {
-  const { cart } = useSelector((state) => state.cartStore);
+  const { cart, cartObjectId, checkoutId } = useSelector(
+    (state) => state.cartStore
+  );
   const [summaryOrder, setShowSummaryOrder] = useState(false);
+  const [countries, setCountries] = useState("France");
+  const [regions, setRegions] = useState([]);
+  const [chosenCountry, setChosenCountry] = useState("FR");
+  const [chosenRegion, setChosenRegion] = useState([]);
   const navigate = useNavigate();
-  console.log(cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    commerce.checkout
+      .generateToken(cartObjectId, { type: "cart" })
+      .then((checkout) => {
+        dispatch(getCheckoutId(checkout.id));
+        console.log(checkout);
+      });
+  }, [cartObjectId]);
+  useEffect(() => {
+    commerce.services.localeListShippingCountries(checkoutId).then((res) => {
+      setCountries(res.countries);
+    });
+  }, [checkoutId]);
+  useEffect(() => {
+    commerce.services
+      .localeListShippingSubdivisions(checkoutId, chosenCountry)
+      .then((res) => {
+        setRegions(res.subdivisions);
+      });
+  }, [chosenCountry, checkoutId]);
+  const handleChosenCountry = (e) => {
+    setChosenCountry(e.target.value);
+  };
+  const handleChosenRegion = (e) => {
+    setChosenRegion(e.target.value);
+  };
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -95,33 +130,37 @@ const CheckoutForm = () => {
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="country">Country</label>
-                <input
-                  type="text"
+                <select
+                  className={styles.checkout__country}
                   name="country"
                   id="country"
-                  placeholder="country"
-                  className={styles.checkout__field__input}
-                />
+                  onClick={handleChosenCountry}
+                >
+                  {Object.entries(countries).map(([k, v], i) => {
+                    return (
+                      <option value={k} key={i}>
+                        {v}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="state">State</label>
-                <input
-                  type="text"
+                <select
+                  className={styles.checkout__country}
                   name="state"
                   id="state"
-                  placeholder="state"
-                  className={styles.checkout__field__input}
-                />
-              </div>
-              <div className={styles.checkout__field}>
-                <label htmlFor="lastName">Shipping method</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  id="lastName"
-                  placeholder="Brown"
-                  className={styles.checkout__field__input}
-                />
+                  onClick={handleChosenRegion}
+                >
+                  {Object.entries(regions).map(([k, v], i) => {
+                    return (
+                      <option value={k} key={i}>
+                        {v}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
             </div>
             <h4 className={styles.checkout__formTitle}>Payment Information</h4>
@@ -165,12 +204,14 @@ const CheckoutForm = () => {
               Go back
             </p>
             <div className={styles.checkout__btn}>
-              <button
-                className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
-                type="submit"
-              >
-                Order Now
-              </button>
+              <Link to="/order">
+                <button
+                  className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
+                  type="submit"
+                >
+                  Order Now
+                </button>
+              </Link>
             </div>
           </div>
           <div

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  showCheckout,
+  showCartForm,
   incrementCount,
   decrementCount,
   removeItem,
@@ -45,7 +45,7 @@ const Cart = () => {
 
   const closeCart = () => {
     setTimeout(() => {
-      dispatch(showCheckout(false));
+      dispatch(showCartForm(false));
     }, 500);
     setCartClose(true);
   };
@@ -60,7 +60,7 @@ const Cart = () => {
   }, 0);
 
   const goToCheckout = () => {
-    dispatch(showCheckout(false));
+    dispatch(showCartForm(false));
   };
 
   return (
@@ -160,7 +160,7 @@ const Cart = () => {
               <>
                 <p>Your cart is empty</p>
                 <button
-                  onClick={() => dispatch(showCheckout(false))}
+                  onClick={() => dispatch(showCartForm(false))}
                   className={`${styles.shoppingCart__continue} ${styles.btnPrimary} ${styles.btnPrimary__white}`}
                 >
                   Continue shopping
