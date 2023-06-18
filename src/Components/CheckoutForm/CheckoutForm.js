@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import styles from "./checkout.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
@@ -20,6 +21,12 @@ const CheckoutForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log("kkkkk", data);
 
   useEffect(() => {
     commerce.checkout
@@ -69,16 +76,21 @@ const CheckoutForm = () => {
         {loading && <Loader />}
         <section className={styles.checkout__information}>
           <h3 className={styles.checkout__title}>Order Information</h3>
-          <form>
+          <form onSubmit={() => handleSubmit(onSubmit)}>
             <h4 className={styles.checkout__formTitle}>Shipping Address</h4>
             <div className={styles.checkout__fields}>
               <div className={styles.checkout__field}>
                 <label htmlFor="firstName">First Name</label>
                 <input
                   type="text"
-                  name="firstName"
-                  id="firstName"
-                  required
+                  {...register("firstName", {
+                    required: true,
+                    maxLength: 20,
+                    pattern: /^[A-Za-z]+$/i,
+                  })}
+                  // name="firstName"
+                  // id="firstName"
+                  // required
                   placeholder="Mark"
                   className={styles.checkout__field__input}
                 />
@@ -87,9 +99,14 @@ const CheckoutForm = () => {
                 <label htmlFor="lastName">Last Name</label>
                 <input
                   type="text"
-                  name="lastName"
-                  id="lastName"
-                  required
+                  {...register("lastName", {
+                    required: true,
+                    maxLength: 20,
+                    pattern: /^[A-Za-z]+$/i,
+                  })}
+                  // name="lastName"
+                  // id="lastName"
+                  // required
                   placeholder="Brown"
                   className={styles.checkout__field__input}
                 />
@@ -98,9 +115,13 @@ const CheckoutForm = () => {
                 <label htmlFor="address">Address</label>
                 <input
                   type="text"
-                  name="address"
-                  id="address"
-                  required
+                  {...register("address", {
+                    required: true,
+                    maxLength: 30,
+                  })}
+                  // name="address"
+                  // id="address"
+                  // required
                   placeholder="47 Paris Hill Line"
                   className={styles.checkout__field__input}
                 />
@@ -109,9 +130,15 @@ const CheckoutForm = () => {
                 <label htmlFor="email">Email</label>
                 <input
                   type="text"
-                  name="email"
-                  id="email"
-                  required
+                  {...register("email", {
+                    required: true,
+                    maxLength: 30,
+                    pattern:
+                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  })}
+                  // name="email"
+                  // id="email"
+                  // required
                   placeholder="example@gmail.com"
                   className={styles.checkout__field__input}
                 />
@@ -120,9 +147,14 @@ const CheckoutForm = () => {
                 <label htmlFor="city">City</label>
                 <input
                   type="text"
-                  name="city"
-                  id="city"
-                  required
+                  {...register("city", {
+                    required: true,
+                    maxLength: 20,
+                    pattern: /[A-Za-z]/,
+                  })}
+                  // name="city"
+                  // id="city"
+                  // required
                   placeholder="New York"
                   className={styles.checkout__field__input}
                 />
@@ -131,9 +163,13 @@ const CheckoutForm = () => {
                 <label htmlFor="zip">ZIP Code</label>
                 <input
                   type="number"
-                  name="zip"
-                  id="zip"
-                  required
+                  {...register("city", {
+                    required: true,
+                    maxLength: 20,
+                  })}
+                  // name="zip"
+                  // id="zip"
+                  // required
                   placeholder="945442"
                   className={styles.checkout__field__input}
                 />
@@ -141,9 +177,12 @@ const CheckoutForm = () => {
               <div className={styles.checkout__field}>
                 <label htmlFor="country">Country</label>
                 <select
+                  {...register("country", {
+                    required: true,
+                  })}
                   className={styles.checkout__country}
-                  name="country"
-                  id="country"
+                  // name="country"
+                  // id="country"
                   onClick={handleChosenCountry}
                 >
                   {Object.entries(countries).map(([k, v], i) => {
@@ -158,9 +197,12 @@ const CheckoutForm = () => {
               <div className={styles.checkout__field}>
                 <label htmlFor="state">State</label>
                 <select
+                  {...register("state", {
+                    required: true,
+                  })}
                   className={styles.checkout__country}
-                  name="state"
-                  id="state"
+                  // name="state"
+                  // id="state"
                   onClick={handleChosenRegion}
                 >
                   {Object.entries(regions).map(([k, v], i) => {
@@ -181,8 +223,12 @@ const CheckoutForm = () => {
                 <label htmlFor="creditCart">Credit Card No.</label>
                 <input
                   type="number"
-                  name="creditCard"
-                  id="creditCard"
+                  {...register("creditCart", {
+                    required: true,
+                    maxLength: 16,
+                  })}
+                  // name="creditCard"
+                  // id="creditCard"
                   placeholder="**** **** **** ****"
                   className={styles.checkout__field__input}
                 />
@@ -191,8 +237,12 @@ const CheckoutForm = () => {
                 <label htmlFor="expDate">Expiry Date</label>
                 <input
                   type="text"
-                  name="expDate"
-                  id="expDate"
+                  {...register("expDate", {
+                    required: true,
+                    maxLength: 5,
+                  })}
+                  // name="expDate"
+                  // id="expDate"
                   placeholder="03/25"
                   className={styles.checkout__field__input}
                 />
@@ -201,8 +251,12 @@ const CheckoutForm = () => {
                 <label htmlFor="cvv">CCV</label>
                 <input
                   type="number"
-                  name="cvv"
-                  id="cvv"
+                  {...register("cvv", {
+                    required: true,
+                    maxLength: 4,
+                  })}
+                  // name="cvv"
+                  // id="cvv"
                   placeholder="928"
                   className={styles.checkout__field__input}
                 />
@@ -214,14 +268,14 @@ const CheckoutForm = () => {
               Go back
             </p>
             <div className={styles.checkout__btn}>
-              <Link to="/order">
-                <button
-                  className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
-                  type="submit"
-                >
-                  Order Now
-                </button>
-              </Link>
+              {/* <Link to="/order"> */}
+              <button
+                className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
+                type="submit"
+              >
+                Order Now
+              </button>
+              {/* </Link> */}
             </div>
           </div>
           <div
