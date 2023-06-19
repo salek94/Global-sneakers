@@ -43,7 +43,7 @@ const cartSlice = createSlice({
           duplicateCart.push(product);
           state.cart = duplicateCart;
         }
-        product.totalPrice = Number(product.price * product.quantity);
+        product.totalPrice = Number(product.price.raw * product.quantity);
       });
     },
     incrementCount: (state, action) => {
@@ -67,10 +67,6 @@ const cartSlice = createSlice({
       state.cart = remove;
     },
     removeLineItem: (state, action) => {
-      // let item = state.cartLineItems.find(
-      //   (item) => item.product_id === action.payload
-      // );
-      // state.lineItemRemove = item.id;
       state.lineItemRemove = action.payload;
     },
     updateLineItem: (state, action) => {

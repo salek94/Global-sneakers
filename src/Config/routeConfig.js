@@ -16,4 +16,7 @@ export const routeConfig = {
   CHECKOUT: {
     url: "/checkout",
   },
+  ORDER: {
+    url: "/order",
+  },
 };

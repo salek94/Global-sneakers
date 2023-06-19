@@ -17,11 +17,14 @@ import {
   getCartObjectId,
   getLineItems,
 } from "./Service/Store/cartSlice";
+import OrderForm from "./Components/OrderForm/OrderForm";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
 //todo scrollbar need to be prettier, updateCart API, notShoppingCart on click to exit useRef,
 function App() {
-  const { isCartOn, cartLineItems } = useSelector((state) => state.cartStore);
+  const { isCartOn, cartLineItems, cart } = useSelector(
+    (state) => state.cartStore
+  );
   const { overviewProductOn, product } = useSelector(
     (state) => state.productStore
   );
@@ -29,6 +32,7 @@ function App() {
   const dispatch = useDispatch();
   const [isMounted, setIsMounted] = useState(false);
   console.log("cartLineItems", cartLineItems);
+  console.log("cart", cart);
 
   useEffect(() => {
     if (!hamburgerMenu) document.body.style.overflow = "hidden";
@@ -82,6 +86,7 @@ function App() {
           />
         </Route>
         <Route path={routeConfig.CHECKOUT.url} element={<CheckoutForm />} />
+        <Route path={routeConfig.ORDER.url} element={<OrderForm />} />
       </Routes>
       {overviewProductOn && <OverviewProduct />}
       {isCartOn && <Aside />}

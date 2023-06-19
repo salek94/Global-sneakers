@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./banners.module.scss";
 import { useNavigate } from "react-router-dom";
 import { BsPlusCircle } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ProductService from "../../Service/Api/ProductService";
 import { addToCart } from "../../Service/Store/cartSlice";
 import {
@@ -75,16 +75,15 @@ const Banners = ({ product, active }) => {
     );
   };
 
-  const goToCheckout = (id, name, img, price, inventory, quantity) => {
+  const goToCheckout = (id, name, img, price, inventory) => {
     dispatch(
-      addToCart({
+      singleProduct({
         id: id,
         name: name,
-        img: img,
+        image: img,
         price: price,
         inventory: inventory,
-        quantity: quantity,
-        // count: 1,
+        quantity: 1,
         totalPrice: price,
       })
     );
@@ -108,7 +107,7 @@ const Banners = ({ product, active }) => {
       <div className={styles.banner__footer}>
         <span>${product.price.raw}</span>
         <div>
-          <BsPlusCircle
+          {/* <BsPlusCircle
             onClick={() =>
               handleAddToCart(
                 product.id,
@@ -120,8 +119,8 @@ const Banners = ({ product, active }) => {
               )
             }
             className={`${styles.banner__plus} ${styles.icon__small}`}
-          />
-          {/* {!disabled ? (
+          /> */}
+          {!disabled ? (
             <BsPlusCircle
               onClick={() =>
                 handleAddToCart(
@@ -129,14 +128,15 @@ const Banners = ({ product, active }) => {
                   product.name,
                   product.image.url,
                   product.price.raw,
-                  product.inventory.available
+                  product.inventory.available,
+                  product.quantity
                 )
               }
               className={`${styles.banner__plus} ${styles.icon__small}`}
             />
           ) : (
             <BsPlusCircle className={styles.icon__small} />
-          )} */}
+          )}
         </div>
       </div>
       <div className={styles.banner__buttons}>
@@ -147,9 +147,8 @@ const Banners = ({ product, active }) => {
               product.id,
               product.name,
               product.image.url,
-              product.price.raw,
-              product.inventory.available,
-              product.quantity
+              product.price,
+              product.inventory.available
             )
           }
         >

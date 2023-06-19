@@ -5,20 +5,26 @@ import styles from "./checkout.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { commerce } from "../Lib/commerce";
-import { getCheckoutId } from "../../Service/Store/cartSlice";
+import { getCheckoutId, showOrderForm } from "../../Service/Store/cartSlice";
 import Loader from "../Features/loader/Loader";
+import {
+  getCustomerInfo,
+  getShippingMethods,
+} from "../../Service/Store/customerSlice";
 
 const CheckoutForm = () => {
   const { cart, cartObjectId, checkoutId } = useSelector(
     (state) => state.cartStore
   );
+  const { shipping, customer } = useSelector((state) => state.customerStore);
   const [summaryOrder, setShowSummaryOrder] = useState(false);
   const [countries, setCountries] = useState("");
   const [regions, setRegions] = useState([]);
-  const [chosenCountry, setChosenCountry] = useState("");
+  const [chosenCountry, setChosenCountry] = useState("FR");
   const [chosenRegion, setChosenRegion] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [waitingOrder, setWaitingOrder] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -26,21 +32,28 @@ const CheckoutForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log("kkkkk", data);
+  const onSubmit = (data) => {
+    dispatch(getCustomerInfo(data));
+  };
 
   useEffect(() => {
     commerce.checkout
       .generateToken(cartObjectId, { type: "cart" })
       .then((checkout) => {
         dispatch(getCheckoutId(checkout.id));
-        console.log(checkout);
-      });
-  }, []);
+      })
+      .catch((err) => console.error(err));
+  }, [cartObjectId]);
   useEffect(() => {
     if (isMounted) {
-      commerce.services.localeListShippingCountries(checkoutId).then((res) => {
-        setCountries(res.countries);
-      });
+      setLoading(true);
+      commerce.services
+        .localeListShippingCountries(checkoutId)
+        .then((res) => {
+          setCountries(res.countries);
+          setLoading(false);
+        })
+        .catch((err) => console.error(err));
     } else setIsMounted(true);
   }, [checkoutId]);
   useEffect(() => {
@@ -51,9 +64,77 @@ const CheckoutForm = () => {
         .then((res) => {
           setRegions(res.subdivisions);
           setLoading(false);
-        });
+        })
+        .catch((err) => console.error(err));
     } else setIsMounted(true);
   }, [chosenCountry]);
+  useEffect(() => {
+    if (isMounted) {
+      commerce.checkout
+        .getShippingOptions(checkoutId, {
+          country: chosenCountry,
+          region: chosenRegion,
+        })
+        .then((res) => {
+          dispatch(getShippingMethods(res));
+        })
+        .catch((err) => console.error(err));
+      setIsMounted(false);
+    } else setIsMounted(true);
+  }, [chosenRegion]);
+  useEffect(() => {
+    if (isMounted) {
+      setLoading(true);
+      commerce.checkout
+        .capture(checkoutId, {
+          customer: {
+            firstname: customer.firstName,
+            lastname: customer.lastName,
+            email: customer.email,
+          },
+          shipping: {
+            name: customer.firstName + "" + customer.lastName,
+            street: customer.address,
+            town_city: customer.city,
+            county_state: customer.country + "-" + customer.state,
+            postal_zip_code: customer.zip,
+            country: customer.country,
+          },
+          fulfillment: {
+            shipping_method: customer.shipping,
+          },
+          billing: {
+            name: customer.firstName + "" + customer.lastName,
+            street: customer.address,
+            town_city: customer.city,
+            county_state: customer.country + "-" + customer.state,
+            postal_zip_code: customer.zip,
+            country: customer.country,
+          },
+          payment: {
+            gateway: "test_gateway",
+            card: {
+              number: customer.creditCard,
+              expiry_month: customer.expiryMonth,
+              expiry_year: customer.expiryYear,
+              cvc: customer.cvc,
+              postal_zip_code: customer.zip,
+            },
+          },
+        })
+        .then((response) => {
+          setIsMounted(false);
+          setLoading(false);
+          setWaitingOrder(false);
+          console.log("order", response);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.error(err);
+        });
+    } else setIsMounted(true);
+  }, [customer]);
+
   const handleChosenCountry = (e) => {
     setChosenCountry(e.target.value);
   };
@@ -66,17 +147,22 @@ const CheckoutForm = () => {
   const handleSummaryOrder = () => {
     setShowSummaryOrder(!summaryOrder);
   };
-  let sumTotal = cart.reduce((prev, curr) => {
+
+  if (!waitingOrder) {
+    navigate("/order");
+  }
+
+  let subTotal = cart.reduce((prev, curr) => {
     return prev + curr.price.raw * curr.quantity;
   }, 0);
-
+  console.log(waitingOrder);
   return (
     <>
       <div className={styles.checkout__container}>
         {loading && <Loader />}
         <section className={styles.checkout__information}>
           <h3 className={styles.checkout__title}>Order Information</h3>
-          <form onSubmit={() => handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <h4 className={styles.checkout__formTitle}>Shipping Address</h4>
             <div className={styles.checkout__fields}>
               <div className={styles.checkout__field}>
@@ -88,12 +174,13 @@ const CheckoutForm = () => {
                     maxLength: 20,
                     pattern: /^[A-Za-z]+$/i,
                   })}
-                  // name="firstName"
-                  // id="firstName"
-                  // required
+                  aria-invalid={errors.firstName ? "true" : "false"}
                   placeholder="Mark"
                   className={styles.checkout__field__input}
                 />
+                {errors.firstName && (
+                  <p role="alert">{errors.firstName?.message}</p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="lastName">Last Name</label>
@@ -104,12 +191,13 @@ const CheckoutForm = () => {
                     maxLength: 20,
                     pattern: /^[A-Za-z]+$/i,
                   })}
-                  // name="lastName"
-                  // id="lastName"
-                  // required
+                  aria-invalid={errors.lastName ? "true" : "false"}
                   placeholder="Brown"
                   className={styles.checkout__field__input}
                 />
+                {errors.lastName && (
+                  <p role="alert">{errors.lastName?.message}</p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="address">Address</label>
@@ -119,12 +207,13 @@ const CheckoutForm = () => {
                     required: true,
                     maxLength: 30,
                   })}
-                  // name="address"
-                  // id="address"
-                  // required
+                  aria-invalid={errors.address ? "true" : "false"}
                   placeholder="47 Paris Hill Line"
                   className={styles.checkout__field__input}
                 />
+                {errors.address && (
+                  <p role="alert">{errors.address?.message}</p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="email">Email</label>
@@ -136,12 +225,11 @@ const CheckoutForm = () => {
                     pattern:
                       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                   })}
-                  // name="email"
-                  // id="email"
-                  // required
+                  aria-invalid={errors.email ? "true" : "false"}
                   placeholder="example@gmail.com"
                   className={styles.checkout__field__input}
                 />
+                {errors.email && <p role="alert">{errors.email?.message}</p>}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="city">City</label>
@@ -152,27 +240,25 @@ const CheckoutForm = () => {
                     maxLength: 20,
                     pattern: /[A-Za-z]/,
                   })}
-                  // name="city"
-                  // id="city"
-                  // required
+                  aria-invalid={errors.city ? "true" : "false"}
                   placeholder="New York"
                   className={styles.checkout__field__input}
                 />
+                {errors.city && <p role="alert">{errors.city?.message}</p>}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="zip">ZIP Code</label>
                 <input
                   type="number"
-                  {...register("city", {
+                  {...register("zip", {
                     required: true,
-                    maxLength: 20,
+                    maxLength: 10,
                   })}
-                  // name="zip"
-                  // id="zip"
-                  // required
+                  aria-invalid={errors.zip ? "true" : "false"}
                   placeholder="945442"
                   className={styles.checkout__field__input}
                 />
+                {errors.zip && <p role="alert">{errors.zip?.message}</p>}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="country">Country</label>
@@ -181,8 +267,7 @@ const CheckoutForm = () => {
                     required: true,
                   })}
                   className={styles.checkout__country}
-                  // name="country"
-                  // id="country"
+                  aria-invalid={errors.country ? "true" : "false"}
                   onClick={handleChosenCountry}
                 >
                   {Object.entries(countries).map(([k, v], i) => {
@@ -193,6 +278,9 @@ const CheckoutForm = () => {
                     );
                   })}
                 </select>
+                {errors.country && (
+                  <p role="alert">{errors.country?.message}</p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="state">State</label>
@@ -201,8 +289,7 @@ const CheckoutForm = () => {
                     required: true,
                   })}
                   className={styles.checkout__country}
-                  // name="state"
-                  // id="state"
+                  aria-invalid={errors.state ? "true" : "false"}
                   onClick={handleChosenRegion}
                 >
                   {Object.entries(regions).map(([k, v], i) => {
@@ -213,6 +300,7 @@ const CheckoutForm = () => {
                     );
                   })}
                 </select>
+                {errors.state && <p role="alert">{errors.state?.message}</p>}
               </div>
             </div>
             <h4 className={styles.checkout__formTitle}>Payment Information</h4>
@@ -220,64 +308,89 @@ const CheckoutForm = () => {
               <div
                 className={`${styles.checkout__field} ${styles.checkout__cardField} `}
               >
-                <label htmlFor="creditCart">Credit Card No.</label>
+                <label htmlFor="creditCard">Credit Card No.</label>
                 <input
                   type="number"
-                  {...register("creditCart", {
+                  {...register("creditCard", {
                     required: true,
                     maxLength: 16,
                   })}
-                  // name="creditCard"
-                  // id="creditCard"
+                  aria-invalid={errors.creditCard ? "true" : "false"}
                   placeholder="**** **** **** ****"
                   className={styles.checkout__field__input}
                 />
+                {errors.creditCard && (
+                  <p role="alert">{errors.creditCard?.message}</p>
+                )}
               </div>
-              <div className={styles.checkout__field}>
-                <label htmlFor="expDate">Expiry Date</label>
+              <div
+                className={`${styles.checkout__field} ${styles.checkout__expiry}`}
+              >
+                <label htmlFor="expiryMonth">Expiry Month</label>
                 <input
                   type="text"
-                  {...register("expDate", {
+                  {...register("expiryMonth", {
                     required: true,
-                    maxLength: 5,
+                    minLength: 2,
+                    maxLength: 2,
                   })}
-                  // name="expDate"
-                  // id="expDate"
-                  placeholder="03/25"
+                  aria-invalid={errors.expiryMonth ? "true" : "false"}
+                  placeholder="03"
                   className={styles.checkout__field__input}
                 />
+                {errors.expiryMonth && (
+                  <p role="alert">{errors.expiryMonth?.message}</p>
+                )}
+              </div>
+              <div
+                className={`${styles.checkout__field} ${styles.checkout__expiry}`}
+              >
+                <label htmlFor="expiryYear">Expiry Year</label>
+                <input
+                  type="text"
+                  {...register("expiryYear", {
+                    required: true,
+                    minLength: 2,
+                    maxLength: 2,
+                  })}
+                  aria-invalid={errors.expiryYear ? "true" : "false"}
+                  placeholder="25"
+                  className={styles.checkout__field__input}
+                />
+                {errors.expiryYear && (
+                  <p role="alert">{errors.expiryYear?.message}</p>
+                )}
               </div>
               <div className={styles.checkout__field}>
-                <label htmlFor="cvv">CCV</label>
+                <label htmlFor="cvc">CVC</label>
                 <input
                   type="number"
-                  {...register("cvv", {
+                  {...register("cvc", {
                     required: true,
+                    minLength: 3,
                     maxLength: 4,
                   })}
-                  // name="cvv"
-                  // id="cvv"
+                  aria-invalid={errors.cvc ? "true" : "false"}
                   placeholder="928"
                   className={styles.checkout__field__input}
                 />
+                {errors.cvc && <p role="alert">{errors.cvv?.message}</p>}
+              </div>
+            </div>
+            <div className={styles.checkout__bottom}>
+              <p className={styles.checkout__goBack} onClick={handleGoBack}>
+                Go back
+              </p>
+              <div className={styles.checkout__btn}>
+                <button
+                  className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
+                  type="submit"
+                >
+                  Order Now
+                </button>
               </div>
             </div>
           </form>
-          <div className={styles.checkout__bottom}>
-            <p className={styles.checkout__back} onClick={handleGoBack}>
-              Go back
-            </p>
-            <div className={styles.checkout__btn}>
-              {/* <Link to="/order"> */}
-              <button
-                className={`${styles.btnSecondary} ${styles.checkout__btnOrder}`}
-                type="submit"
-              >
-                Order Now
-              </button>
-              {/* </Link> */}
-            </div>
-          </div>
           <div
             className={styles.checkout__orderSummary}
             onClick={handleSummaryOrder}
@@ -294,7 +407,9 @@ const CheckoutForm = () => {
                 </span>
               )}
             </div>
-            <h4>${sumTotal}</h4>
+            {shipping.map((method) => {
+              return <h4 key={method.id}>${subTotal + method.price.raw}</h4>;
+            })}
           </div>
         </section>
         <section
@@ -306,20 +421,20 @@ const CheckoutForm = () => {
         >
           <h3>Product Information</h3>
           <div className={styles.checkout__productInfo}>
-            {cart.map((product) => {
+            {cart?.map((product) => {
               return (
                 <div
                   className={styles.checkout__singleProduct}
                   key={product.id}
                 >
                   <div className={styles.checkout__productImg}>
-                    <img src={product.image.url} alt="" />
+                    <img src={product.image.url || product.image} alt="" />
                     <span className={styles.checkout__quantity}>
                       {product.quantity}
                     </span>
                   </div>
                   <h5>{product.name}</h5>
-                  <span>${product.price.raw}</span>
+                  <span>${product.price.raw || product.price}</span>
                 </div>
               );
             })}
@@ -340,15 +455,28 @@ const CheckoutForm = () => {
           <div className={styles.checkout__orderValue}>
             <div className={styles.checkout__calculatedValue}>
               <p>Subtotal</p>
-              <p>${sumTotal}</p>
+              <p>${subTotal}</p>
             </div>
             <div className={styles.checkout__calculatedValue}>
               <p>Shipping</p>
-              <p>calculated at the next step</p>
+              <div className={styles.checkout__shipping}>
+                {shipping.map((method) => {
+                  return (
+                    <>
+                      <p>{method.description}</p>
+                      <p className={styles.checkout__shippingPrice}>
+                        ${method.price.raw}
+                      </p>
+                    </>
+                  );
+                })}
+              </div>
             </div>
             <div className={styles.checkout__calculatedValue}>
               <h4>Total</h4>
-              <h5>${sumTotal}</h5>
+              {shipping.map((method) => {
+                return <h5>${subTotal + method.price.raw}</h5>;
+              })}
             </div>
           </div>
         </section>
