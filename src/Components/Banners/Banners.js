@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./banners.module.scss";
 import { useNavigate } from "react-router-dom";
 import { BsPlusCircle } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProductService from "../../Service/Api/ProductService";
 import { addToCart } from "../../Service/Store/cartSlice";
 import {
+  clickedOnProduct,
   isOverviewProductOn,
   singleProduct,
 } from "../../Service/Store/productSlice";
@@ -14,6 +15,7 @@ const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
   const [disabled, setDisabled] = useState(false);
+  const { cart } = useSelector((state) => state.cartStore);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,8 +26,12 @@ const Banners = ({ product, active }) => {
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
+  // if (cart.length === 0) {
+  //   setDisabled(false);
+  // }
 
-  const handleAddToCart = (id, name, img, price, inventory, quantity) => {
+  const handleAddToCart = (id, name, img, price, inventory) => {
+    // dispatch(clickedOnProduct(true));
     dispatch(
       addToCart({
         id: id,
@@ -34,33 +40,26 @@ const Banners = ({ product, active }) => {
         price: price,
         totalPrice: price,
         inventory: inventory,
-        quantity: quantity,
+        quantity: 1,
       })
     );
-    dispatch(
-      singleProduct({
-        id: id,
-        name: name,
-        img: img,
-        price: price,
-        totalPrice: price,
-        inventory: inventory,
-        quantity: quantity,
-      })
-    );
+    // dispatch(
+    //   singleProduct({
+    //     id: id,
+    //     name: name,
+    //     img: img,
+    //     price: price,
+    //     totalPrice: price,
+    //     inventory: inventory,
+    //     quantity: quantity,
+    //   })
+    // );
     setDisabled(true);
   };
 
-  const goToOverviewProduct = (
-    id,
-    name,
-    img,
-    price,
-    desc,
-    inventory,
-    quantity
-  ) => {
+  const goToOverviewProduct = (id, name, img, price, desc, inventory) => {
     dispatch(isOverviewProductOn(true));
+    dispatch(clickedOnProduct(true));
     dispatch(
       singleProduct({
         id: id,
@@ -69,8 +68,8 @@ const Banners = ({ product, active }) => {
         price: price,
         description: desc,
         inventory: inventory,
-        totalPrice: price,
-        quantity: quantity,
+        totalPrice: price.raw,
+        quantity: 1,
       })
     );
   };
@@ -107,19 +106,6 @@ const Banners = ({ product, active }) => {
       <div className={styles.banner__footer}>
         <span>${product.price.raw}</span>
         <div>
-          {/* <BsPlusCircle
-            onClick={() =>
-              handleAddToCart(
-                product.id,
-                product.name,
-                product.image.url,
-                product.price.raw,
-                product.inventory.available,
-                product.quantity
-              )
-            }
-            className={`${styles.banner__plus} ${styles.icon__small}`}
-          /> */}
           {!disabled ? (
             <BsPlusCircle
               onClick={() =>
@@ -127,9 +113,8 @@ const Banners = ({ product, active }) => {
                   product.id,
                   product.name,
                   product.image.url,
-                  product.price.raw,
-                  product.inventory.available,
-                  product.quantity
+                  product.price,
+                  product.inventory.available
                 )
               }
               className={`${styles.banner__plus} ${styles.icon__small}`}
@@ -161,10 +146,9 @@ const Banners = ({ product, active }) => {
               product.id,
               product.name,
               product.image.url,
-              product.price.raw,
+              product.price,
               product.seo.description,
-              product.inventory.available,
-              product.quantity
+              product.inventory.available
             )
           }
         >

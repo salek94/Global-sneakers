@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   customer: {
-    shipping: "",
+    shipping_method: "",
   },
   shipping: [],
 };
@@ -15,8 +15,8 @@ const customerSlice = createSlice({
       state.customer = action.payload;
       state.shipping.forEach((item) => {
         if (item.description === "Domestic") {
-          state.customer.shipping = item.id;
-        }
+          state.customer.shipping_method = item.id;
+        } else state.customer.shipping_method = item.id;
       });
     },
     getShippingMethods: (state, action) => {

@@ -16,7 +16,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const handleCartForm = () => {
-    dispatch(showCartForm(true));
+    if (cart.length > 0) dispatch(showCartForm(true));
   };
 
   const handleCategory = (e) => {

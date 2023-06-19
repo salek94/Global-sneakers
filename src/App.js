@@ -18,14 +18,15 @@ import {
   getLineItems,
 } from "./Service/Store/cartSlice";
 import OrderForm from "./Components/OrderForm/OrderForm";
+import { clickedOnProduct } from "./Service/Store/productSlice";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
-//todo scrollbar need to be prettier, updateCart API, notShoppingCart on click to exit useRef,
+//todo scrollbar need to be prettier, updateCart API, button on hero section
 function App() {
   const { isCartOn, cartLineItems, cart } = useSelector(
     (state) => state.cartStore
   );
-  const { overviewProductOn, product } = useSelector(
+  const { overviewProductOn, product, clickProduct } = useSelector(
     (state) => state.productStore
   );
   const { hamburgerMenu } = useSelector((state) => state.mobileStore);
@@ -50,10 +51,11 @@ function App() {
     if (isMounted) {
       commerce.cart.add(product.id).then((res) => {
         dispatch(getLineItems(res.line_items));
+        // dispatch(clickedOnProduct(false));
         setIsMounted(false);
       });
     } else setIsMounted(true);
-  }, [product]);
+  }, [clickProduct]);
 
   return (
     <>

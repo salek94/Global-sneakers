@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   showCartForm,
@@ -23,10 +23,11 @@ const Cart = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [removeAllItems, setRemoveAllItems] = useState(false);
   const dispatch = useDispatch();
+  const notCart = useRef(null);
   console.log("cart", cart);
   console.log("cartLineItems", cartLineItems);
   console.log(lineItemRemove);
-
+  console.log(lineItemUpdate);
   useEffect(() => {
     if (isMounted) {
       commerce.cart.remove(lineItemRemove).then((res) => {
@@ -36,14 +37,14 @@ const Cart = () => {
     } else setIsMounted(true);
   }, [lineItemRemove]);
 
-  useEffect(() => {
-    if (isMounted) {
-      commerce.cart
-        .update(lineItemUpdate.id, { quantity: lineItemUpdate.quantity })
-        .then((response) => console.log(response));
-      setIsMounted(false);
-    } else setIsMounted(true);
-  }, [lineItemUpdate]);
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     commerce.cart
+  //       .update(lineItemUpdate.id, { quantity: lineItemUpdate.quantity })
+  //       .then((response) => console.log(response));
+  //     setIsMounted(false);
+  //   } else setIsMounted(true);
+  // }, [lineItemUpdate]);
   useEffect(() => {
     if (isMounted) {
       commerce.cart.empty();
@@ -54,8 +55,16 @@ const Cart = () => {
   const closeCart = () => {
     setTimeout(() => {
       dispatch(showCartForm(false));
-    }, 500);
+    }, 600);
     setCartClose(true);
+  };
+  const handleCloseCart = (e) => {
+    if (e.target === notCart.current) {
+      setTimeout(() => {
+        dispatch(showCartForm(false));
+      }, 600);
+      setCartClose(true);
+    }
   };
 
   const handleRemoveItem = (id) => {
@@ -96,6 +105,8 @@ const Cart = () => {
   return (
     <aside className={styles.ShoppingCart__container}>
       <div
+        ref={notCart}
+        onClick={handleCloseCart}
         className={
           !cartClose
             ? styles.notShoppingCart
@@ -134,7 +145,6 @@ const Cart = () => {
               <p
                 className={styles.shoppingCart__headerRemoveAll}
                 onClick={handleRemoveAllItems}
-                // onClick={() => dispatch(removeAll())}
               >
                 remove all
               </p>

@@ -55,7 +55,10 @@
 }
 .banner__footer {
   @include flex($dir: row, $justify: space-between, $align: center);
-  margin-top: 10px;
+  margin-top: 0.7rem;
+  @include mobile {
+    margin-top: 0.2rem;
+  }
 }
 .banner__plus {
   cursor: pointer;

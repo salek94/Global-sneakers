@@ -56,3 +56,12 @@
     transform: translateX(200px);
   }
 }
+
+@keyframes nonCartPart {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 70%;
+  }
+}

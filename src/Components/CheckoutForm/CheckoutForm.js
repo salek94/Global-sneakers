@@ -37,10 +37,12 @@ const CheckoutForm = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     commerce.checkout
       .generateToken(cartObjectId, { type: "cart" })
       .then((checkout) => {
         dispatch(getCheckoutId(checkout.id));
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, [cartObjectId]);
@@ -101,7 +103,7 @@ const CheckoutForm = () => {
             country: customer.country,
           },
           fulfillment: {
-            shipping_method: customer.shipping,
+            shipping_method: customer.shipping_method,
           },
           billing: {
             name: customer.firstName + "" + customer.lastName,
@@ -328,12 +330,14 @@ const CheckoutForm = () => {
               >
                 <label htmlFor="expiryMonth">Expiry Month</label>
                 <input
-                  type="text"
+                  type="number"
                   {...register("expiryMonth", {
                     required: true,
                     minLength: 2,
                     maxLength: 2,
                   })}
+                  minLength={2}
+                  maxLength={2}
                   aria-invalid={errors.expiryMonth ? "true" : "false"}
                   placeholder="03"
                   className={styles.checkout__field__input}
@@ -347,12 +351,14 @@ const CheckoutForm = () => {
               >
                 <label htmlFor="expiryYear">Expiry Year</label>
                 <input
-                  type="text"
+                  type="number"
                   {...register("expiryYear", {
                     required: true,
                     minLength: 2,
                     maxLength: 2,
                   })}
+                  minLength={2}
+                  maxLength={2}
                   aria-invalid={errors.expiryYear ? "true" : "false"}
                   placeholder="25"
                   className={styles.checkout__field__input}

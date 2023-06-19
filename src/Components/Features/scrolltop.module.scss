@@ -8,6 +8,7 @@
   cursor: pointer;
   border-radius: 1.3rem;
   background-color: $black;
+  z-index: 100;
   svg {
     color: $green;
   }

@@ -5,34 +5,53 @@ import {
   isOverviewProductOn,
   incrementCount,
   decrementCount,
+  singleProduct,
+  clickedOnProduct,
 } from "../../Service/Store/productSlice";
 import { GrClose } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { addToCart } from "../../Service/Store/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const OverviewProduct = () => {
   const { product, overviewProductOn } = useSelector(
     (state) => state.productStore
   );
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  console.log(product);
   const handlePopUp = () => {
     dispatch(isOverviewProductOn(false));
   };
 
   const handleAddToCart = (id, name, img, price, quantity) => {
+    // dispatch(clickedOnProduct(true));
     dispatch(
       addToCart({
         id: id,
         name: name,
         img: img,
         price: price,
-        count: product.count,
         totalPrice: price,
         quantity: quantity,
       })
     );
     dispatch(isOverviewProductOn(false));
+  };
+
+  const goToCheckout = (id, name, img, price, quantity) => {
+    dispatch(
+      singleProduct({
+        id: id,
+        name: name,
+        image: img,
+        price: price,
+        quantity: quantity,
+        totalPrice: price,
+      })
+    );
+    dispatch(isOverviewProductOn(false));
+    navigate("/checkout");
   };
 
   const pickedSize = (e) => {
@@ -56,7 +75,7 @@ const OverviewProduct = () => {
                 <GrClose />
               </div>
             </div>
-            <h4>${product.price}</h4>
+            <h4>${product.price.raw}</h4>
             <div className={styles.overview__desc}>{product.description}</div>
             <div className={styles.overview__size} onClick={pickedSize}>
               <p>Size:</p>
@@ -84,7 +103,7 @@ const OverviewProduct = () => {
                 >
                   <FaMinus />
                 </button>
-                <span className={styles.btn__count}>{product.count}</span>
+                <span className={styles.btn__count}>{product.quantity}</span>
 
                 <button
                   className={styles.btn__increment}
@@ -98,7 +117,7 @@ const OverviewProduct = () => {
                   handleAddToCart(
                     product.id,
                     product.name,
-                    product.img,
+                    product.image,
                     product.price,
                     product.quantity
                   )
@@ -115,6 +134,15 @@ const OverviewProduct = () => {
 
             <button
               className={`${styles.btnPrimary__black} ${styles.overview__btnBuy}`}
+              onClick={() =>
+                goToCheckout(
+                  product.id,
+                  product.name,
+                  product.image,
+                  product.price.raw,
+                  product.quantity
+                )
+              }
             >
               Buy Now
             </button>

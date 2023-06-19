@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   products: [],
   product: [],
+  clickProduct: false,
   overviewProductOn: false,
   selectedOption: "",
   menProducts: [],
@@ -47,16 +48,21 @@ const productSlice = createSlice({
     incrementCount: (state, action) => {
       state.product = action.payload;
       let product = state.product;
-      product.count = product.count + 1;
-      product.totalPrice = Number(product.price * product.count);
-      if (product.count === product.quantity) return null;
+      product.quantity = product.quantity + 1;
+      product.totalPrice = Number(product.price.raw * product.quantity);
+      if (product.quantity === product.inventory) {
+        return null;
+      }
     },
     decrementCount: (state, action) => {
       state.product = action.payload;
       let product = state.product;
-      product.count = product.count - 1;
-      product.totalPrice = Number(product.price * product.count);
-      if (product.count < 1) state.overviewProductOn = false;
+      product.quantity = product.quantity - 1;
+      product.totalPrice = Number(product.price.raw * product.quantity);
+      if (product.quantity <= 1) {
+        product.quantity = 1;
+        product.totalPrice = product.price.raw;
+      }
     },
     isOverviewProductOn: (state, action) => {
       state.overviewProductOn = action.payload;
@@ -88,12 +94,16 @@ const productSlice = createSlice({
       state.searchProducts = action.payload;
       sortByPrice(state);
     },
+    clickedOnProduct: (state, action) => {
+      state.clickProduct = action.payload;
+    },
   },
 });
 
 export const {
   getAllProduct,
   singleProduct,
+  clickedOnProduct,
   getSecondImage,
   incrementCount,
   decrementCount,

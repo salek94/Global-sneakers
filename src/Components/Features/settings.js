@@ -16,7 +16,7 @@ export const settings = {
         infinite: true,
         slidesToShow: 2,
         slidesToScroll: 2,
-        dots: true,
+        dots: false,
       },
     },
   ],
