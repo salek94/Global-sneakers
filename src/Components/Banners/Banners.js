@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./banners.module.scss";
 import { useNavigate } from "react-router-dom";
 import { BsPlusCircle } from "react-icons/bs";
@@ -16,11 +16,11 @@ const Banners = ({ product, active }) => {
   const [changeImage, setChangeImage] = useState();
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { cart } = useSelector((state) => state.cartStore);
+  const { cart, cartLineItems } = useSelector((state) => state.cartStore);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useMemo(() => {
     setLoading(true);
     ProductService.singleProduct(product.id)
       .then((res) => {
@@ -40,28 +40,23 @@ const Banners = ({ product, active }) => {
 
   const handleAddToCart = (id, name, img, price, inventory) => {
     dispatch(
-      addToCart({
-        id: id,
-        name: name,
-        img: img,
-        price: price,
-        totalPrice: price,
-        inventory: inventory,
-        quantity: 1,
-      })
-    );
-    dispatch(
       singleProduct({
         id: id,
       })
     );
-
     setDisabled(true);
   };
 
-  const goToOverviewProduct = (id, name, img, price, desc, inventory) => {
+  const goToOverviewProduct = (
+    id,
+    name,
+    img,
+    price,
+    desc,
+    inventory,
+    product
+  ) => {
     dispatch(isOverviewProductOn(true));
-
     dispatch(
       addToCart({
         id: id,
@@ -69,11 +64,18 @@ const Banners = ({ product, active }) => {
         img: img,
         price: price,
         description: desc,
+        totalPrice: price,
         inventory: inventory,
-        totalPrice: price.raw,
         quantity: 1,
       })
     );
+    // dispatch(addToCart(product));
+    dispatch(
+      singleProduct({
+        id: id,
+      })
+    );
+    dispatch(isOverviewProductOn(true));
   };
 
   const goToCheckout = (id, name, img, price, inventory) => {
@@ -153,7 +155,8 @@ const Banners = ({ product, active }) => {
               product.image.url,
               product.price,
               product.seo.description,
-              product.inventory.available
+              product.inventory.available,
+              product
             )
           }
         >

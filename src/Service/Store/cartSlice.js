@@ -30,7 +30,7 @@ const cartSlice = createSlice({
       });
     },
     addToCart: (state, action) => {
-      state.cart = [...state.cart, action.payload];
+      state.cart = [action.payload];
       // state.cartLineItems = [...state.cart];
       let duplicateCart = [];
       state.cart.forEach((product) => {
@@ -41,17 +41,17 @@ const cartSlice = createSlice({
           duplicateCart.push(product);
           state.cart = duplicateCart;
         }
-        product.totalPrice = Number(product.price.raw * product.quantity);
+        // product.totalPrice = Number(product.price.raw * product.quantity);
       });
     },
     incrementCount: (state, action) => {
       let product = state.cartLineItems.find(
         (item) => item.id === action.payload
       );
+      console.log("uuuu", product);
       product.quantity = product.quantity + 1;
       product.totalPrice = Number(product.price.raw * product.quantity);
       if (product.quantity === product.inventory) return null;
-      // state.cartLineItems = state.cart;
       state.lineItemUpdate = product;
     },
     decrementCount: (state, action) => {
@@ -66,7 +66,6 @@ const cartSlice = createSlice({
         );
         state.cartLineItems = remove;
       }
-      // state.cartLineItems = state.cart;
       state.lineItemUpdate = product;
     },
     removeItem: (state, action) => {
@@ -74,7 +73,7 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload
       );
       let remove = state.cartLineItems.filter((item) => item.id !== product.id);
-      // state.cart = remove;
+
       state.cartLineItems = remove;
     },
     removeLineItem: (state, action) => {

@@ -12,11 +12,7 @@ import CheckoutForm from "./Components/CheckoutForm/CheckoutForm";
 import OverviewProduct from "./Pages/OverviewProduct/OverviewProduct";
 import Collection from "./Pages/Collection/Collection";
 import { commerce } from "./Components/Lib/commerce";
-import {
-  pushCart,
-  getCartObjectId,
-  getLineItems,
-} from "./Service/Store/cartSlice";
+import { getCartObjectId, getLineItems } from "./Service/Store/cartSlice";
 import OrderForm from "./Components/OrderForm/OrderForm";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
@@ -46,7 +42,6 @@ function App() {
     commerce.cart.retrieve().then((cart) => {
       dispatch(getCartObjectId(cart.id));
       dispatch(getLineItems(cart.line_items));
-      // dispatch(pushCart(cart.line_items));
       console.log("createdCart", cart.id, cart.line_items);
     });
   }, []);

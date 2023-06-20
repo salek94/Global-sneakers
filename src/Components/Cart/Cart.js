@@ -26,7 +26,7 @@ const Cart = () => {
   const notCart = useRef(null);
   console.log("cart", cart);
   console.log("cartLineItems", cartLineItems);
-  console.log(lineItemUpdate);
+  // console.log(lineItemUpdate);
   useEffect(() => {
     if (isMounted) {
       commerce.cart
@@ -80,14 +80,13 @@ const Cart = () => {
     dispatch(removeItem(id));
     dispatch(removeLineItem(id));
   };
-  const handleDecrement = (product) => {
+  const handleDecrement = (id) => {
     setUpdateProduct(!updateProduct);
-    dispatch(decrementCount(product.id));
+    dispatch(decrementCount(id));
   };
-  const handleIncrement = (product) => {
+  const handleIncrement = (id) => {
     setUpdateProduct(!updateProduct);
-    console.log("increment", product);
-    dispatch(incrementCount(product.id));
+    dispatch(incrementCount(id));
   };
   const handleRemoveAllItems = () => {
     setRemoveAllItems(true);
@@ -177,7 +176,7 @@ const Cart = () => {
                       <div className={styles.btn__quantity}>
                         <button
                           className={styles.btn__increment}
-                          onClick={() => handleDecrement(product)}
+                          onClick={() => handleDecrement(product.id)}
                         >
                           <FaMinus />
                         </button>
@@ -187,7 +186,7 @@ const Cart = () => {
 
                         <button
                           className={styles.btn__increment}
-                          onClick={() => handleIncrement(product)}
+                          onClick={() => handleIncrement(product.id)}
                         >
                           <FaPlus />
                         </button>

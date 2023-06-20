@@ -13,7 +13,7 @@ import {
 } from "../../Service/Store/customerSlice";
 
 const CheckoutForm = () => {
-  const { cart, cartObjectId, checkoutId, cartLineItems } = useSelector(
+  const { cartObjectId, checkoutId, cartLineItems } = useSelector(
     (state) => state.cartStore
   );
   const { shipping, customer } = useSelector((state) => state.customerStore);
