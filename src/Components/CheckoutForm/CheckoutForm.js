@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import styles from "./checkout.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { commerce } from "../Lib/commerce";
-import { getCheckoutId, showOrderForm } from "../../Service/Store/cartSlice";
+import { getCheckoutId } from "../../Service/Store/cartSlice";
 import Loader from "../Features/loader/Loader";
 import {
   getCustomerInfo,
@@ -13,7 +13,7 @@ import {
 } from "../../Service/Store/customerSlice";
 
 const CheckoutForm = () => {
-  const { cart, cartObjectId, checkoutId } = useSelector(
+  const { cart, cartObjectId, checkoutId, cartLineItems } = useSelector(
     (state) => state.cartStore
   );
   const { shipping, customer } = useSelector((state) => state.customerStore);
@@ -154,7 +154,7 @@ const CheckoutForm = () => {
     navigate("/order");
   }
 
-  let subTotal = cart.reduce((prev, curr) => {
+  let subTotal = cartLineItems.reduce((prev, curr) => {
     return prev + curr.price.raw * curr.quantity;
   }, 0);
   console.log(waitingOrder);
@@ -425,9 +425,9 @@ const CheckoutForm = () => {
               : styles.checkout__productMobile
           }
         >
-          <h3>Product Information</h3>
+          <h3 className={styles.checkout__title}>Product Information</h3>
           <div className={styles.checkout__productInfo}>
-            {cart?.map((product) => {
+            {cartLineItems?.map((product) => {
               return (
                 <div
                   className={styles.checkout__singleProduct}
@@ -481,7 +481,7 @@ const CheckoutForm = () => {
             <div className={styles.checkout__calculatedValue}>
               <h4>Total</h4>
               {shipping.map((method) => {
-                return <h5>${subTotal + method.price.raw}</h5>;
+                return <h5 key={method.id}>${subTotal + method.price.raw}</h5>;
               })}
             </div>
           </div>

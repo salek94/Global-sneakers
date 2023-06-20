@@ -14,12 +14,9 @@ const cartSlice = createSlice({
   name: "shoppingCart",
   initialState,
   reducers: {
-    pushCart: (state, action) => {
-      state.cart = action.payload;
-    },
     getLineItems: (state, action) => {
       state.cartLineItems = [...state.cartLineItems, ...action.payload];
-      state.cart = [...state.cartLineItems];
+      // state.cart = [...state.cartLineItems];
       let duplicateCart = [];
       state.cartLineItems.forEach((product) => {
         const item = duplicateCart.some(
@@ -34,6 +31,7 @@ const cartSlice = createSlice({
     },
     addToCart: (state, action) => {
       state.cart = [...state.cart, action.payload];
+      // state.cartLineItems = [...state.cart];
       let duplicateCart = [];
       state.cart.forEach((product) => {
         const item = duplicateCart.some(
@@ -47,28 +45,37 @@ const cartSlice = createSlice({
       });
     },
     incrementCount: (state, action) => {
-      let product = state.cart.find((item) => item.id === action.payload);
+      let product = state.cartLineItems.find(
+        (item) => item.id === action.payload
+      );
       product.quantity = product.quantity + 1;
       product.totalPrice = Number(product.price.raw * product.quantity);
       if (product.quantity === product.inventory) return null;
-      state.cartLineItems = state.cart;
+      // state.cartLineItems = state.cart;
       state.lineItemUpdate = product;
     },
     decrementCount: (state, action) => {
-      let product = state.cart.find((item) => item.id === action.payload);
+      let product = state.cartLineItems.find(
+        (item) => item.id === action.payload
+      );
       product.quantity = product.quantity - 1;
       product.totalPrice = Number(product.price.raw * product.quantity);
       if (product.quantity === 0) {
-        let remove = state.cart.filter((item) => item.id !== product.id);
-        state.cart = remove;
+        let remove = state.cartLineItems.filter(
+          (item) => item.id !== product.id
+        );
+        state.cartLineItems = remove;
       }
-      state.cartLineItems = state.cart;
+      // state.cartLineItems = state.cart;
       state.lineItemUpdate = product;
     },
     removeItem: (state, action) => {
-      let product = state.cart.find((item) => item.id === action.payload);
-      let remove = state.cart.filter((item) => item.id !== product.id);
-      state.cart = remove;
+      let product = state.cartLineItems.find(
+        (item) => item.id === action.payload
+      );
+      let remove = state.cartLineItems.filter((item) => item.id !== product.id);
+      // state.cart = remove;
+      state.cartLineItems = remove;
     },
     removeLineItem: (state, action) => {
       state.lineItemRemove = action.payload;
@@ -92,7 +99,6 @@ const cartSlice = createSlice({
 
 export const {
   addToCart,
-  pushCart,
   getLineItems,
   incrementCount,
   decrementCount,

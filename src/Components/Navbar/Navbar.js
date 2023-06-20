@@ -11,12 +11,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import { isHamMenuOpen } from "../../Service/Store/mobileSlice";
 
 const Navbar = () => {
-  const { cart } = useSelector((state) => state.cartStore);
+  const { cartLineItems } = useSelector((state) => state.cartStore);
   const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
 
   const handleCartForm = () => {
-    if (cart.length > 0) dispatch(showCartForm(true));
+    if (cartLineItems.length > 0) dispatch(showCartForm(true));
   };
 
   const handleCategory = (e) => {
@@ -89,7 +89,9 @@ const Navbar = () => {
         </nav>
         <span className={styles.navbar__cart} onClick={handleCartForm}>
           <BsCartFill className={styles.icon__small} />
-          <span className={styles.navbar__cartLength}>{cart?.length || 0}</span>
+          <span className={styles.navbar__cartLength}>
+            {cartLineItems?.length || 0}
+          </span>
         </span>
       </div>
     </>

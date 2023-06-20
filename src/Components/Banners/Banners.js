@@ -9,19 +9,25 @@ import {
   isOverviewProductOn,
   singleProduct,
 } from "../../Service/Store/productSlice";
+import Loader from "../Features/loader/Loader";
 
 const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
   const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { cart } = useSelector((state) => state.cartStore);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     ProductService.singleProduct(product.id)
       .then((res) => {
-        if (res.status === 200) setSecondImage(res.data.assets[1].url);
+        if (res.status === 200) {
+          setSecondImage(res.data.assets[1].url);
+          setLoading(false);
+        }
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
@@ -57,7 +63,7 @@ const Banners = ({ product, active }) => {
     dispatch(isOverviewProductOn(true));
 
     dispatch(
-      singleProduct({
+      addToCart({
         id: id,
         name: name,
         img: img,
@@ -87,6 +93,7 @@ const Banners = ({ product, active }) => {
 
   return (
     <div className={styles.banner}>
+      {loading && <Loader />}
       <div
         className={styles.banner__img}
         onMouseEnter={() => setChangeImage(true)}
@@ -94,8 +101,10 @@ const Banners = ({ product, active }) => {
       >
         {!changeImage ? (
           <img src={product.image.url} alt="" />
-        ) : (
+        ) : !loading ? (
           <img src={secondImage} alt="" />
+        ) : (
+          <img src={product.image.url} alt="" />
         )}
       </div>
       <h5>{product.name.substring(0, 34)}</h5>

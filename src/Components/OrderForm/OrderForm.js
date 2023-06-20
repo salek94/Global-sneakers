@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./order.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "../../Service/Store/cartSlice";
+import { addToCart, getLineItems } from "../../Service/Store/cartSlice";
 import { singleProduct } from "../../Service/Store/productSlice";
 
 const OrderForm = () => {
@@ -11,6 +11,7 @@ const OrderForm = () => {
 
   const handleCart = () => {
     dispatch(addToCart([]));
+    dispatch(getLineItems([]));
     dispatch(singleProduct(""));
   };
   return (

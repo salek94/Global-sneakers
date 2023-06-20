@@ -9,7 +9,7 @@ import {
 } from "../../Service/Store/productSlice";
 import { GrClose } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { addToCart } from "../../Service/Store/cartSlice";
+import { addToCart, getLineItems } from "../../Service/Store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { commerce } from "../../Components/Lib/commerce";
 
@@ -23,8 +23,7 @@ const OverviewProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  const popupRef = useRef(null);
-  console.log(product);
+  console.log(cart);
   const handlePopUp = () => {
     dispatch(isOverviewProductOn(false));
   };
@@ -44,6 +43,7 @@ const OverviewProduct = () => {
   };
 
   const goToCheckout = (id, name, img, price, quantity) => {
+    dispatch(getLineItems(""));
     dispatch(
       singleProduct({
         id: id,
@@ -58,18 +58,18 @@ const OverviewProduct = () => {
     navigate("/checkout");
   };
 
-  useEffect(() => {
-    if (isMounted && cart.length > 0) {
-      commerce.cart
-        .remove(cart[0].id)
-        .then((res) => {
-          console.log("cartLineItemsAfterRemove", res);
-          setIsMounted(false);
-        })
-        .catch((err) => console.error(err))
-        .finally(setIsMounted(false));
-    } else setIsMounted(true);
-  }, [cart]);
+  // useEffect(() => {
+  //   if (isMounted && cart.length > 0) {
+  //     commerce.cart
+  //       .remove(cart[0].id)
+  //       .then((res) => {
+  //         console.log("cartLineItemsAfterRemove", res);
+  //         setIsMounted(false);
+  //       })
+  //       .catch((err) => console.error(err))
+  //       .finally(setIsMounted(false));
+  //   } else setIsMounted(true);
+  // }, [cart]);
 
   const pickedSize = (e) => {
     console.log(e.target.innerText);
@@ -77,9 +77,6 @@ const OverviewProduct = () => {
 
   const handleClosePopup = (e) => {
     if (e.target === containerRef.current) {
-      console.log(e.target);
-      console.log(popupRef.current);
-      console.log(containerRef.current);
       dispatch(isOverviewProductOn(false));
     }
   };
@@ -93,11 +90,11 @@ const OverviewProduct = () => {
       {overviewProductOn && (
         <div className={styles.overview__popup}>
           <div className={styles.overview__picture}>
-            <img src={product.img} alt="" />
+            <img src={cart[0].img} alt="" />
           </div>
           <div className={styles.overview__productInfo}>
             <div className={styles.overview__title}>
-              <h3>{product.name}</h3>
+              <h3>{cart[0].name}</h3>
               <div
                 className={styles.overview__closePopup}
                 onClick={handlePopUp}
@@ -105,8 +102,8 @@ const OverviewProduct = () => {
                 <GrClose />
               </div>
             </div>
-            <h4>${product.price.raw}</h4>
-            <div className={styles.overview__desc}>{product.description}</div>
+            <h4>${cart[0].price.raw}</h4>
+            <div className={styles.overview__desc}>{cart[0].description}</div>
             <div className={styles.overview__size} onClick={pickedSize}>
               <p>Size:</p>
               <button
@@ -133,7 +130,7 @@ const OverviewProduct = () => {
                 >
                   <FaMinus />
                 </button>
-                <span className={styles.btn__count}>{product.quantity}</span>
+                <span className={styles.btn__count}>{cart[0].quantity}</span>
 
                 <button
                   className={styles.btn__increment}
@@ -159,7 +156,7 @@ const OverviewProduct = () => {
             </div>
             <div className={styles.overview__subtotal}>
               <span>Subtotal:</span>
-              <h4>${product.totalPrice}</h4>
+              <h4>${cart[0].totalPrice}</h4>
             </div>
 
             <button

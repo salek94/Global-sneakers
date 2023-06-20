@@ -45,7 +45,8 @@ function App() {
   useEffect(() => {
     commerce.cart.retrieve().then((cart) => {
       dispatch(getCartObjectId(cart.id));
-      dispatch(pushCart(cart.line_items));
+      dispatch(getLineItems(cart.line_items));
+      // dispatch(pushCart(cart.line_items));
       console.log("createdCart", cart.id, cart.line_items);
     });
   }, []);

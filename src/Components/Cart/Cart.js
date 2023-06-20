@@ -26,6 +26,7 @@ const Cart = () => {
   const notCart = useRef(null);
   console.log("cart", cart);
   console.log("cartLineItems", cartLineItems);
+  console.log(lineItemUpdate);
   useEffect(() => {
     if (isMounted) {
       commerce.cart
@@ -92,14 +93,14 @@ const Cart = () => {
     setRemoveAllItems(true);
     dispatch(removeAll());
   };
-  let sumTotal = cart.reduce((prev, curr) => {
+  let sumTotal = cartLineItems.reduce((prev, curr) => {
     return prev + curr.price.raw * curr.quantity;
   }, 0);
 
   const goToCheckout = () => {
     dispatch(showCartForm(false));
   };
-  if (cart.length === 0) {
+  if (cartLineItems.length === 0) {
     dispatch(showCartForm(false));
   }
 
@@ -136,32 +137,30 @@ const Cart = () => {
           </header>
           <div className={styles.shoppingCart__headerBottom}>
             <p>
-              {cart?.length === 0
+              {cartLineItems?.length === 0
                 ? "0 item"
-                : cart?.length === 1
-                ? cart.length + " item"
-                : cart.length + " items"}
+                : cartLineItems?.length === 1
+                ? cartLineItems.length + " item"
+                : cartLineItems.length + " items"}
             </p>
-            {cart?.length ? (
+            {cartLineItems?.length && (
               <p
                 className={styles.shoppingCart__headerRemoveAll}
                 onClick={handleRemoveAllItems}
               >
                 remove all
               </p>
-            ) : (
-              ""
             )}
           </div>
           <div
             className={
-              cart?.length >= 4
+              cartLineItems?.length >= 4
                 ? `${styles.shoppingCart__items} ${styles.shoppingCart__overflow}`
                 : styles.shoppingCart__items
             }
           >
-            {cart?.length || cartLineItems?.length ? (
-              cart.map((product) => {
+            {cartLineItems?.length ? (
+              cartLineItems.map((product) => {
                 return (
                   <div className={styles.shoppingCart__item} key={product.id}>
                     <GrTrash
@@ -183,7 +182,7 @@ const Cart = () => {
                           <FaMinus />
                         </button>
                         <span className={styles.btn__count}>
-                          {product.count || product.quantity}
+                          {product.quantity}
                         </span>
 
                         <button
@@ -210,7 +209,7 @@ const Cart = () => {
               </>
             )}
           </div>
-          {cart?.length ? (
+          {cartLineItems?.length ? (
             <div className={styles.shoppingCart__footer}>
               <div className={styles.shoppingCart__sum}>
                 <h4>Subtotal</h4>
