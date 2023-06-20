@@ -49,17 +49,21 @@ const cartSlice = createSlice({
     incrementCount: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
       product.quantity = product.quantity + 1;
-      product.totalPrice = Number(product.price * product.quantity);
+      product.totalPrice = Number(product.price.raw * product.quantity);
       if (product.quantity === product.inventory) return null;
+      state.cartLineItems = state.cart;
+      state.lineItemUpdate = product;
     },
     decrementCount: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
       product.quantity = product.quantity - 1;
-      product.totalPrice = Number(product.price * product.quantity);
+      product.totalPrice = Number(product.price.raw * product.quantity);
       if (product.quantity === 0) {
         let remove = state.cart.filter((item) => item.id !== product.id);
         state.cart = remove;
       }
+      state.cartLineItems = state.cart;
+      state.lineItemUpdate = product;
     },
     removeItem: (state, action) => {
       let product = state.cart.find((item) => item.id === action.payload);
@@ -69,9 +73,7 @@ const cartSlice = createSlice({
     removeLineItem: (state, action) => {
       state.lineItemRemove = action.payload;
     },
-    updateLineItem: (state, action) => {
-      state.lineItemUpdate = action.payload;
-    },
+
     removeAll: (state) => {
       state.cart = [];
       state.cartLineItems = [];
@@ -96,7 +98,6 @@ export const {
   decrementCount,
   removeItem,
   removeLineItem,
-  updateLineItem,
   removeAll,
   showCartForm,
   getCartObjectId,

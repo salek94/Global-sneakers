@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./overviewProduct.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -6,31 +6,35 @@ import {
   incrementCount,
   decrementCount,
   singleProduct,
-  clickedOnProduct,
 } from "../../Service/Store/productSlice";
 import { GrClose } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { addToCart } from "../../Service/Store/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { commerce } from "../../Components/Lib/commerce";
 
 const OverviewProduct = () => {
   const { product, overviewProductOn } = useSelector(
     (state) => state.productStore
   );
+  const { cart } = useSelector((state) => state.cartStore);
+  const [isMounted, setIsMounted] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const popupRef = useRef(null);
   console.log(product);
   const handlePopUp = () => {
     dispatch(isOverviewProductOn(false));
   };
 
   const handleAddToCart = (id, name, img, price, quantity) => {
-    // dispatch(clickedOnProduct(true));
     dispatch(
       addToCart({
         id: id,
         name: name,
-        img: img,
+        image: img,
         price: price,
         totalPrice: price,
         quantity: quantity,
@@ -54,12 +58,38 @@ const OverviewProduct = () => {
     navigate("/checkout");
   };
 
+  useEffect(() => {
+    if (isMounted && cart.length > 0) {
+      commerce.cart
+        .remove(cart[0].id)
+        .then((res) => {
+          console.log("cartLineItemsAfterRemove", res);
+          setIsMounted(false);
+        })
+        .catch((err) => console.error(err))
+        .finally(setIsMounted(false));
+    } else setIsMounted(true);
+  }, [cart]);
+
   const pickedSize = (e) => {
     console.log(e.target.innerText);
   };
 
+  const handleClosePopup = (e) => {
+    if (e.target === containerRef.current) {
+      console.log(e.target);
+      console.log(popupRef.current);
+      console.log(containerRef.current);
+      dispatch(isOverviewProductOn(false));
+    }
+  };
+  console.log(overviewProductOn);
   return (
-    <div className={styles.overview__container}>
+    <div
+      className={styles.overview__container}
+      onClick={handleClosePopup}
+      ref={containerRef}
+    >
       {overviewProductOn && (
         <div className={styles.overview__popup}>
           <div className={styles.overview__picture}>

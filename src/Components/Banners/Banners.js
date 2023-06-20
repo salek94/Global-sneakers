@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductService from "../../Service/Api/ProductService";
 import { addToCart } from "../../Service/Store/cartSlice";
 import {
-  clickedOnProduct,
   isOverviewProductOn,
   singleProduct,
 } from "../../Service/Store/productSlice";
@@ -26,12 +25,14 @@ const Banners = ({ product, active }) => {
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
-  // if (cart.length === 0) {
-  //   setDisabled(false);
-  // }
+  // useEffect(() => {
+  //   if (cart.length === 0) {
+  //     setDisabled(false);
+  //   }
+  // }, []);
+  // console.log(disabled);
 
   const handleAddToCart = (id, name, img, price, inventory) => {
-    // dispatch(clickedOnProduct(true));
     dispatch(
       addToCart({
         id: id,
@@ -43,23 +44,18 @@ const Banners = ({ product, active }) => {
         quantity: 1,
       })
     );
-    // dispatch(
-    //   singleProduct({
-    //     id: id,
-    //     name: name,
-    //     img: img,
-    //     price: price,
-    //     totalPrice: price,
-    //     inventory: inventory,
-    //     quantity: quantity,
-    //   })
-    // );
+    dispatch(
+      singleProduct({
+        id: id,
+      })
+    );
+
     setDisabled(true);
   };
 
   const goToOverviewProduct = (id, name, img, price, desc, inventory) => {
     dispatch(isOverviewProductOn(true));
-    dispatch(clickedOnProduct(true));
+
     dispatch(
       singleProduct({
         id: id,

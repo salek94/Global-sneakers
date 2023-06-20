@@ -18,15 +18,14 @@ import {
   getLineItems,
 } from "./Service/Store/cartSlice";
 import OrderForm from "./Components/OrderForm/OrderForm";
-import { clickedOnProduct } from "./Service/Store/productSlice";
 
 axios.defaults.baseURL = "https://api.chec.io/v1";
-//todo scrollbar need to be prettier, updateCart API, button on hero section
+
 function App() {
   const { isCartOn, cartLineItems, cart } = useSelector(
     (state) => state.cartStore
   );
-  const { overviewProductOn, product, clickProduct } = useSelector(
+  const { overviewProductOn, product } = useSelector(
     (state) => state.productStore
   );
   const { hamburgerMenu } = useSelector((state) => state.mobileStore);
@@ -39,7 +38,10 @@ function App() {
     if (!hamburgerMenu) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "unset";
   }, [hamburgerMenu]);
-
+  useEffect(() => {
+    if (overviewProductOn) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+  }, [overviewProductOn]);
   useEffect(() => {
     commerce.cart.retrieve().then((cart) => {
       dispatch(getCartObjectId(cart.id));
@@ -49,13 +51,15 @@ function App() {
   }, []);
   useEffect(() => {
     if (isMounted) {
-      commerce.cart.add(product.id).then((res) => {
-        dispatch(getLineItems(res.line_items));
-        // dispatch(clickedOnProduct(false));
-        setIsMounted(false);
-      });
+      commerce.cart
+        .add(product.id)
+        .then((res) => {
+          dispatch(getLineItems(res.line_items));
+          // setIsMounted(false);
+        })
+        .catch((err) => console.error(err));
     } else setIsMounted(true);
-  }, [clickProduct]);
+  }, [product]);
 
   return (
     <>

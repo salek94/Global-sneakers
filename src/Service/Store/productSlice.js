@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   products: [],
   product: [],
-  clickProduct: false,
   overviewProductOn: false,
   selectedOption: "",
   menProducts: [],
@@ -94,16 +93,12 @@ const productSlice = createSlice({
       state.searchProducts = action.payload;
       sortByPrice(state);
     },
-    clickedOnProduct: (state, action) => {
-      state.clickProduct = action.payload;
-    },
   },
 });
 
 export const {
   getAllProduct,
   singleProduct,
-  clickedOnProduct,
   getSecondImage,
   incrementCount,
   decrementCount,

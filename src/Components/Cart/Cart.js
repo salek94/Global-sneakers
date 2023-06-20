@@ -7,7 +7,6 @@ import {
   removeItem,
   removeAll,
   removeLineItem,
-  updateLineItem,
 } from "../../Service/Store/cartSlice";
 import styles from "./cart.module.scss";
 import { GrClose, GrTrash } from "react-icons/gr";
@@ -21,34 +20,43 @@ const Cart = () => {
   );
   const [cartClose, setCartClose] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState(false);
   const [removeAllItems, setRemoveAllItems] = useState(false);
   const dispatch = useDispatch();
   const notCart = useRef(null);
   console.log("cart", cart);
   console.log("cartLineItems", cartLineItems);
-  console.log(lineItemRemove);
-  console.log(lineItemUpdate);
   useEffect(() => {
     if (isMounted) {
-      commerce.cart.remove(lineItemRemove).then((res) => {
-        console.log("cartLineItemsAfterRemove", res);
-        setIsMounted(false);
-      });
+      commerce.cart
+        .remove(lineItemRemove)
+        .then((res) => {
+          console.log("cartLineItemsAfterRemove", res);
+          setIsMounted(false);
+        })
+        .catch((err) => console.error(err));
     } else setIsMounted(true);
   }, [lineItemRemove]);
-
-  // useEffect(() => {
-  //   if (isMounted) {
-  //     commerce.cart
-  //       .update(lineItemUpdate.id, { quantity: lineItemUpdate.quantity })
-  //       .then((response) => console.log(response));
-  //     setIsMounted(false);
-  //   } else setIsMounted(true);
-  // }, [lineItemUpdate]);
+  console.log(isMounted);
   useEffect(() => {
     if (isMounted) {
-      commerce.cart.empty();
-      setIsMounted(false);
+      commerce.cart
+        .update(lineItemUpdate.id, { quantity: lineItemUpdate.quantity })
+        .then((response) => {
+          console.log(response);
+          setIsMounted(false);
+        })
+        .catch((err) => console.error(err));
+    } else setIsMounted(true);
+  }, [updateProduct]);
+  useEffect(() => {
+    if (isMounted) {
+      commerce.cart
+        .empty()
+        .then((_) => {
+          setIsMounted(false);
+        })
+        .catch((err) => console.error(err));
     } else setIsMounted(true);
   }, [removeAllItems]);
 
@@ -68,28 +76,18 @@ const Cart = () => {
   };
 
   const handleRemoveItem = (id) => {
-    console.log(id);
     dispatch(removeItem(id));
     dispatch(removeLineItem(id));
   };
   const handleDecrement = (product) => {
-    console.log(product);
+    setUpdateProduct(!updateProduct);
     dispatch(decrementCount(product.id));
-    dispatch(updateLineItem(product));
   };
   const handleIncrement = (product) => {
-    console.log(product);
+    setUpdateProduct(!updateProduct);
+    console.log("increment", product);
     dispatch(incrementCount(product.id));
-    dispatch(updateLineItem(product));
   };
-  // const handleDecrement = (id) => {
-  //   dispatch(decrementCount(id));
-  //   dispatch(updateLineItem(id));
-  // };
-  // const handleIncrement = (id) => {
-  //   dispatch(incrementCount(id));
-  //   dispatch(updateLineItem(id));
-  // };
   const handleRemoveAllItems = () => {
     setRemoveAllItems(true);
     dispatch(removeAll());
@@ -101,6 +99,9 @@ const Cart = () => {
   const goToCheckout = () => {
     dispatch(showCartForm(false));
   };
+  if (cart.length === 0) {
+    dispatch(showCartForm(false));
+  }
 
   return (
     <aside className={styles.ShoppingCart__container}>
