@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { routeConfig } from "./Config/routeConfig";
+import { ToastContainer } from "react-toastify";
+import { ToastContainerSettings } from "./Components/Features/settings";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -51,7 +54,6 @@ function App() {
         .add(product.id)
         .then((res) => {
           dispatch(getLineItems(res.line_items));
-          // setIsMounted(false);
         })
         .catch((err) => console.error(err));
     } else setIsMounted(true);
@@ -92,6 +94,7 @@ function App() {
       </Routes>
       {overviewProductOn && <OverviewProduct />}
       {isCartOn && <Aside />}
+      <ToastContainer {...ToastContainerSettings} />
     </>
   );
 }

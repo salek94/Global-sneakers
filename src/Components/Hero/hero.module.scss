@@ -115,8 +115,7 @@
   width: 15%;
   bottom: 40%;
   left: 8%;
-  pointer-events: all;
-  z-index: -1;
+  z-index: 120;
   @include mobile {
     bottom: -25%;
     left: 35%;
@@ -132,9 +131,8 @@
 .hero__btn {
   display: inline-block;
   position: absolute;
-  z-index: -1;
+  z-index: 110;
   width: 100%;
-  pointer-events: all;
   &__noShow {
     @include mobile {
       display: none;

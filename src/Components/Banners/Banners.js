@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./banners.module.scss";
 import { useNavigate } from "react-router-dom";
 import { BsPlusCircle } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ProductService from "../../Service/Api/ProductService";
 import { addToCart } from "../../Service/Store/cartSlice";
 import {
@@ -10,13 +10,14 @@ import {
   singleProduct,
 } from "../../Service/Store/productSlice";
 import Loader from "../Features/loader/Loader";
+import { toast } from "react-toastify";
+import { toastSettings } from "../Features/settings";
 
 const Banners = ({ product, active }) => {
   const [secondImage, setSecondImage] = useState();
   const [changeImage, setChangeImage] = useState();
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { cart, cartLineItems } = useSelector((state) => state.cartStore);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,12 +32,6 @@ const Banners = ({ product, active }) => {
       })
       .catch((err) => console.error(err));
   }, [active, product.id]);
-  // useEffect(() => {
-  //   if (cart.length === 0) {
-  //     setDisabled(false);
-  //   }
-  // }, []);
-  // console.log(disabled);
 
   const handleAddToCart = (id, name, img, price, inventory) => {
     dispatch(
@@ -44,7 +39,8 @@ const Banners = ({ product, active }) => {
         id: id,
       })
     );
-    setDisabled(true);
+    toast.success(`You've added product to cart!`, { ...toastSettings });
+    // setDisabled(true);
   };
 
   const goToOverviewProduct = (
@@ -117,11 +113,11 @@ const Banners = ({ product, active }) => {
             <BsPlusCircle
               onClick={() =>
                 handleAddToCart(
-                  product.id,
-                  product.name,
-                  product.image.url,
-                  product.price,
-                  product.inventory.available
+                  product.id
+                  // product.name,
+                  // product.image.url,
+                  // product.price,
+                  // product.inventory.available
                 )
               }
               className={`${styles.banner__plus} ${styles.icon__small}`}
