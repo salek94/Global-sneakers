@@ -23,6 +23,7 @@
     width: 99%;
     border-right: none;
     padding: 0.1rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -35,10 +36,10 @@
   @include flex($dir: row, $justify: space-between, $align: center);
 }
 .checkout__field {
-  @include flex($dir: column, $justify: center, $align: flex-start);
+  @include flex($dir: column, $justify: flex-start, $align: flex-start);
   width: 49%;
   padding: 0.5rem;
-  row-gap: 0.43rem;
+  row-gap: 0.4rem;
   &__input {
     height: 2.4rem;
     width: 100%;
@@ -63,7 +64,7 @@
   width: 30%;
 }
 .checkout__expiry {
-  width: 20%;
+  width: 21%;
 }
 .checkout__formTitle {
   padding-left: 0.5rem;
@@ -118,12 +119,14 @@
 // product info
 .checkout__product {
   width: 50%;
+  height: 112vh;
   padding: 0.5rem;
   background-color: $lightGray;
   border-top-right-radius: 1.3rem;
   border-bottom-right-radius: 1.3rem;
   @include mobile {
     display: none;
+    height: auto;
   }
 }
 .checkout__productMobile {
@@ -197,6 +200,7 @@
 .checkout__discountInput {
   @extend .checkout__field;
   width: 84.8%;
+  height: auto;
   @include mobile {
     width: 75%;
   }
@@ -224,4 +228,16 @@
 .checkout__shipping {
   @include flex($dir: row, $justify: space-between, $align: center);
   width: 37%;
+  @include mobile {
+    width: 50%;
+  }
+}
+
+.checkout__errors {
+  color: red;
+  font-size: 0.8rem;
+}
+.checkout__noErrors {
+  visibility: hidden;
+  font-size: 0.8rem;
 }

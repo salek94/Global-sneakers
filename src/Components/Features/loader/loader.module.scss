@@ -1,3 +1,5 @@
+@import "../../../Assets/Styles/mixins";
+
 .loader,
 .loader::after,
 .loader::before {
@@ -16,6 +18,9 @@
   left: 48%;
   top: 50%;
   z-index: 99;
+  @include mobile {
+    left: 42%;
+  }
 }
 @keyframes s10-1 {
   0% {

@@ -35,7 +35,7 @@ const CheckoutForm = () => {
   const onSubmit = (data) => {
     dispatch(getCustomerInfo(data));
   };
-
+  console.log(errors);
   useEffect(() => {
     setLoading(true);
     commerce.checkout
@@ -172,16 +172,29 @@ const CheckoutForm = () => {
                 <input
                   type="text"
                   {...register("firstName", {
-                    required: true,
-                    maxLength: 20,
+                    required: "This is required",
+                    minLength: {
+                      value: 2,
+                      message: "Min number of character is 2",
+                    },
+                    maxLength: {
+                      value: 20,
+                      message: "Max number of character is 20",
+                    },
                     pattern: /^[A-Za-z]+$/i,
                   })}
                   aria-invalid={errors.firstName ? "true" : "false"}
                   placeholder="Mark"
                   className={styles.checkout__field__input}
                 />
-                {errors.firstName && (
-                  <p role="alert">{errors.firstName?.message}</p>
+                {errors.firstName ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.firstName?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.firstName?.message}a
+                  </p>
                 )}
               </div>
               <div className={styles.checkout__field}>
@@ -189,16 +202,29 @@ const CheckoutForm = () => {
                 <input
                   type="text"
                   {...register("lastName", {
-                    required: true,
-                    maxLength: 20,
+                    required: "This is required",
+                    minLength: {
+                      value: 2,
+                      message: "Min number of character is 2",
+                    },
+                    maxLength: {
+                      value: 20,
+                      message: "Max number of character is 20",
+                    },
                     pattern: /^[A-Za-z]+$/i,
                   })}
                   aria-invalid={errors.lastName ? "true" : "false"}
                   placeholder="Brown"
                   className={styles.checkout__field__input}
                 />
-                {errors.lastName && (
-                  <p role="alert">{errors.lastName?.message}</p>
+                {errors.lastName ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.lastName?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.lastName?.message}a
+                  </p>
                 )}
               </div>
               <div className={styles.checkout__field}>
@@ -206,15 +232,28 @@ const CheckoutForm = () => {
                 <input
                   type="text"
                   {...register("address", {
-                    required: true,
-                    maxLength: 30,
+                    required: "This is required",
+                    minLength: {
+                      value: 4,
+                      message: "Min number of character is 4",
+                    },
+                    maxLength: {
+                      value: 25,
+                      message: "Max number of character is 25",
+                    },
                   })}
                   aria-invalid={errors.address ? "true" : "false"}
                   placeholder="47 Paris Hill Line"
                   className={styles.checkout__field__input}
                 />
-                {errors.address && (
-                  <p role="alert">{errors.address?.message}</p>
+                {errors.address ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.address?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.address?.message}a
+                  </p>
                 )}
               </div>
               <div className={styles.checkout__field}>
@@ -222,51 +261,94 @@ const CheckoutForm = () => {
                 <input
                   type="text"
                   {...register("email", {
-                    required: true,
-                    maxLength: 30,
-                    pattern:
-                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                    required: "This is required",
+                    maxLength: {
+                      value: 30,
+                      message: "Max number of character is 30",
+                    },
+                    pattern: {
+                      value:
+                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                      message: "Invalid Email",
+                    },
                   })}
                   aria-invalid={errors.email ? "true" : "false"}
                   placeholder="example@gmail.com"
                   className={styles.checkout__field__input}
                 />
-                {errors.email && <p role="alert">{errors.email?.message}</p>}
+                {errors.email ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.email?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.email?.message}a
+                  </p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="city">City</label>
                 <input
                   type="text"
                   {...register("city", {
-                    required: true,
-                    maxLength: 20,
-                    pattern: /[A-Za-z]/,
+                    required: "This is required",
+                    minLength: {
+                      value: 2,
+                      message: "Min number of character is 2",
+                    },
+                    maxLength: {
+                      value: 20,
+                      message: "Max number of character is 20",
+                    },
+                    pattern: {
+                      value: /[A-Za-z]/,
+                      message: "Only letters allowed",
+                    },
                   })}
                   aria-invalid={errors.city ? "true" : "false"}
                   placeholder="New York"
                   className={styles.checkout__field__input}
                 />
-                {errors.city && <p role="alert">{errors.city?.message}</p>}
+                {errors.city ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.city?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.city?.message}a
+                  </p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="zip">ZIP Code</label>
                 <input
                   type="number"
                   {...register("zip", {
-                    required: true,
-                    maxLength: 10,
+                    required: "This is required",
+                    maxLength: {
+                      value: 10,
+                      message: "Max number of character is 10",
+                    },
                   })}
                   aria-invalid={errors.zip ? "true" : "false"}
                   placeholder="945442"
                   className={styles.checkout__field__input}
                 />
-                {errors.zip && <p role="alert">{errors.zip?.message}</p>}
+                {errors.zip ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.zip?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.zip?.message}a
+                  </p>
+                )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="country">Country</label>
                 <select
                   {...register("country", {
-                    required: true,
+                    required: "This is required",
                   })}
                   className={styles.checkout__country}
                   aria-invalid={errors.country ? "true" : "false"}
@@ -280,15 +362,21 @@ const CheckoutForm = () => {
                     );
                   })}
                 </select>
-                {errors.country && (
-                  <p role="alert">{errors.country?.message}</p>
+                {errors.country ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.country?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.country?.message}a
+                  </p>
                 )}
               </div>
               <div className={styles.checkout__field}>
                 <label htmlFor="state">State</label>
                 <select
                   {...register("state", {
-                    required: true,
+                    required: "This is required",
                   })}
                   className={styles.checkout__country}
                   aria-invalid={errors.state ? "true" : "false"}
@@ -302,7 +390,15 @@ const CheckoutForm = () => {
                     );
                   })}
                 </select>
-                {errors.state && <p role="alert">{errors.state?.message}</p>}
+                {errors.state ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.state?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.state?.message}a
+                  </p>
+                )}
               </div>
             </div>
             <h4 className={styles.checkout__formTitle}>Payment Information</h4>
@@ -314,57 +410,86 @@ const CheckoutForm = () => {
                 <input
                   type="number"
                   {...register("creditCard", {
-                    required: true,
-                    maxLength: 16,
+                    required: "This is required",
+                    maxLength: {
+                      value: 16,
+                      message: "Max number of character is 16",
+                    },
                   })}
                   aria-invalid={errors.creditCard ? "true" : "false"}
                   placeholder="**** **** **** ****"
                   className={styles.checkout__field__input}
                 />
-                {errors.creditCard && (
-                  <p role="alert">{errors.creditCard?.message}</p>
+                {errors.creditCard ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.creditCard?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.creditCard?.message}a
+                  </p>
                 )}
               </div>
               <div
                 className={`${styles.checkout__field} ${styles.checkout__expiry}`}
               >
-                <label htmlFor="expiryMonth">Expiry Month</label>
+                <label htmlFor="expiryMonth">Exp Month</label>
                 <input
                   type="number"
                   {...register("expiryMonth", {
-                    required: true,
-                    minLength: 2,
-                    maxLength: 2,
+                    required: "Required",
+                    minLength: {
+                      value: 2,
+                      message: "Min 2 numbers",
+                    },
+                    maxLength: {
+                      value: 2,
+                      message: "Max 2 numbers",
+                    },
                   })}
-                  minLength={2}
-                  maxLength={2}
                   aria-invalid={errors.expiryMonth ? "true" : "false"}
                   placeholder="03"
                   className={styles.checkout__field__input}
                 />
-                {errors.expiryMonth && (
-                  <p role="alert">{errors.expiryMonth?.message}</p>
+                {errors.expiryMonth ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.expiryMonth?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.expiryMonth?.message}a
+                  </p>
                 )}
               </div>
               <div
                 className={`${styles.checkout__field} ${styles.checkout__expiry}`}
               >
-                <label htmlFor="expiryYear">Expiry Year</label>
+                <label htmlFor="expiryYear">Exp Year</label>
                 <input
                   type="number"
                   {...register("expiryYear", {
-                    required: true,
-                    minLength: 2,
-                    maxLength: 2,
+                    required: "Required",
+                    minLength: {
+                      value: 2,
+                      message: "Min 2 numbers",
+                    },
+                    maxLength: {
+                      value: 2,
+                      message: "Max 2 numbers",
+                    },
                   })}
-                  minLength={2}
-                  maxLength={2}
                   aria-invalid={errors.expiryYear ? "true" : "false"}
                   placeholder="25"
                   className={styles.checkout__field__input}
                 />
-                {errors.expiryYear && (
-                  <p role="alert">{errors.expiryYear?.message}</p>
+                {errors.expiryYear ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.expiryYear?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.expiryYear?.message}a
+                  </p>
                 )}
               </div>
               <div className={styles.checkout__field}>
@@ -372,15 +497,29 @@ const CheckoutForm = () => {
                 <input
                   type="number"
                   {...register("cvc", {
-                    required: true,
-                    minLength: 3,
-                    maxLength: 4,
+                    required: "This is required",
+                    minLength: {
+                      value: 3,
+                      message: "Min number of character is 3",
+                    },
+                    maxLength: {
+                      value: 4,
+                      message: "Max number of character is 4",
+                    },
                   })}
                   aria-invalid={errors.cvc ? "true" : "false"}
                   placeholder="928"
                   className={styles.checkout__field__input}
                 />
-                {errors.cvc && <p role="alert">{errors.cvv?.message}</p>}
+                {errors.cvc ? (
+                  <p className={styles.checkout__errors} role="alert">
+                    {errors.cvc?.message}
+                  </p>
+                ) : (
+                  <p className={styles.checkout__noErrors} role="alert">
+                    {errors.cvc?.message}aa
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.checkout__bottom}>
