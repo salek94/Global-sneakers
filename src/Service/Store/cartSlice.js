@@ -16,7 +16,6 @@ const cartSlice = createSlice({
   reducers: {
     getLineItems: (state, action) => {
       state.cartLineItems = [...state.cartLineItems, ...action.payload];
-      // state.cart = [...state.cartLineItems];
       let duplicateCart = [];
       state.cartLineItems.forEach((product) => {
         const item = duplicateCart.some(
@@ -31,7 +30,6 @@ const cartSlice = createSlice({
     },
     addToCart: (state, action) => {
       state.cart = [action.payload];
-      // state.cartLineItems = [...state.cart];
       let duplicateCart = [];
       state.cart.forEach((product) => {
         const item = duplicateCart.some(
@@ -44,11 +42,18 @@ const cartSlice = createSlice({
         // product.totalPrice = Number(product.price.raw * product.quantity);
       });
     },
+    incrementCountCart: (state, action) => {
+      let product = state.cart.find((item) => item.id === action.payload);
+      product.quantity = product.quantity + 1;
+    },
+    decrementCountCart: (state, action) => {
+      let product = state.cart.find((item) => item.id === action.payload);
+      product.quantity = product.quantity - 1;
+    },
     incrementCount: (state, action) => {
       let product = state.cartLineItems.find(
         (item) => item.id === action.payload
       );
-      console.log("uuuu", product);
       product.quantity = product.quantity + 1;
       product.totalPrice = Number(product.price.raw * product.quantity);
       if (product.quantity === product.inventory) return null;
@@ -78,6 +83,7 @@ const cartSlice = createSlice({
     },
     removeLineItem: (state, action) => {
       state.lineItemRemove = action.payload;
+      state.cart = [];
     },
 
     removeAll: (state) => {
@@ -107,5 +113,7 @@ export const {
   showCartForm,
   getCartObjectId,
   getCheckoutId,
+  incrementCountCart,
+  decrementCountCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -31,7 +31,7 @@ const Banners = ({ product, active }) => {
         }
       })
       .catch((err) => console.error(err));
-  }, [active, product.id]);
+  }, [product.id]);
 
   const handleAddToCart = (id, name, img, price, inventory) => {
     dispatch(
@@ -43,15 +43,7 @@ const Banners = ({ product, active }) => {
     // setDisabled(true);
   };
 
-  const goToOverviewProduct = (
-    id,
-    name,
-    img,
-    price,
-    desc,
-    inventory,
-    product
-  ) => {
+  const goToOverviewProduct = (id, name, img, price, desc, inventory) => {
     dispatch(isOverviewProductOn(true));
     dispatch(
       addToCart({
@@ -65,7 +57,6 @@ const Banners = ({ product, active }) => {
         quantity: 1,
       })
     );
-    // dispatch(addToCart(product));
     dispatch(
       singleProduct({
         id: id,
@@ -111,15 +102,7 @@ const Banners = ({ product, active }) => {
         <div>
           {!disabled ? (
             <BsPlusCircle
-              onClick={() =>
-                handleAddToCart(
-                  product.id
-                  // product.name,
-                  // product.image.url,
-                  // product.price,
-                  // product.inventory.available
-                )
-              }
+              onClick={() => handleAddToCart(product.id)}
               className={`${styles.banner__plus} ${styles.icon__small}`}
             />
           ) : (
@@ -151,8 +134,7 @@ const Banners = ({ product, active }) => {
               product.image.url,
               product.price,
               product.seo.description,
-              product.inventory.available,
-              product
+              product.inventory.available
             )
           }
         >

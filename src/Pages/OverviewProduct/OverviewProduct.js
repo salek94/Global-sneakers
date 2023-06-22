@@ -11,6 +11,8 @@ import {
   getLineItems,
   incrementCount,
   decrementCount,
+  incrementCountCart,
+  decrementCountCart,
 } from "../../Service/Store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { commerce } from "../../Components/Lib/commerce";
@@ -19,14 +21,16 @@ const OverviewProduct = () => {
   const { product, overviewProductOn } = useSelector(
     (state) => state.productStore
   );
-  const { cart, cartLineItems } = useSelector((state) => state.cartStore);
+  const { cart, cartLineItems, lineItemUpdate } = useSelector(
+    (state) => state.cartStore
+  );
   const [isMounted, setIsMounted] = useState(false);
   const [updateProduct, setUpdateProduct] = useState(false);
   const [a, setA] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  console.log(cartLineItems[0]);
+  console.log(cartLineItems[cartLineItems.length - 1]);
   const handlePopUp = () => {
     dispatch(isOverviewProductOn(false));
   };
@@ -34,7 +38,9 @@ const OverviewProduct = () => {
   useEffect(() => {
     if (isMounted) {
       commerce.cart
-        .update(cartLineItems[0].id, { quantity: cartLineItems[0].quantity })
+        .update(cartLineItems[cartLineItems.length - 1].id, {
+          quantity: cartLineItems[cartLineItems.length - 1].quantity,
+        })
         .then((response) => {
           console.log(response);
           setIsMounted(false);
@@ -46,11 +52,11 @@ const OverviewProduct = () => {
   useEffect(() => {
     if (isMounted) {
       commerce.cart
-        .remove(cartLineItems[0].id)
+        .remove(cartLineItems[cartLineItems.length - 1].id)
         .then((res) => {
           console.log("cartLineItemsAfterRemove", res);
           dispatch(getLineItems(res.line_items));
-          dispatch(isOverviewProductOn(false));
+          // dispatch(isOverviewProductOn(false));
           setIsMounted(false);
         })
         .catch((err) => console.error(err));
@@ -60,32 +66,19 @@ const OverviewProduct = () => {
   const handleDecrement = (product) => {
     setUpdateProduct(!updateProduct);
     dispatch(decrementCount(product.id));
+    dispatch(decrementCountCart(product.product_id));
   };
   const handleIncrement = (product) => {
-    console.log(product);
-
+    console.log("sssss", product);
     setUpdateProduct(!updateProduct);
     dispatch(incrementCount(product.id));
+    dispatch(incrementCountCart(product.product_id));
   };
-
-  // const handleAddToCart = (id) => {
-  //   dispatch(
-  //     singleProduct({
-  //       id: id,
-  //     })
-  //   );
-  //   dispatch(isOverviewProductOn(false));
-  // };
 
   const goToCheckout = (id, name, img, price, quantity) => {
     dispatch(
       singleProduct({
         id: id,
-        // name: name,
-        // image: img,
-        // price: price,
-        // quantity: quantity,
-        // totalPrice: price,
       })
     );
     dispatch(isOverviewProductOn(false));
@@ -152,21 +145,18 @@ const OverviewProduct = () => {
               <div className={styles.btn__quantity}>
                 <button
                   className={styles.btn__increment}
-                  onClick={() => handleDecrement(cartLineItems[0])}
+                  onClick={() =>
+                    handleDecrement(cartLineItems[cartLineItems.length - 1])
+                  }
                 >
                   <FaMinus />
                 </button>
-                {cartLineItems.length > 0 ? (
-                  <span className={styles.btn__count}>
-                    {cartLineItems[0].quantity}
-                  </span>
-                ) : (
-                  <span className={styles.btn__count}>{cart[0].quantity}</span>
-                )}
-
+                <span className={styles.btn__count}>{cart[0].quantity}</span>
                 <button
                   className={styles.btn__increment}
-                  onClick={() => handleIncrement(cartLineItems[0])}
+                  onClick={() =>
+                    handleIncrement(cartLineItems[cartLineItems.length - 1])
+                  }
                 >
                   <FaPlus />
                 </button>
@@ -190,7 +180,7 @@ const OverviewProduct = () => {
             <div className={styles.overview__subtotal}>
               <span>Subtotal:</span>
               {cartLineItems.length > 0 ? (
-                <h4>${cartLineItems[0].totalPrice.raw}</h4>
+                <h4>${cartLineItems[cartLineItems.length - 1].totalPrice}</h4>
               ) : (
                 <h4>${cart[0].totalPrice.raw}</h4>
               )}
@@ -200,7 +190,7 @@ const OverviewProduct = () => {
               className={`${styles.btnPrimary__black} ${styles.overview__btnBuy}`}
               onClick={() =>
                 goToCheckout(
-                  cartLineItems[0].id
+                  cartLineItems[cartLineItems.length - 1].id
                   // product.id,
                   // product.name,
                   // product.image,

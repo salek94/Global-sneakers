@@ -13,6 +13,8 @@ import { GrClose, GrTrash } from "react-icons/gr";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { commerce } from "../Lib/commerce";
+import { toast } from "react-toastify";
+import { toastSettings } from "../Features/settings";
 
 const Cart = () => {
   const { cart, lineItemRemove, lineItemUpdate, cartLineItems } = useSelector(
@@ -91,6 +93,9 @@ const Cart = () => {
   const handleRemoveAllItems = () => {
     setRemoveAllItems(true);
     dispatch(removeAll());
+    toast.success(`You've removed all product from cart!`, {
+      ...toastSettings,
+    });
   };
   let sumTotal = cartLineItems.reduce((prev, curr) => {
     return prev + curr.price.raw * curr.quantity;

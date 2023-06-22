@@ -74,7 +74,7 @@ export const settingsCollectionSearch = {
   arrows: false,
   lazyLoad: true,
   infinite: true,
-  slidesToShow: 5,
+  slidesToShow: 4,
   rows: 1,
   responsive: [
     {
