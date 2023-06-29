@@ -210,7 +210,7 @@ const Collection = () => {
                   name="filter"
                   id="filter"
                   className={styles.collection__list}
-                  onClick={handleSelect}
+                  onChange={handleSelect}
                 >
                   <option value=""></option>
                   <option value="Default">Default Sorting</option>
