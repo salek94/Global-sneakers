@@ -118,7 +118,12 @@ const OverviewProduct = () => {
               </div>
             </div>
             <h4>${cart[0].price.raw}</h4>
-            <div className={styles.overview__desc}>{cart[0].description}</div>
+            <div
+              className={styles.overview__desc}
+              dangerouslySetInnerHTML={{
+                __html: cart[0].description.substring(0, 690),
+              }}
+            ></div>
             <div className={styles.overview__size}>
               <p>Size:</p>
               <button

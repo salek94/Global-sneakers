@@ -133,7 +133,7 @@ const Banners = ({ product, active }) => {
               product.name,
               product.image.url,
               product.price,
-              product.seo.description,
+              product.description,
               product.inventory.available
             )
           }

@@ -38,10 +38,6 @@ function App() {
     else document.body.style.overflow = "unset";
   }, [hamburgerMenu]);
   useEffect(() => {
-    if (overviewProductOn) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "unset";
-  }, [overviewProductOn]);
-  useEffect(() => {
     commerce.cart.retrieve().then((cart) => {
       dispatch(getCartObjectId(cart.id));
       dispatch(getLineItems(cart.line_items));
