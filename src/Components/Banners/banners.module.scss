@@ -7,8 +7,17 @@
 .container {
   margin: 13em auto;
   width: 90%;
+  transform: translateX(-90%);
+  transition: ease 2s;
   @include mobile {
     margin: 9em auto;
+  }
+  &_show {
+    @extend .container;
+    transform: translateX(0px);
+    @include mobile {
+      margin: 9em auto;
+    }
   }
 }
 .title {

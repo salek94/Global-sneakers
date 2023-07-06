@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import { settings } from "../Features/settings";
 import Banners from "../Banners/Banners";
@@ -10,7 +10,9 @@ import styles from "../Banners/banners.module.scss";
 const Trending = () => {
   const { products } = useSelector((state) => state.productStore);
   const [titleActive, setTitleActive] = useState(true);
+  const [isIntersecting, setIsIntersecting] = useState(false);
   const dispatch = useDispatch();
+  const refBannerWrapper = useRef(null);
 
   useEffect(() => {
     ProductService.allProduct()
@@ -19,7 +21,20 @@ const Trending = () => {
       })
       .catch((err) => console.error(err));
   }, []);
-  // console.log(products);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+      },
+      {
+        rootMargin: "-200px",
+      }
+    );
+    observer.observe(refBannerWrapper.current);
+    return () => observer.disconnect();
+  }, [isIntersecting]);
+
   const handleTitle = () => {
     setTitleActive(titleActive ? false : true);
   };
@@ -32,7 +47,10 @@ const Trending = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div
+      className={!isIntersecting ? styles.container : styles.container_show}
+      ref={refBannerWrapper}
+    >
       <div className={styles.title} id="best-selling">
         <h3
           onClick={() => handleTitle(true)}
