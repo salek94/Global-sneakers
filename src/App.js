@@ -21,27 +21,17 @@ import OrderForm from "./Components/OrderForm/OrderForm";
 axios.defaults.baseURL = "https://api.chec.io/v1";
 
 function App() {
-  const { isCartOn, cartLineItems, cart } = useSelector(
-    (state) => state.cartStore
-  );
+  const { isCartOn } = useSelector((state) => state.cartStore);
   const { overviewProductOn, product } = useSelector(
     (state) => state.productStore
   );
-  const { hamburgerMenu } = useSelector((state) => state.mobileStore);
   const dispatch = useDispatch();
   const [isMounted, setIsMounted] = useState(false);
-  console.log("cartLineItems", cartLineItems);
-  console.log("cart", cart);
 
-  useEffect(() => {
-    if (!hamburgerMenu) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "unset";
-  }, [hamburgerMenu]);
   useEffect(() => {
     commerce.cart.retrieve().then((cart) => {
       dispatch(getCartObjectId(cart.id));
       dispatch(getLineItems(cart.line_items));
-      console.log("createdCart", cart.id, cart.line_items);
     });
   }, []);
   useEffect(() => {

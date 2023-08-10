@@ -9,7 +9,7 @@ const Hero = () => {
   useEffect(() => {
     let changeBackground = setInterval(() => {
       setGreen(!green);
-    }, 10000);
+    }, 4000);
     return () => clearInterval(changeBackground);
   }, [green]);
 

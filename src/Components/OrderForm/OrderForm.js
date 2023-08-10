@@ -10,8 +10,8 @@ const OrderForm = () => {
   const dispatch = useDispatch();
 
   const handleCart = () => {
-    dispatch(addToCart([]));
-    dispatch(getLineItems([]));
+    dispatch(addToCart(""));
+    dispatch(getLineItems(""));
     dispatch(singleProduct(""));
   };
   return (

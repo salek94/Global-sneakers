@@ -28,7 +28,7 @@ const Trending = () => {
         setIsIntersecting(entry.isIntersecting);
       },
       {
-        rootMargin: "-200px",
+        rootMargin: "0px",
       }
     );
     observer.observe(refBannerWrapper.current);

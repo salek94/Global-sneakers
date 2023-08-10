@@ -39,7 +39,6 @@ const cartSlice = createSlice({
           duplicateCart.push(product);
           state.cart = duplicateCart;
         }
-        // product.totalPrice = Number(product.price.raw * product.quantity);
       });
     },
     incrementCountCart: (state, action) => {
