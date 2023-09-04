@@ -10,12 +10,19 @@
     @include flex($dir: row, $justify: center, $align: flex-start);
     margin-bottom: 1.5rem;
   }
+  @include tablet {
+    @include flex($dir: row, $justify: center, $align: flex-start);
+    margin-bottom: 1.5rem;
+  }
 }
 .guarantee__card {
   width: 24%;
   text-align: center;
   padding: 1rem;
   @include mobile {
+    width: 40%;
+  }
+  @include tablet {
     width: 40%;
   }
 }

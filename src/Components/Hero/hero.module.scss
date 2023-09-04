@@ -38,15 +38,18 @@
   background-image: url("../../Assets/Images/sneaker_black.png");
   background-repeat: no-repeat;
   background-size: cover;
-  width: 44%;
-  height: 91vh;
+  width: 48%;
+  // height: 91vh;
+  height: 130%;
   z-index: -2;
   transition: $transition;
   @include mobile {
-    width: 40%;
-    height: 18vh;
-    top: 15%;
-    left: 32%;
+    width: 48%;
+    height: 130%;
+  }
+  @include tablet {
+    width: 48%;
+    height: 130%;
   }
   &_orange {
     @extend .shoes_background;
@@ -101,13 +104,16 @@
   @include mobile {
     display: none;
   }
+  @include tablet {
+    display: none;
+  }
 }
 .dots_content {
-  width: 40%;
+  width: 30%;
   line-height: 3.6rem;
-  @include mobile {
-    width: 10%;
-    line-height: 2rem;
+  @include monitor {
+    line-height: normal;
+    width: 15%;
   }
 }
 .hero__btnShop {
@@ -115,12 +121,11 @@
   width: 15%;
   bottom: 40%;
   left: 8%;
-  z-index: 120;
+  // z-index: 120;
   @include mobile {
-    bottom: -25%;
+    bottom: -40%;
     left: 35%;
-    font-size: 1rem;
-    width: 30%;
+    width: 34%;
   }
   &__noShow {
     @include mobile {
@@ -131,7 +136,7 @@
 .hero__btn {
   display: inline-block;
   position: absolute;
-  z-index: 110;
+  // z-index: 110;
   width: 100%;
   &__noShow {
     @include mobile {

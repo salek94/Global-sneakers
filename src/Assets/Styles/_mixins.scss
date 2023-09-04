@@ -7,7 +7,17 @@
 }
 
 @mixin mobile {
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media only screen and (min-width: 481px) and (max-width: 769px) {
+    @content;
+  }
+}
+@mixin monitor {
+  @media only screen and (min-width: 770px) and (max-width: 1069px) {
     @content;
   }
 }

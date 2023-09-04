@@ -13,17 +13,23 @@
 }
 .footer__top {
   @include flex($dir: row, $justify: space-around, $align: flex-start);
-  height: 45vh;
   padding-top: 1rem;
   @include mobile {
-    height: 100vh;
+    height: 100%;
     text-align: center;
     row-gap: 1.4rem;
+  }
+  @include tablet {
+    height: 100%;
+    text-align: center;
   }
 }
 .footer__companyInfo {
   width: 14%;
   @include mobile {
+    width: 35%;
+  }
+  @include tablet {
     width: 35%;
   }
 }
@@ -42,17 +48,24 @@
     width: 73%;
     margin: 0 auto;
   }
+  @include tablet {
+    width: 43%;
+    margin: 0 auto;
+  }
 }
 .footer__service {
   @include mobile {
     width: 35%;
   }
+  @include tablet {
+    width: 35%;
+  }
 }
 .footer__serviceTitle {
-  padding-bottom: 25px;
+  padding-bottom: 1.2rem;
 }
 .footer__serviceLink {
-  padding-bottom: 10px;
+  padding-bottom: 0.6rem;
   cursor: pointer;
   &::after {
     content: "";
@@ -73,6 +86,9 @@
   padding-bottom: 4.6rem;
   padding-top: 0.7rem;
   @include mobile {
+    padding-bottom: 2rem;
+  }
+  @include tablet {
     padding-bottom: 2rem;
   }
 }
@@ -96,6 +112,9 @@
   text-align: center;
   padding: 1.7rem 0;
   @include mobile {
+    padding: 1rem 0;
+  }
+  @include tablet {
     padding: 1rem 0;
   }
 }
